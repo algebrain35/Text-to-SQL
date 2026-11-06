@@ -18,7 +18,7 @@ downstream reads that file's shape (`schemagraph/models.py`), so changes to it n
 | --- | --- | --- | --- |
 | **Emmanuel** | Postgres access, metadata extraction, relationship inference, evaluation harness | `schemagraph/db/`, `schemagraph/extraction/`, `schemagraph/eval/`, `scripts/` | Postgres access, extraction and inference built and tested. Evaluation code written and tested with fakes: `compare.py`, `schema_metrics.py`, `run_eval.py` (it needs `answer_question`, and the question files, to run for real). `infer_recovery.py` also exists |
 | **Cameron** | Graph: weights, ingest, retrieval, join planner, graph queries | `schemagraph/graph/` | `weights`, `driver`, `ingest`, `queries`, `planner` written; Cypher needs a first run on a real Neo4j. Retrieval and embeddings written (not yet run on a real Neo4j); description generation not started |
-| **Mohammed** | LLM pipeline and FastAPI | `schemagraph/pipeline/`, `schemagraph/api/` | SQL validation implemented; the rest is not started |
+| **Mohammed** | LLM pipeline and FastAPI | `schemagraph/pipeline/`, `schemagraph/api/` | Context building, few-shot selection, OpenAI-compatible generation, SQL validation, explanation, and `answer_question` implemented; FastAPI is not started |
 | **Davin** | React frontend | `frontend/` | Not started |
 
 The full design is in `SPEC.md`. Section numbers quoted in the code (3 for contracts, 5.6 for edge
@@ -68,6 +68,29 @@ weights, 7 for the two Postgres roles) refer to it.
   Python (`schema`, `from`).
 - **Config:** add your section to `config.py` (`llm`, `pipeline`) the way `neo4j` was added: a Pydantic model,
   an optional field on `AppConfig`, secrets by environment variable name. Never put a key in `config.yml`.
+- **Chat model:** `llm` uses an OpenAI-compatible `/chat/completions` endpoint. Set the model and `api_key_env` in
+  `config.yml`; the key itself belongs only in the environment. Local compatible servers can set `api_key_env: null`.
+- **Pipeline defaults:** `pipeline` supports `top_k`, `max_attempts`, `row_limit`, `examples_k`, and `fewshot_path`.
+  Few-shot files must contain development examples only.
+
+Example additions to `config.yml`:
+
+```yaml
+llm:
+  provider: openai_compatible
+  base_url: https://api.openai.com/v1
+  model: your-chat-model
+  api_key_env: OPENAI_API_KEY
+  timeout_s: 60
+  temperature: 0
+  max_tokens: 2048
+pipeline:
+  top_k: 5
+  max_attempts: 3
+  row_limit: 100
+  examples_k: 3
+  fewshot_path: schemagraph/eval/questions/fewshot_examples.jsonl
+```
 
 ### If you are Davin (frontend)
 
@@ -293,8 +316,8 @@ Signatures are the contract; helpers are up to the owner. All are in SPEC sectio
 | `graph/queries.py` | Cameron (written) | `get_tables`, `get_all_tables`, `list_tables`, `get_table_detail`, `get_reference_edges` |
 | `graph/planner.py` | Cameron (written) | `plan_joins(db_id, seeds, include_inferred, weighted)`, `plan_from_edges(...)` (same, on in-memory edges) |
 | `graph/enrich.py`, `retrieve.py` | Cameron | `embed_nodes`, `retrieve_seed_tables(db_id, question, k)` |
-| `pipeline/context.py`, `examples.py`, `generate.py`, `validate.py`, `explain.py` | Mohammed | `build_context`, `retrieve_examples`, `generate_sql`, `is_single_select`, `validate`, `build_explanation` |
-| `pipeline/pipeline.py` | Mohammed | `answer_question(request, explain=True)`: the single entry point |
+| `pipeline/context.py`, `examples.py`, `generate.py`, `validate.py`, `explain.py` | Mohammed (written) | `build_context`, `retrieve_examples`, `generate_sql`, `is_single_select`, `validate`, `build_explanation` |
+| `pipeline/pipeline.py` | Mohammed (written) | `answer_question(request, explain=True, *, planner_options=None)`: the single entry point |
 | `api/main.py` | Mohammed | Thin routes: validate input, call the above, map errors to HTTP codes |
 | `src/api/client.ts` | Davin | `getHealth`, `getDatabases`, `ask`, `plan`, `listTables`, `getTable` |
 

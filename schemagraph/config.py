@@ -172,6 +172,41 @@ class EmbeddingConfig(BaseModel):
         return SecretStr(value)
 
 
+class LLMConfig(BaseModel):
+    """OpenAI-compatible chat-completions endpoint used by the question pipeline."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    provider: Literal["openai_compatible"] = "openai_compatible"
+    base_url: str = "https://api.openai.com/v1"
+    model: str
+    api_key_env: str | None = "OPENAI_API_KEY"
+    timeout_s: float = Field(default=60.0, gt=0)
+    temperature: float = Field(default=0.0, ge=0.0, le=2.0)
+    max_tokens: int = Field(default=2048, ge=1)
+
+    @cached_property
+    def api_key(self) -> SecretStr | None:
+        if self.api_key_env is None:
+            return None
+        value = os.environ.get(self.api_key_env)
+        if value is None:
+            raise RuntimeError(f"Environment variable {self.api_key_env} is not set")
+        return SecretStr(value)
+
+
+class PipelineConfig(BaseModel):
+    """Default runtime limits for the question-answering pipeline."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    top_k: int = Field(default=5, ge=1, le=100)
+    max_attempts: int = Field(default=3, ge=1, le=10)
+    row_limit: int = Field(default=100, ge=1, le=100_000)
+    examples_k: int = Field(default=3, ge=0, le=20)
+    fewshot_path: Path = Path("schemagraph/eval/questions/fewshot_examples.jsonl")
+
+
 class AppConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -180,8 +215,8 @@ class AppConfig(BaseModel):
     # needs the graph calls graph.driver.get_driver(), which says what is missing.
     neo4j: Neo4jConfig | None = None
     embedding: EmbeddingConfig | None = None
-    # llm: LLMConfig             <- with pipeline/
-    # pipeline: PipelineConfig   <- top_k, max_attempts, row_limit
+    llm: LLMConfig | None = None
+    pipeline: PipelineConfig = Field(default_factory=PipelineConfig)
     # graph: GraphConfig         <- max_bridge_tables, weight penalties
 
 
