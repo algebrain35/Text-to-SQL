@@ -172,6 +172,46 @@ class EmbeddingConfig(BaseModel):
         return SecretStr(value)
 
 
+LLM_PROVIDERS = {
+    "anthropic": "ANTHROPIC_API_KEY",
+    "openai": "OPENAI_API_KEY",
+}
+
+
+class LLMConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    provider: Literal["anthropic", "openai"] = "anthropic"
+    model: str
+    api_key_env: str | None = None
+    base_url: str | None = None
+    max_tokens: int = Field(default=1024, ge=1)
+    timeout_s: float = Field(default=60.0, gt=0)
+
+    @model_validator(mode="after")
+    def _provider_defaults(self) -> "LLMConfig":
+        if "api_key_env" not in self.model_fields_set:
+            self.api_key_env = LLM_PROVIDERS[self.provider]
+        return self
+
+    @property
+    def api_key(self) -> SecretStr | None:
+        if self.api_key_env is None:
+            return None
+        value = os.environ.get(self.api_key_env)
+        if value is None:
+            raise RuntimeError(f"Environment variable {self.api_key_env} is not set")
+        return SecretStr(value)
+
+
+class PipelineConfig(BaseModel):
+    """Defaults for /api/ask when a request's `options` leave a value out"""
+    model_config = ConfigDict(extra="forbid")
+    top_k: int = Field(default=5, ge=1)
+    max_attempts: int = Field(default=3, ge=1)
+    row_limit: int = Field(default=200, ge=1)
+    fewshot_k: int = Field(default=3, ge=0)
+
+
 class AppConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -180,9 +220,11 @@ class AppConfig(BaseModel):
     # needs the graph calls graph.driver.get_driver(), which says what is missing.
     neo4j: Neo4jConfig | None = None
     embedding: EmbeddingConfig | None = None
-    # llm: LLMConfig             <- with pipeline/
-    # pipeline: PipelineConfig   <- top_k, max_attempts, row_limit
+    # Optional so extraction and graph building need no LLM, the pipeline checks for it.
+    llm: LLMConfig | None = None
+    pipeline: PipelineConfig = Field(default_factory=PipelineConfig)
     # graph: GraphConfig         <- max_bridge_tables, weight penalties
+
 
 
 def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> AppConfig:

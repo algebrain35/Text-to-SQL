@@ -42,3 +42,14 @@ embedding:
 # To keep two models in one graph (for example to compare them), give each its own `name`
 # and switch between configs with SCHEMAGRAPH_CONFIG. Vectors and indexes are stored per name.
 #   name: voyage
+
+llm:
+  provider: anthropic
+  model: claude-sonnet-5-5
+  api_key_env: ANTHROPIC_API_KEY
+
+pipeline:
+  top_k: 5
+  max_attempts: 3
+  row_limit: 200
+  fewshot_k: 3
