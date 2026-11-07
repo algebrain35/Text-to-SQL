@@ -1,8 +1,7 @@
-"""pipeline/generate.py: no LLM or API key needed (a fake model stands in)."""
+"""no LLM or API key needed because a fake model stands in"""
 
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
-
 from schemagraph.config import LLMConfig
 from schemagraph.models import Attempt, FewShotExample, SchemaContext
 from schemagraph.pipeline import generate as gen
@@ -20,10 +19,8 @@ EXAMPLE = FewShotExample(
     gold_sql="SELECT count(*) FROM sales.customer;", tier=1, split="dev",
 )
 
-
 class FakeLLM:
     """Stands in for a LangChain chat model: records the prompt, returns a fixed reply."""
-
     def __init__(self, content, usage=None):
         self.content = content
         self.usage = usage
@@ -32,10 +29,6 @@ class FakeLLM:
     def invoke(self, messages):
         self.seen = messages
         return AIMessage(content=self.content, usage_metadata=self.usage)
-
-
-# --- extract_sql ------------------------------------------------------------
-
 
 @pytest.mark.parametrize("reply, expected", [
     ("```sql\nSELECT 1;\n```", "SELECT 1"),
@@ -52,10 +45,6 @@ class FakeLLM:
 def test_extract_sql(reply, expected):
     assert gen.extract_sql(reply) == expected
 
-
-# --- build_prompt -----------------------------------------------------------
-
-
 def test_prompt_has_rules_schema_joins_notes_examples_and_question():
     msgs = gen.build_prompt("Total orders per person?", CONTEXT, [EXAMPLE], [])
     assert isinstance(msgs[0], SystemMessage) and "SELECT" in msgs[0].content
@@ -67,7 +56,6 @@ def test_prompt_has_rules_schema_joins_notes_examples_and_question():
         assert piece in body
     assert body.index("### Schema") < body.index("### Examples") < body.index("### Question")
 
-
 def test_prompt_leaves_out_empty_sections():
     plain = CONTEXT.model_copy(update={"join_text": "", "notes": [], "mode": "retrieval"})
     body = gen.build_prompt("q", plain, [], [])[1].content
@@ -75,13 +63,11 @@ def test_prompt_leaves_out_empty_sections():
     assert "### Notes" not in body
     assert "### Examples" not in body
 
-
 def test_same_template_in_every_mode():
     """Only the context differs between modes, never the instructions."""
     a = gen.build_prompt("q", CONTEXT.model_copy(update={"mode": "full"}), [], [])
     b = gen.build_prompt("q", CONTEXT.model_copy(update={"mode": "graph"}), [], [])
     assert [m.content for m in a] == [m.content for m in b]
-
 
 def test_failed_attempts_are_replayed_with_their_errors():
     tries = [Attempt(sql="SELECT nope FROM t", error='column "nope" does not exist'),
@@ -92,10 +78,6 @@ def test_failed_attempts_are_replayed_with_their_errors():
     assert isinstance(msgs[3], HumanMessage) and 'column "nope" does not exist' in msgs[3].content
     assert "timeout" in msgs[5].content
 
-
-# --- generate_sql -----------------------------------------------------------
-
-
 def test_generate_sql_returns_sql_and_tokens():
     llm = FakeLLM("```sql\nSELECT 1;\n```", {"input_tokens": 120, "output_tokens": 9, "total_tokens": 129})
     result = gen.generate_sql("q", CONTEXT, [], [], llm=llm)
@@ -104,20 +86,14 @@ def test_generate_sql_returns_sql_and_tokens():
     assert (result.input_tokens, result.output_tokens) == (120, 9)
     assert llm.seen is not None and isinstance(llm.seen[0], SystemMessage)
 
-
 def test_generate_sql_without_sql_or_usage():
     result = gen.generate_sql("q", CONTEXT, [], [], llm=FakeLLM("No idea."))
     assert result.sql is None and result.raw_output == "No idea."
     assert (result.input_tokens, result.output_tokens) == (0, 0)
 
-
 def test_reply_as_content_blocks():
     msg = AIMessage(content=[{"type": "text", "text": "```sql\nSELECT "}, {"type": "text", "text": "7\n```"}])
     assert gen.extract_sql(gen.message_text(msg)) == "SELECT 7"
-
-
-# --- chat model from config -------------------------------------------------
-
 
 def test_make_chat_model_uses_config_and_temperature_zero(monkeypatch):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
