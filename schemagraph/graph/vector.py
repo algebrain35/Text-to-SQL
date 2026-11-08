@@ -17,13 +17,16 @@ database, kept apart by the db_id property on every node.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
+import sqlite3
 import time
 import urllib.error
 import urllib.request
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any, NamedTuple, Protocol
 
 from schemagraph.config import EmbeddingConfig, get_config
@@ -46,8 +49,76 @@ class EmbeddingError(RuntimeError):
     """The embedding service failed or returned something unusable."""
 
 
+class RateLimited(EmbeddingError):
+    """The service kept answering HTTP 429 until the wait budget (`max_wait_s`) ran out."""
+
+    def __init__(self, message: str, retry_after: float | None = None) -> None:
+        super().__init__(message)
+        self.retry_after = retry_after
+
+
+RATE_LIMIT_BACKOFF = (5.0, 15.0, 30.0, 60.0)  # seconds; the last value repeats
+_RETRY_DELAY_RE = re.compile(r'"retryDelay"\s*:\s*"(\d+(?:\.\d+)?)s"')
+
+
+def retry_after_seconds(header: str | None, body: str = "") -> float | None:
+    """How long the service asked us to wait: the Retry-After header (seconds), else the
+    `retryDelay` Google puts in the body of its 429 answers. None if neither is there."""
+    if header:
+        try:
+            return max(0.0, float(header))
+        except ValueError:
+            pass  # an HTTP date: not worth parsing, the backoff schedule covers it
+    match = _RETRY_DELAY_RE.search(body)
+    return float(match.group(1)) if match else None
+
+
 class Embedder(Protocol):
     def embed_query(self, text: str) -> list[float]: ...
+
+
+class QueryCache:
+    """Question embeddings kept in a SQLite file. Best effort: a cache that cannot be read or written is skipped.
+
+    A connection is opened per call, so several threads (the API's workers) and processes can share the file.
+    """
+
+    def __init__(self, path: str | Path) -> None:
+        self.path = Path(path)
+
+    @staticmethod
+    def key(config: EmbeddingConfig, text: str) -> str:
+        parts = [config.provider, config.model, str(config.dimensions), str(config.send_dimensions), text]
+        return hashlib.sha256("\x00".join(parts).encode()).hexdigest()
+
+    def _connect(self) -> sqlite3.Connection:
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        conn = sqlite3.connect(self.path, timeout=10)
+        conn.execute("CREATE TABLE IF NOT EXISTS query_embedding (key TEXT PRIMARY KEY, vector TEXT NOT NULL)")
+        return conn
+
+    def get(self, key: str) -> list[float] | None:
+        try:
+            conn = self._connect()
+            try:
+                row = conn.execute("SELECT vector FROM query_embedding WHERE key = ?", (key,)).fetchone()
+            finally:
+                conn.close()
+            return [float(x) for x in json.loads(row[0])] if row else None
+        except (OSError, sqlite3.Error, ValueError):
+            log.debug("query cache unreadable: %s", self.path, exc_info=True)
+            return None
+
+    def put(self, key: str, vector: list[float]) -> None:
+        try:
+            conn = self._connect()
+            try:
+                with conn:
+                    conn.execute("INSERT OR REPLACE INTO query_embedding VALUES (?, ?)", (key, json.dumps(vector)))
+            finally:
+                conn.close()
+        except (OSError, sqlite3.Error):
+            log.debug("query cache unwritable: %s", self.path, exc_info=True)
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]: ...
 
@@ -100,13 +171,33 @@ def _description(description: str | None, source: str | None, include_generated:
     return " ".join(description.split())
 
 
-def table_text(table: TableMeta, include_generated: bool = True) -> str:
-    """'sales.salesorderheader: General sales order information.'"""
+MAX_RELATED = 12  # neighbours listed per direction; a hub table would otherwise bury its own description
+RELATED_MIN_CONFIDENCE = 0.8  # declared keys are 1.0; weak inferred links would add noise
+
+
+def table_text(
+    table: TableMeta,
+    include_generated: bool = True,
+    references: list[str] | None = None,
+    referenced_by: list[str] | None = None,
+) -> str:
+    """'sales.salesorderheader: General sales order information.'
+
+    With `references` / `referenced_by` (display names of the tables this one has foreign keys to, and of those
+    with keys to it) the text continues 'References: ... Referenced by: ...', so a table that links other tables
+    can be found from questions about the things it links.
+    """
     text = f"{table.schema_}.{table.name}"
     if humanize(table.name) != table.name:
         text += f" ({humanize(table.name)})"
     desc = _description(table.description, table.description_source, include_generated)
-    return f"{text}: {desc}" if desc else text
+    text = f"{text}: {desc}" if desc else text
+    for label, names in (("References", references), ("Referenced by", referenced_by)):
+        if names:
+            shown = sorted(names)[:MAX_RELATED]
+            more = f", and {len(names) - MAX_RELATED} more" if len(names) > MAX_RELATED else ""
+            text += f" {label}: {', '.join(shown)}{more}."
+    return text
 
 
 def column_text(table: TableMeta, column: ColumnMeta, include_generated: bool = True) -> str:
@@ -132,8 +223,9 @@ def column_text(table: TableMeta, column: ColumnMeta, include_generated: bool = 
 class _HttpEmbedder:
     """Batching, retries and checks shared by the HTTP embedders.
 
-    A provider supplies two things: how to build the request body (`_payload`) and the
-    path under base_url. Both providers answer with {"data": [{"index", "embedding"}, ...]}.
+    A provider supplies the request body (`_payload`) and, if it differs from the OpenAI
+    style, where to post (`_url`), how to authenticate (`_auth_headers`) and how to read the
+    answer (`_read_vectors`). OpenAI and Voyage answer with {"data": [{"index", "embedding"}, ...]}.
     """
 
     RETRY_STATUS = {429, 500, 502, 503, 504}
@@ -145,14 +237,51 @@ class _HttpEmbedder:
         *,
         sleep: Callable[[float], None] = time.sleep,
         retries: int = 3,
+        clock: Callable[[], float] = time.monotonic,
     ) -> None:
         self.config = config
         self.name = config.name
         self._sleep = sleep
         self._retries = retries
+        self._clock = clock
+        self._next_request_at: float | None = None
+        self._query_cache = QueryCache(config.query_cache) if config.query_cache else None
 
     def embed_query(self, text: str) -> list[float]:
-        return self._embed([text], "query")[0]
+        cache = self._query_cache
+        if cache is None:
+            return self._embed([text], "query")[0]
+        key = cache.key(self.config, text)
+        cached = cache.get(key)
+        if cached is not None and len(cached) == self.config.dimensions:
+            return cached
+        vector = self._embed([text], "query")[0]
+        cache.put(key, vector)
+        return vector
+
+    def prefetch_queries(self, texts: list[str]) -> int:
+        """Embed and cache every question not cached yet, `batch_size` per request. Returns how many were fetched.
+
+        An evaluation knows all its questions up front, so this costs one request per batch instead of one per
+        question, which is what a free tier's daily request limit counts. Each batch is stored as it arrives, so a
+        failure part-way keeps what was done. Does nothing (returns 0) when no `query_cache` is configured.
+        """
+        cache = self._query_cache
+        if cache is None:
+            return 0
+        missing: dict[str, str] = {}
+        for text in dict.fromkeys(texts):
+            key = cache.key(self.config, text)
+            hit = cache.get(key)
+            if hit is None or len(hit) != self.config.dimensions:
+                missing[key] = text
+        items = list(missing.items())
+        size = self.config.batch_size
+        for i in range(0, len(items), size):
+            chunk = items[i : i + size]
+            for (key, _), vec in zip(chunk, self._embed_batch([text for _, text in chunk], "query"), strict=True):
+                cache.put(key, vec)
+        return len(items)
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         return self._embed(texts, "document")
@@ -167,21 +296,30 @@ class _HttpEmbedder:
     def _payload(self, texts: list[str], kind: str) -> dict[str, Any]:
         raise NotImplementedError
 
+    def _url(self) -> str:
+        return self.config.base_url.rstrip("/") + self.PATH
+
+    def _auth_headers(self, key: str) -> dict[str, str]:
+        return {"Authorization": f"Bearer {key}"}
+
+    def _read_vectors(self, body: Any) -> list[list[float]]:
+        data = sorted(body["data"], key=lambda item: item["index"])
+        return [[float(x) for x in item["embedding"]] for item in data]
+
     def _embed_batch(self, texts: list[str], kind: str) -> list[list[float]]:
         headers = {"Content-Type": "application/json"}
         key = self.config.api_key
         if key is not None:
-            headers["Authorization"] = f"Bearer {key.get_secret_value()}"
+            headers.update(self._auth_headers(key.get_secret_value()))
         request = urllib.request.Request(
-            self.config.base_url.rstrip("/") + self.PATH,
+            self._url(),
             data=json.dumps(self._payload(texts, kind)).encode(),
             headers=headers,
             method="POST",
         )
         body = self._send(request)
         try:
-            data = sorted(body["data"], key=lambda item: item["index"])
-            vectors = [[float(x) for x in item["embedding"]] for item in data]
+            vectors = self._read_vectors(body)
         except (KeyError, TypeError, ValueError) as exc:
             raise EmbeddingError(f"unexpected response from the embedding service: {str(body)[:200]}") from exc
         if len(vectors) != len(texts):
@@ -195,23 +333,56 @@ class _HttpEmbedder:
                 )
         return vectors
 
+    def _pace(self) -> None:
+        """Space requests out when `requests_per_minute` is set."""
+        rpm = self.config.requests_per_minute
+        if not rpm:
+            return
+        now = self._clock()
+        start = now if self._next_request_at is None else max(now, self._next_request_at)
+        if start > now:
+            self._sleep(start - now)
+        self._next_request_at = start + 60.0 / rpm
+
     def _send(self, request: urllib.request.Request) -> Any:
-        for attempt in range(self._retries + 1):
+        """POST with retries. Rate limits (429) wait as long as the service asks, at least the
+        backoff schedule, until `max_wait_s` is spent; other transient errors retry a few times."""
+        waited = 0.0
+        rate_limited = 0
+        attempt = 0
+        while True:
+            self._pace()
             try:
                 with urllib.request.urlopen(request, timeout=self.config.timeout_s) as response:
                     return json.loads(response.read())
             except urllib.error.HTTPError as exc:
-                detail = exc.read()[:200].decode(errors="replace")
+                raw = exc.read()[:2000].decode(errors="replace")
+                detail = raw[:200]
+                if exc.code == 429:
+                    hinted = retry_after_seconds(exc.headers.get("Retry-After") if exc.headers else None, raw)
+                    wait = max(hinted or 0.0, RATE_LIMIT_BACKOFF[min(rate_limited, len(RATE_LIMIT_BACKOFF) - 1)])
+                    if waited + wait > self.config.max_wait_s:
+                        raise RateLimited(
+                            f"rate limited (HTTP 429) and the {self.config.max_wait_s:g}s wait budget (max_wait_s) "
+                            f"is used up after {waited:g}s: {detail}",
+                            hinted,
+                        ) from exc
+                    log.warning("rate limited by the embedding service; waiting %gs", wait)
+                    self._sleep(wait)
+                    waited += wait
+                    rate_limited += 1
+                    continue
                 if exc.code in self.RETRY_STATUS and attempt < self._retries:
                     self._sleep(2**attempt)
+                    attempt += 1
                     continue
                 raise EmbeddingError(f"embedding service returned HTTP {exc.code}: {detail}") from exc
             except (urllib.error.URLError, TimeoutError) as exc:
                 if attempt < self._retries:
                     self._sleep(2**attempt)
+                    attempt += 1
                     continue
                 raise EmbeddingError(f"cannot reach the embedding service at {self.config.base_url}: {exc}") from exc
-        raise AssertionError("unreachable")  # pragma: no cover
 
 
 class OpenAICompatibleEmbedder(_HttpEmbedder):
@@ -238,7 +409,50 @@ class VoyageEmbedder(_HttpEmbedder):
         return payload
 
 
-EMBEDDERS: dict[str, type[_HttpEmbedder]] = {"openai": OpenAICompatibleEmbedder, "voyage": VoyageEmbedder}
+class GeminiEmbedder(_HttpEmbedder):
+    """Google's Gemini API: POST {base_url}/models/{model}:batchEmbedContents.
+
+    Two generations differ in how a query is told apart from a document:
+    `gemini-embedding-001` takes a `taskType` (RETRIEVAL_QUERY / RETRIEVAL_DOCUMENT);
+    `gemini-embedding-2` rejects `taskType` and expects a text prefix instead
+    ("task: search result | query: ..." and "title: none | text: ..."). Any model name that does
+    not start with `gemini-embedding-2` is treated like 001. Shortened vectors are requested with
+    `outputDimensionality`; without it the model returns 3072. 001 does not renormalise shortened
+    vectors, which is harmless here because the Neo4j indexes use cosine similarity.
+    The key goes in the `x-goog-api-key` header, never in the URL.
+    """
+
+    def _prefix_mode(self) -> bool:
+        return self.config.model.startswith("gemini-embedding-2")
+
+    def _url(self) -> str:
+        return f"{self.config.base_url.rstrip('/')}/models/{self.config.model}:batchEmbedContents"
+
+    def _auth_headers(self, key: str) -> dict[str, str]:
+        return {"x-goog-api-key": key}
+
+    def _payload(self, texts: list[str], kind: str) -> dict[str, Any]:
+        requests = []
+        for text in texts:
+            if self._prefix_mode():
+                text = f"task: search result | query: {text}" if kind == "query" else f"title: none | text: {text}"
+            request: dict[str, Any] = {"model": f"models/{self.config.model}", "content": {"parts": [{"text": text}]}}
+            if not self._prefix_mode():
+                request["taskType"] = "RETRIEVAL_QUERY" if kind == "query" else "RETRIEVAL_DOCUMENT"
+            if self.config.send_dimensions:
+                request["outputDimensionality"] = self.config.dimensions
+            requests.append(request)
+        return {"requests": requests}
+
+    def _read_vectors(self, body: Any) -> list[list[float]]:
+        return [[float(x) for x in item["values"]] for item in body["embeddings"]]
+
+
+EMBEDDERS: dict[str, type[_HttpEmbedder]] = {
+    "openai": OpenAICompatibleEmbedder,
+    "voyage": VoyageEmbedder,
+    "gemini": GeminiEmbedder,
+}
 
 
 def make_embedder(config: EmbeddingConfig, **kwargs: Any) -> Embedder:

@@ -170,3 +170,19 @@ def test_referenced_tables_ignores_ctes_functions_and_subqueries_inside():
 
 def test_referenced_tables_of_unparsable_sql_is_empty():
     assert referenced_tables("SELECT * FROM") == set()
+
+
+# An unterminated quote fails in sqlglot's tokenizer, which raises TokenError (not ParseError).
+UNTOKENIZABLE = ["SELECT 'abc FROM t", 'SELECT "a FROM t', "SELECT 1 FROM t WHERE a = 'x"]
+
+
+@pytest.mark.parametrize("sql", UNTOKENIZABLE)
+def test_check_select_rejects_sql_that_cannot_be_tokenized(sql):
+    result = check_select(sql)
+    assert not result.ok
+    assert "could not be parsed" in result.reason
+
+
+@pytest.mark.parametrize("sql", UNTOKENIZABLE)
+def test_referenced_tables_of_untokenizable_sql_is_empty(sql):
+    assert referenced_tables(sql) == set()

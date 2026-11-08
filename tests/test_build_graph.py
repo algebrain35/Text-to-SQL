@@ -24,6 +24,9 @@ class Recorder:
 
     def __init__(self, meta, tmp_path, fail=None, problems=None, wrong_db=False):
         self.meta, self.calls, self.fail, self.problems, self.wrong_db = meta, [], fail or {}, problems or [], wrong_db
+        self.report = SimpleNamespace(
+            tables=7, columns=93, tables_current=7, columns_current=93, tables_total=7, columns_total=93, stopped=None
+        )
         self.path = tmp_path / "meta.json"
         self.path.write_text("{}")
 
@@ -55,9 +58,10 @@ class Recorder:
         def indexes(dimensions, name):
             self.calls.append(f"indexes:{dimensions}:{name}")
 
-        def embed(db_id, embedder, name):
+        def embed(db_id, embedder, name, reembed=False):
             self._step("embed", db_id)
-            return SimpleNamespace(tables=7, columns=93)
+            self.reembed = reembed
+            return self.report
 
         def verify(meta):
             self.calls.append("verify")
@@ -135,7 +139,7 @@ def test_verify_differences_make_the_run_fail(meta, tmp_path):
     result = run(rec)
     assert result.error is None and not result.ok and result.problems == ["extra table in graph: x"]
     text = build.format_results([result], build.Options())
-    assert "extra table in graph" in text and "--rebuild" in text and "0 built, 1 failed" in text
+    assert "extra table in graph" in text and "--rebuild" in text and "0 built, 0 partial, 1 failed" in text
     assert "--rebuild" not in build.format_results([result], build.Options(rebuild=True))
 
 
@@ -229,7 +233,7 @@ def cli(monkeypatch, meta, tmp_path):
 def test_cli_success(cli, capsys):
     assert build.main(["--db", DB], steps=cli.rec.steps()) == 0
     out = capsys.readouterr().out
-    assert "ok" in out and "embedded 7 tables / 93 columns" in out and "1 built, 0 failed" in out
+    assert "ok" in out and "embedded 7/7 tables and 93/93 columns" in out and "1 built, 0 partial, 0 failed" in out
     assert cli.closed == 1
 
 
@@ -273,3 +277,76 @@ def test_cli_all_uses_the_databases_the_readonly_role_sees(cli, monkeypatch):
     steps.extract = extract_
     assert build.main(["--all"], steps=steps) == 0
     assert [c for c in cli.rec.calls if c.startswith("extract")] == ["extract:a", "extract:b"]
+
+
+# ----------------------------------------------------------------- partial (rate-limited) embedding
+
+
+def partial_report(rec, why="rate limited (HTTP 429) and the 120s wait budget (max_wait_s) is used up"):
+    rec.report = SimpleNamespace(
+        tables=7, columns=40, tables_current=7, columns_current=40, tables_total=7, columns_total=93, stopped=why
+    )
+
+
+def test_a_rate_limited_embedding_is_partial_not_failed(meta, tmp_path):
+    rec = Recorder(meta, tmp_path)
+    partial_report(rec)
+    result = run(rec)
+    assert result.partial and not result.ok and not result.failed and result.error is None
+    assert result.steps_done == ["extract", "ingest", "weights", "embed (partial)", "verify"]
+    assert (result.tables_current, result.tables_total, result.columns_current, result.columns_total) == (7, 7, 40, 93)
+    assert rec.calls[-1] == "verify"                                       # the graph itself is still checked
+
+
+def test_partial_output_says_what_is_saved_and_how_to_resume(meta, tmp_path):
+    rec = Recorder(meta, tmp_path)
+    partial_report(rec)
+    result = run(rec)
+    text = build.format_results([result], build.Options())
+    assert "PART" in text and "embedded 7/7 tables and 40/93 columns" in text and "max_wait_s" in text
+    assert "rerun the same command" in text and "WITHOUT --rebuild" not in text
+    assert "0 built, 1 partial, 0 failed" in text
+    assert "WITHOUT --rebuild" in build.format_results([result], build.Options(rebuild=True))
+
+
+def test_the_report_counts_new_and_total_vectors(meta, tmp_path):
+    rec = Recorder(meta, tmp_path)
+    text = build.format_results([run(rec)], build.Options())
+    assert "embedded 7/7 tables and 93/93 columns (100 new)" in text
+
+
+def test_reembed_reaches_the_embed_step(meta, tmp_path):
+    rec = Recorder(meta, tmp_path)
+    run(rec, reembed=True)
+    assert rec.reembed is True
+    rec2 = Recorder(meta, tmp_path)
+    run(rec2)
+    assert rec2.reembed is False
+
+
+def test_cli_exit_3_for_partial_and_1_when_anything_failed(cli, capsys):
+    partial_report(cli.rec)
+    assert build.main(["--db", DB], steps=cli.rec.steps()) == 3
+    assert "1 partial" in capsys.readouterr().out
+    cli.rec.problems = ["x"]
+    assert build.main(["--db", DB], steps=cli.rec.steps()) == 1          # a real difference outranks a partial run
+
+
+def test_cli_partial_in_one_database_does_not_stop_the_next(cli, meta, monkeypatch):
+    partial_report(cli.rec)
+    steps = cli.rec.steps()
+    current = [""]
+    inner = steps.extract
+
+    def extract_(db_id, **kw):
+        current[0] = db_id
+        return inner(db_id, **kw)
+
+    steps.extract = extract_
+    steps.load_metadata = lambda path: meta.model_copy(update={"db_id": current[0]})
+    assert build.main(["--db", "a", "--db", "b"], steps=steps) == 3
+    assert [c for c in cli.rec.calls if c.startswith("embed")] == ["embed:a", "embed:b"]
+
+
+def test_cli_reembed_flag(cli):
+    assert build.main(["--db", DB, "--reembed"], steps=cli.rec.steps()) == 0 and cli.rec.reembed is True

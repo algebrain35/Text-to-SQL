@@ -1,0 +1,2245 @@
+{
+  "db_id": "card_games",
+  "extracted_at": "2026-11-08T01:40:01.487915Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "card_games:public.cards",
+      "schema": "public",
+      "name": "cards",
+      "description": null,
+      "description_source": null,
+      "row_count": 56822,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data",
+      "schema": "public",
+      "name": "foreign_data",
+      "description": null,
+      "description_source": null,
+      "row_count": 229186,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "card_games:public.legalities",
+      "schema": "public",
+      "name": "legalities",
+      "description": null,
+      "description_source": null,
+      "row_count": 427907,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "card_games:public.rulings",
+      "schema": "public",
+      "name": "rulings",
+      "description": null,
+      "description_source": null,
+      "row_count": 87769,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "card_games:public.set_translations",
+      "schema": "public",
+      "name": "set_translations",
+      "description": null,
+      "description_source": null,
+      "row_count": 1210,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets",
+      "schema": "public",
+      "name": "sets",
+      "description": null,
+      "description_source": null,
+      "row_count": 551,
+      "primary_key": [
+        "id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "card_games:public.cards.id",
+      "table_uid": "card_games:public.cards",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.artist",
+      "table_uid": "card_games:public.cards",
+      "name": "artist",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Pete Venters",
+        "Volkan Baǵa",
+        "Justin Sweet",
+        "Matthew D. Wilson",
+        "Rebecca Guay"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.asciiname",
+      "table_uid": "card_games:public.cards",
+      "name": "asciiname",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "El-Hajjaj",
+        "Junun Efreet",
+        "Dandan",
+        "Ghazban Ogre",
+        "Lim-Dul's Vault"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.availability",
+      "table_uid": "card_games:public.cards",
+      "name": "availability",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "mtgo,paper",
+        "paper",
+        "arena"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.bordercolor",
+      "table_uid": "card_games:public.cards",
+      "name": "bordercolor",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "white",
+        "black"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.cardkingdomfoilid",
+      "table_uid": "card_games:public.cards",
+      "name": "cardkingdomfoilid",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "50000",
+        "50001",
+        "50002",
+        "50003",
+        "50004"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.cardkingdomid",
+      "table_uid": "card_games:public.cards",
+      "name": "cardkingdomid",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "217209",
+        "217205",
+        "217125",
+        "217210",
+        "217110"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.coloridentity",
+      "table_uid": "card_games:public.cards",
+      "name": "coloridentity",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "U",
+        "B",
+        "R",
+        "G",
+        "B,U"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.colorindicator",
+      "table_uid": "card_games:public.cards",
+      "name": "colorindicator",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "R",
+        "U",
+        "B",
+        "G",
+        "G,R"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.colors",
+      "table_uid": "card_games:public.cards",
+      "name": "colors",
+      "data_type": "text",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "B",
+        "G",
+        "R",
+        "W",
+        "U"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.convertedmanacost",
+      "table_uid": "card_games:public.cards",
+      "name": "convertedmanacost",
+      "data_type": "real",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "5",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.dueldeck",
+      "table_uid": "card_games:public.cards",
+      "name": "dueldeck",
+      "data_type": "text",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "b",
+        "a"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.edhrecrank",
+      "table_uid": "card_games:public.cards",
+      "name": "edhrecrank",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8065",
+        "1753",
+        "8734",
+        "19376",
+        "1461"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.faceconvertedmanacost",
+      "table_uid": "card_games:public.cards",
+      "name": "faceconvertedmanacost",
+      "data_type": "real",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "2",
+        "7",
+        "1",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.facename",
+      "table_uid": "card_games:public.cards",
+      "name": "facename",
+      "data_type": "text",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Ardenvale Tactician",
+        "Dizzying Swoop",
+        "Realm-Cloaked Giant",
+        "Faerie Guidemother",
+        "Gift of the Fae"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.flavorname",
+      "table_uid": "card_games:public.cards",
+      "name": "flavorname",
+      "data_type": "text",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Godzilla, King of the Monsters",
+        "King Caesar, Ancient Guardian",
+        "Mothra, Supersonic Queen",
+        "Babygodzilla, Ruin Reborn",
+        "Spacegodzilla, Death Corona"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.flavortext",
+      "table_uid": "card_games:public.cards",
+      "name": "flavortext",
+      "data_type": "text",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "\"Tilonalli's searing rays carry the spark of life's eventual destruction as all light fades.\"\n—Chitl",
+        "\"We sail. We plunder. Then we dance.\"",
+        "\"I knew I should have stayed with the boat. Always stay with the boat!\"",
+        "What took months for human hands to carve took just seconds for the dinosaur's tail to ruin.",
+        "If you're in the way of a ceratops charge and you're made of mere flesh and bone, then you're not re"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.frameeffects",
+      "table_uid": "card_games:public.cards",
+      "name": "frameeffects",
+      "data_type": "text",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "legendary",
+        "nyxtouched",
+        "miracle",
+        "devoid",
+        "nyxtouched,legendary"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.frameversion",
+      "table_uid": "card_games:public.cards",
+      "name": "frameversion",
+      "data_type": "text",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2015",
+        "1993",
+        "1997",
+        "2003"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.hand",
+      "table_uid": "card_games:public.cards",
+      "name": "hand",
+      "data_type": "text",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "-1",
+        "1",
+        "-2",
+        "2"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.hasalternativedecklimit",
+      "table_uid": "card_games:public.cards",
+      "name": "hasalternativedecklimit",
+      "data_type": "bigint",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.hascontentwarning",
+      "table_uid": "card_games:public.cards",
+      "name": "hascontentwarning",
+      "data_type": "bigint",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.hasfoil",
+      "table_uid": "card_games:public.cards",
+      "name": "hasfoil",
+      "data_type": "bigint",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "0"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.hasnonfoil",
+      "table_uid": "card_games:public.cards",
+      "name": "hasnonfoil",
+      "data_type": "bigint",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "0"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isalternative",
+      "table_uid": "card_games:public.cards",
+      "name": "isalternative",
+      "data_type": "bigint",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isfullart",
+      "table_uid": "card_games:public.cards",
+      "name": "isfullart",
+      "data_type": "bigint",
+      "ordinal_position": 26,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isonlineonly",
+      "table_uid": "card_games:public.cards",
+      "name": "isonlineonly",
+      "data_type": "bigint",
+      "ordinal_position": 27,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isoversized",
+      "table_uid": "card_games:public.cards",
+      "name": "isoversized",
+      "data_type": "bigint",
+      "ordinal_position": 28,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.ispromo",
+      "table_uid": "card_games:public.cards",
+      "name": "ispromo",
+      "data_type": "bigint",
+      "ordinal_position": 29,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isreprint",
+      "table_uid": "card_games:public.cards",
+      "name": "isreprint",
+      "data_type": "bigint",
+      "ordinal_position": 30,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isreserved",
+      "table_uid": "card_games:public.cards",
+      "name": "isreserved",
+      "data_type": "bigint",
+      "ordinal_position": 31,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isstarter",
+      "table_uid": "card_games:public.cards",
+      "name": "isstarter",
+      "data_type": "bigint",
+      "ordinal_position": 32,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.isstoryspotlight",
+      "table_uid": "card_games:public.cards",
+      "name": "isstoryspotlight",
+      "data_type": "bigint",
+      "ordinal_position": 33,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.istextless",
+      "table_uid": "card_games:public.cards",
+      "name": "istextless",
+      "data_type": "bigint",
+      "ordinal_position": 34,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.istimeshifted",
+      "table_uid": "card_games:public.cards",
+      "name": "istimeshifted",
+      "data_type": "bigint",
+      "ordinal_position": 35,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.keywords",
+      "table_uid": "card_games:public.cards",
+      "name": "keywords",
+      "data_type": "text",
+      "ordinal_position": 36,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Haste",
+        "Protection,Shadow",
+        "Flying",
+        "Protection",
+        "First strike"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.layout",
+      "table_uid": "card_games:public.cards",
+      "name": "layout",
+      "data_type": "text",
+      "ordinal_position": 37,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "normal",
+        "planar",
+        "adventure",
+        "split",
+        "transform"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.leadershipskills",
+      "table_uid": "card_games:public.cards",
+      "name": "leadershipskills",
+      "data_type": "text",
+      "ordinal_position": 38,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "{'brawl': False, 'commander': True, 'oathbreaker': False}",
+        "{'brawl': False, 'commander': False, 'oathbreaker': True}",
+        "{'brawl': False, 'commander': True, 'oathbreaker': True}",
+        "{'brawl': True, 'commander': True, 'oathbreaker': False}",
+        "{'brawl': True, 'commander': False, 'oathbreaker': True}"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.life",
+      "table_uid": "card_games:public.cards",
+      "name": "life",
+      "data_type": "text",
+      "ordinal_position": 39,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-5",
+        "-3",
+        "4",
+        "2",
+        "-2"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.loyalty",
+      "table_uid": "card_games:public.cards",
+      "name": "loyalty",
+      "data_type": "text",
+      "ordinal_position": 40,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "3",
+        "4",
+        "5",
+        "X"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.manacost",
+      "table_uid": "card_games:public.cards",
+      "name": "manacost",
+      "data_type": "text",
+      "ordinal_position": 41,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "{B}",
+        "{1}{R}",
+        "{2}{G}",
+        "{1}{R}{W}",
+        "{5}{W}{W}"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.mcmid",
+      "table_uid": "card_games:public.cards",
+      "name": "mcmid",
+      "data_type": "text",
+      "ordinal_position": 42,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "484299",
+        "482639",
+        "482854",
+        "486524",
+        "484504"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.mcmmetaid",
+      "table_uid": "card_games:public.cards",
+      "name": "mcmmetaid",
+      "data_type": "text",
+      "ordinal_position": 43,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2066",
+        "2289",
+        "2385",
+        "2484",
+        "2536"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.mtgarenaid",
+      "table_uid": "card_games:public.cards",
+      "name": "mtgarenaid",
+      "data_type": "text",
+      "ordinal_position": 44,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "73810",
+        "73894",
+        "73973",
+        "73811",
+        "75529"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.mtgjsonv4id",
+      "table_uid": "card_games:public.cards",
+      "name": "mtgjsonv4id",
+      "data_type": "text",
+      "ordinal_position": 45,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2616639b-520d-546d-8d50-4f4dc4a5ef2d",
+        "3123ed02-c3e8-5a17-a9e0-76747d9318e1",
+        "a3f57593-cdec-5b0c-be9d-61cf2fb319be",
+        "df7143f1-1e3b-5e65-87b5-322dbbbc1524",
+        "3f934473-94d7-539b-8f70-d4db0bd3ad7c"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.mtgofoilid",
+      "table_uid": "card_games:public.cards",
+      "name": "mtgofoilid",
+      "data_type": "text",
+      "ordinal_position": 46,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10542",
+        "10548",
+        "10638",
+        "10694",
+        "10504"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.mtgoid",
+      "table_uid": "card_games:public.cards",
+      "name": "mtgoid",
+      "data_type": "text",
+      "ordinal_position": 47,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "44406",
+        "44758",
+        "44408",
+        "44754",
+        "44670"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.multiverseid",
+      "table_uid": "card_games:public.cards",
+      "name": "multiverseid",
+      "data_type": "text",
+      "ordinal_position": 48,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "23192",
+        "25976",
+        "23173",
+        "23162",
+        "23172"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.name",
+      "table_uid": "card_games:public.cards",
+      "name": "name",
+      "data_type": "text",
+      "ordinal_position": 49,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Satyr Hoplite",
+        "Sigiled Skink",
+        "Spawn of Thraxes",
+        "Spite of Mogis",
+        "Starfall"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.number",
+      "table_uid": "card_games:public.cards",
+      "name": "number",
+      "data_type": "text",
+      "ordinal_position": 50,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "222",
+        "223",
+        "224",
+        "225",
+        "226"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.originalreleasedate",
+      "table_uid": "card_games:public.cards",
+      "name": "originalreleasedate",
+      "data_type": "text",
+      "ordinal_position": 51,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2014/10/17",
+        "2010/11/4",
+        "2013/1/11",
+        "2012/4/24",
+        "2012/12/20"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.originaltext",
+      "table_uid": "card_games:public.cards",
+      "name": "originaltext",
+      "data_type": "text",
+      "ordinal_position": 52,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Flying\nWhenever a creature dealt damage by Soul Collector this turn is put into a graveyard, return ",
+        "Flying\nRevenant has power and toughness each equal to the number of creature cards in your graveyard",
+        "All your creatures get +1/+1 until the end of the turn.",
+        "Destroy any one creature with horsemanship.",
+        "Your life total can't change."
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.originaltype",
+      "table_uid": "card_games:public.cards",
+      "name": "originaltype",
+      "data_type": "text",
+      "ordinal_position": 53,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Creature — Merfolk Soldier",
+        "Enchantment — Aura",
+        "Instant",
+        "Sorcery",
+        "Creature — Jellyfish"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.otherfaceids",
+      "table_uid": "card_games:public.cards",
+      "name": "otherfaceids",
+      "data_type": "text",
+      "ordinal_position": 54,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "23327bb9-c988-5dd5-a1c3-b26aa3c22cc5",
+        "e2701b79-7ba2-5f2e-b393-c003d615299b",
+        "51173f82-3f66-5dcb-90bb-b2ad1d168eec",
+        "3d24b794-8e58-506f-9fa9-4cd89982b943",
+        "58011d26-18fe-5851-bb32-82f9a822c80a"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.power",
+      "table_uid": "card_games:public.cards",
+      "name": "power",
+      "data_type": "text",
+      "ordinal_position": 55,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "5",
+        "4"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.printings",
+      "table_uid": "card_games:public.cards",
+      "name": "printings",
+      "data_type": "text",
+      "ordinal_position": 56,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "C20,IMA,M15,PLIST,PRES,PRM",
+        "ORI,PORI,PRES",
+        "C14,C15,C20,CMA,DDU,PRES,ZEN",
+        "EMN,MB1,PEMN,PRES",
+        "PD2,PMPS08,PRES,PRM,TSP"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.promotypes",
+      "table_uid": "card_games:public.cards",
+      "name": "promotypes",
+      "data_type": "text",
+      "ordinal_position": 57,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "mediainsert",
+        "setpromo,prerelease,datestamped",
+        "setpromo,fnm",
+        "promostamped,setpromo,promopack,planeswalkerstamped",
+        "setpromo,instore"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.purchaseurls",
+      "table_uid": "card_games:public.cards",
+      "name": "purchaseurls",
+      "data_type": "text",
+      "ordinal_position": 58,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "{'cardKingdomFoil': 'https://mtgjson.com/links/c0d61b477c2e7b04', 'tcgplayer': 'https://mtgjson.com/",
+        "{'cardKingdomFoil': 'https://mtgjson.com/links/79857a1a99d50d90', 'tcgplayer': 'https://mtgjson.com/",
+        "{'cardKingdomFoil': 'https://mtgjson.com/links/569398dca721e08d', 'tcgplayer': 'https://mtgjson.com/",
+        "{'cardKingdomFoil': 'https://mtgjson.com/links/706ddea3bf54753e', 'tcgplayer': 'https://mtgjson.com/",
+        "{'cardKingdomFoil': 'https://mtgjson.com/links/ca525b0e0085fb40', 'tcgplayer': 'https://mtgjson.com/"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.rarity",
+      "table_uid": "card_games:public.cards",
+      "name": "rarity",
+      "data_type": "text",
+      "ordinal_position": 59,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "rare",
+        "uncommon",
+        "mythic",
+        "common"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.scryfallid",
+      "table_uid": "card_games:public.cards",
+      "name": "scryfallid",
+      "data_type": "text",
+      "ordinal_position": 60,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "31de6b33-fe0b-44c8-8af2-631b69d4dc7e",
+        "cebfd866-2a71-4a09-b41e-0b1e6a2ca44d",
+        "eba5c52c-11ab-433e-af96-e6d72198c200",
+        "f4f4e1c6-a26b-4fe0-a2f3-f730a38a7fc4",
+        "c026e1a5-011b-449a-98f2-a194ab3db22b"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.scryfallillustrationid",
+      "table_uid": "card_games:public.cards",
+      "name": "scryfallillustrationid",
+      "data_type": "text",
+      "ordinal_position": 61,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0b05ceef-034b-4157-b2e0-53f78fb57cc8",
+        "fb2faa8d-31c1-499b-aa18-74a97854612d",
+        "ef5cd102-5424-405d-8342-dabf06d6bca5",
+        "15781526-674e-489b-8a1b-6912e784820d",
+        "e9c15284-efe8-4676-8925-31ef50146828"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.scryfalloracleid",
+      "table_uid": "card_games:public.cards",
+      "name": "scryfalloracleid",
+      "data_type": "text",
+      "ordinal_position": 62,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "553b9606-0519-4b85-b6ae-acc126e537e1",
+        "bea6606c-ea9a-4199-a8cd-b35d7c47fd7b",
+        "224788aa-3876-4844-949e-918e6273151d",
+        "4a294001-645b-4691-bb32-c240ba5b5320",
+        "d1e326e8-6e9e-4dbd-8c2f-0bef90db2bb7"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.setcode",
+      "table_uid": "card_games:public.cards",
+      "name": "setcode",
+      "data_type": "text",
+      "ordinal_position": 63,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "SUM",
+        "TD0",
+        "TBTH",
+        "TD2",
+        "TFTH"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.side",
+      "table_uid": "card_games:public.cards",
+      "name": "side",
+      "data_type": "text",
+      "ordinal_position": 64,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.subtypes",
+      "table_uid": "card_games:public.cards",
+      "name": "subtypes",
+      "data_type": "text",
+      "ordinal_position": 65,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Spider",
+        "Ape,Warrior",
+        "Bear",
+        "Cat",
+        "Elemental"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.supertypes",
+      "table_uid": "card_games:public.cards",
+      "name": "supertypes",
+      "data_type": "text",
+      "ordinal_position": 66,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Legendary",
+        "Basic",
+        "Snow",
+        "Legendary,Snow",
+        "World"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.tcgplayerproductid",
+      "table_uid": "card_games:public.cards",
+      "name": "tcgplayerproductid",
+      "data_type": "text",
+      "ordinal_position": 67,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "361",
+        "364",
+        "366",
+        "368",
+        "377"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.text",
+      "table_uid": "card_games:public.cards",
+      "name": "text",
+      "data_type": "text",
+      "ordinal_position": 68,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Whenever an opponent casts a spell during your turn, draw two cards.\nAt the beginning of each upkeep",
+        "At the beginning of each upkeep, if no spells were cast last turn, transform Hinterland Logger.",
+        "Trample\nAt the beginning of each upkeep, if a player cast two or more spells last turn, transform Ti",
+        "Flash (You may cast this spell any time you could cast an instant.)\nEach creature you control that's",
+        "Delirium — Whenever Inexorable Blob attacks, if there are four or more card types among cards in you"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.toughness",
+      "table_uid": "card_games:public.cards",
+      "name": "toughness",
+      "data_type": "text",
+      "ordinal_position": 69,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "4",
+        "2",
+        "3",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.type",
+      "table_uid": "card_games:public.cards",
+      "name": "type",
+      "data_type": "text",
+      "ordinal_position": 70,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Creature — Metathran Soldier",
+        "Enchantment",
+        "Enchantment — Aura",
+        "Instant",
+        "Legendary Creature — Human Wizard"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.types",
+      "table_uid": "card_games:public.cards",
+      "name": "types",
+      "data_type": "text",
+      "ordinal_position": 71,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Sorcery",
+        "Enchantment",
+        "Creature",
+        "Instant",
+        "Land"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.uuid",
+      "table_uid": "card_games:public.cards",
+      "name": "uuid",
+      "data_type": "text",
+      "ordinal_position": 72,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "00010d56-fe38-5e35-8aed-518019aa36a5",
+        "0001e0d0-2dcd-5640-aadc-a84765cf5fc9",
+        "0003caab-9ff5-5d1a-bc06-976dd0457f19",
+        "0003d249-25d9-5223-af1e-1130f09622a7",
+        "0004a4fb-92c6-59b2-bdbe-ceb584a9e401"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.variations",
+      "table_uid": "card_games:public.cards",
+      "name": "variations",
+      "data_type": "text",
+      "ordinal_position": 73,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1165b311-4977-5b69-b537-4180f6cac7c5,dffcd767-f87f-5ab7-b471-ad009f61ade9",
+        "ba2d7f48-9846-5343-ae02-913b7e6a18d0",
+        "2a56dbcf-d091-56cc-ac20-1f8ce7c7ec4d",
+        "d6e42c74-0bb6-5036-a6a9-3746d7ed223c",
+        "2f4942dd-d6d7-5b79-8dd9-91c9cd0daf1c"
+      ]
+    },
+    {
+      "uid": "card_games:public.cards.watermark",
+      "table_uid": "card_games:public.cards",
+      "name": "watermark",
+      "data_type": "text",
+      "ordinal_position": 74,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "set (HOU)",
+        "set (LGN)",
+        "set (ONS)",
+        "set (USG)",
+        "set (LEA)"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.id",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.flavortext",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "flavortext",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "„Es ist der Wille aller, und meine Hand, die ihn ausführt.\"",
+        "\"La voluntad de todos, realizada por mi mano.\"",
+        "« La volonté de tous passe par ma main. »",
+        "\"La volontà di tutti, eseguita per mano mia.\"",
+        "すべての意思を、この手で成そう。"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.language",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "language",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Russian",
+        "Chinese Simplified",
+        "German",
+        "Spanish",
+        "French"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.multiverseid",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "multiverseid",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "148745",
+        "150432",
+        "150049",
+        "149128",
+        "148362"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.name",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "name",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Révélation shamanique",
+        "巫師の天啓",
+        "祭师启示",
+        "Schädelmulcher",
+        "Fertiliseur de crânes"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.text",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "text",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Adiciona [B][B][B] â sua reserva de mana.",
+        "Ein Spieler Deiner Wahl erhält X Lebenspunkte dazu, oder verhindere bis zu X Schadenspunkte bei eine",
+        "Keine Kreatur mit einer Stärke größer als 2 kann Kithkin blocken.",
+        "Verursacht Trampelschaden\nWährend Deines Zuges hat der aufgebrachte Pöbel Stärke und Widerstandskraf",
+        "Die verzauberte Mauer kann nun auch angreifen."
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.type",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "type",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Beschwörung von Löwen",
+        "Verzaubere Kreatur",
+        "Spontanzauber",
+        "Beschwörung von Wölfen",
+        "Hexerei"
+      ]
+    },
+    {
+      "uid": "card_games:public.foreign_data.uuid",
+      "table_uid": "card_games:public.foreign_data",
+      "name": "uuid",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "e32a177c-282e-5040-8708-b6fd6887c7be",
+        "56cccad5-d100-5871-96d0-29b9b46670d1",
+        "92241b85-ecc8-5e6b-8947-9fbe447494e5",
+        "2c3300df-f3ed-5813-ba1c-dfe4861ae53e",
+        "c1617b76-fd89-5848-9f40-24076765a760"
+      ]
+    },
+    {
+      "uid": "card_games:public.legalities.id",
+      "table_uid": "card_games:public.legalities",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.legalities.format",
+      "table_uid": "card_games:public.legalities",
+      "name": "format",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "legacy",
+        "modern",
+        "pauper",
+        "penny",
+        "pioneer"
+      ]
+    },
+    {
+      "uid": "card_games:public.legalities.status",
+      "table_uid": "card_games:public.legalities",
+      "name": "status",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Legal"
+      ]
+    },
+    {
+      "uid": "card_games:public.legalities.uuid",
+      "table_uid": "card_games:public.legalities",
+      "name": "uuid",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4b135a97-07ad-5cb0-a130-c5900ea1791a",
+        "3f736237-5bba-5b24-8fc5-ad279eec8c1b",
+        "0c77c055-2d74-5328-b3b1-eb4f9e1ad63f",
+        "265e33a7-c32f-5177-8b16-8998931bc8a4",
+        "79996e77-112f-51e8-980c-0ec82f2d7754"
+      ]
+    },
+    {
+      "uid": "card_games:public.rulings.id",
+      "table_uid": "card_games:public.rulings",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.rulings.date",
+      "table_uid": "card_games:public.rulings",
+      "name": "date",
+      "data_type": "date",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2007-07-15",
+        "2007-02-01",
+        "2010-08-15",
+        "2008-08-01",
+        "2005-06-01"
+      ]
+    },
+    {
+      "uid": "card_games:public.rulings.text",
+      "table_uid": "card_games:public.rulings",
+      "name": "text",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "You draw the card when Bandage resolves, not when the damage is actually prevented.",
+        "If you double a negative life total, you do the real math. A life total of -10 becomes -20.",
+        "Beacon of Immortality’s effect counts as life gain (or life loss, if the life total was negative) fo",
+        "If a Beacon is countered or doesn’t resolve, it’s put into its owner’s graveyard, not shuffled into ",
+        "The affected creature’s last known existence on the battlefield is checked to determine its toughnes"
+      ]
+    },
+    {
+      "uid": "card_games:public.rulings.uuid",
+      "table_uid": "card_games:public.rulings",
+      "name": "uuid",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6d268c95-c176-5766-9a46-c14f739aba1c",
+        "56f4935b-f6c5-59b9-88bf-9bcce20247ce",
+        "7fef665c-36a1-5f7a-9299-cf8938708710",
+        "f39b4446-0ca6-5446-8507-4b1ba37bb3e7",
+        "c19bcfc2-fc10-5040-8239-1c193098df47"
+      ]
+    },
+    {
+      "uid": "card_games:public.set_translations.id",
+      "table_uid": "card_games:public.set_translations",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.set_translations.language",
+      "table_uid": "card_games:public.set_translations",
+      "name": "language",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Chinese Simplified",
+        "Chinese Traditional",
+        "French",
+        "German",
+        "Italian"
+      ]
+    },
+    {
+      "uid": "card_games:public.set_translations.setcode",
+      "table_uid": "card_games:public.set_translations",
+      "name": "setcode",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10E",
+        "4ED",
+        "5DN",
+        "5ED",
+        "6ED"
+      ]
+    },
+    {
+      "uid": "card_games:public.set_translations.translation",
+      "table_uid": "card_games:public.set_translations",
+      "name": "translation",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "核心系列第十版",
+        "Dixième édition",
+        "Hauptset Zehnte Edition",
+        "Set Base Decima Edizione",
+        "第10版基本セット"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.id",
+      "table_uid": "card_games:public.sets",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.basesetsize",
+      "table_uid": "card_games:public.sets",
+      "name": "basesetsize",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "383",
+        "302",
+        "332",
+        "306",
+        "378"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.block",
+      "table_uid": "card_games:public.sets",
+      "name": "block",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Core Set",
+        "Mirrodin",
+        "Kaladesh",
+        "Amonkhet",
+        "Alara"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.booster",
+      "table_uid": "card_games:public.sets",
+      "name": "booster",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "{'default': {'boosters': [{'contents': {'basic': 1, 'common': 10, 'rare': 1, 'uncommon': 3}, 'weight",
+        "{'default': {'boosters': [{'contents': {'common': 11, 'rare': 1, 'uncommon': 3}, 'weight': 1}], 'boo",
+        "{'default': {'boosters': [{'contents': {'common': 8, 'dedicatedFoil2xm': 2, 'rareMythic': 2, 'uncomm",
+        "{'default': {'boosters': [{'contents': {'common': 11, 'rare': 1, 'uncommon': 3}, 'weight': 272757}, ",
+        "{'default': {'boosters': [{'contents': {'common': 10, 'dedicatedFoil': 1, 'rareMythic': 1, 'uncommon"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.code",
+      "table_uid": "card_games:public.sets",
+      "name": "code",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10E",
+        "2ED",
+        "2XM",
+        "3ED",
+        "4BB"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.isfoilonly",
+      "table_uid": "card_games:public.sets",
+      "name": "isfoilonly",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.isforeignonly",
+      "table_uid": "card_games:public.sets",
+      "name": "isforeignonly",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.isnonfoilonly",
+      "table_uid": "card_games:public.sets",
+      "name": "isnonfoilonly",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.isonlineonly",
+      "table_uid": "card_games:public.sets",
+      "name": "isonlineonly",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.ispartialpreview",
+      "table_uid": "card_games:public.sets",
+      "name": "ispartialpreview",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.keyrunecode",
+      "table_uid": "card_games:public.sets",
+      "name": "keyrunecode",
+      "data_type": "text",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10E",
+        "2ED",
+        "2XM",
+        "3ED",
+        "4ED"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.mcmid",
+      "table_uid": "card_games:public.sets",
+      "name": "mcmid",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "74",
+        "3204",
+        "10",
+        "47",
+        "23"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.mcmidextras",
+      "table_uid": "card_games:public.sets",
+      "name": "mcmidextras",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3209",
+        "3459",
+        "2587",
+        "2371",
+        "3113"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.mcmname",
+      "table_uid": "card_games:public.sets",
+      "name": "mcmname",
+      "data_type": "text",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Tenth Edition",
+        "Double Masters",
+        "Fourth Edition",
+        "Fifth Dawn",
+        "Fifth Edition"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.mtgocode",
+      "table_uid": "card_games:public.sets",
+      "name": "mtgocode",
+      "data_type": "text",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10E",
+        "2XM",
+        "5DN",
+        "7E",
+        "8ED"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.name",
+      "table_uid": "card_games:public.sets",
+      "name": "name",
+      "data_type": "text",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Tenth Edition",
+        "Unlimited Edition",
+        "Double Masters",
+        "Revised Edition",
+        "Fourth Edition Foreign Black Border"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.parentcode",
+      "table_uid": "card_games:public.sets",
+      "name": "parentcode",
+      "data_type": "text",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "JMP",
+        "MH1",
+        "ZNR",
+        "MB1",
+        "M15"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.releasedate",
+      "table_uid": "card_games:public.sets",
+      "name": "releasedate",
+      "data_type": "date",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2007-07-13",
+        "1993-12-01",
+        "2020-08-07",
+        "1994-04-01",
+        "1995-04-01"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.tcgplayergroupid",
+      "table_uid": "card_games:public.sets",
+      "name": "tcgplayergroupid",
+      "data_type": "bigint",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "115",
+        "2655",
+        "97",
+        "46"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.totalsetsize",
+      "table_uid": "card_games:public.sets",
+      "name": "totalsetsize",
+      "data_type": "bigint",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "508",
+        "302",
+        "384",
+        "306",
+        "378"
+      ]
+    },
+    {
+      "uid": "card_games:public.sets.type",
+      "table_uid": "card_games:public.sets",
+      "name": "type",
+      "data_type": "text",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "core",
+        "masters",
+        "expansion",
+        "starter",
+        "memorabilia"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "card_games:public.cards.setcode",
+      "to_column": "card_games:public.sets.code",
+      "source": "inferred",
+      "confidence": 0.94,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "suffix",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "card_games:public.foreign_data.uuid",
+      "to_column": "card_games:public.cards.uuid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 0.9999
+      }
+    },
+    {
+      "from_column": "card_games:public.legalities.uuid",
+      "to_column": "card_games:public.cards.uuid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 0.9997
+      }
+    },
+    {
+      "from_column": "card_games:public.rulings.uuid",
+      "to_column": "card_games:public.cards.uuid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "rulings_uuid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "card_games:public.set_translations.setcode",
+      "to_column": "card_games:public.sets.code",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "set_translations_setcode_fkey",
+      "evidence": null
+    }
+  ]
+}

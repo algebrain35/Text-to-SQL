@@ -1,0 +1,1713 @@
+{
+  "db_id": "california_schools",
+  "extracted_at": "2026-11-08T01:39:57.589156Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "california_schools:public.frpm",
+      "schema": "public",
+      "name": "frpm",
+      "description": null,
+      "description_source": null,
+      "row_count": 9986,
+      "primary_key": []
+    },
+    {
+      "uid": "california_schools:public.satscores",
+      "schema": "public",
+      "name": "satscores",
+      "description": null,
+      "description_source": null,
+      "row_count": 2269,
+      "primary_key": [
+        "cds"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools",
+      "schema": "public",
+      "name": "schools",
+      "description": null,
+      "description_source": null,
+      "row_count": 17686,
+      "primary_key": []
+    }
+  ],
+  "columns": [
+    {
+      "uid": "california_schools:public.frpm.cdscode",
+      "table_uid": "california_schools:public.frpm",
+      "name": "cdscode",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "01100170109835",
+        "01100170112607",
+        "01100170118489",
+        "01100170123968",
+        "01100170124172"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Academic Year",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Academic Year",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2014-2015"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.County Code",
+      "table_uid": "california_schools:public.frpm",
+      "name": "County Code",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "01",
+        "04",
+        "02",
+        "03",
+        "05"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.District Code",
+      "table_uid": "california_schools:public.frpm",
+      "name": "District Code",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10017",
+        "31609",
+        "31617",
+        "61119",
+        "61127"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.School Code",
+      "table_uid": "california_schools:public.frpm",
+      "name": "School Code",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0109835",
+        "0112607",
+        "0118489",
+        "0123968",
+        "0124172"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.County Name",
+      "table_uid": "california_schools:public.frpm",
+      "name": "County Name",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Alameda",
+        "Butte",
+        "Alpine",
+        "Amador",
+        "Calaveras"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.District Name",
+      "table_uid": "california_schools:public.frpm",
+      "name": "District Name",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Alameda County Office of Education",
+        "California School for the Blind (State Special Schl)",
+        "California School for the Deaf-Fremont (State Special Schl)",
+        "Alameda Unified",
+        "Albany City Unified"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.School Name",
+      "table_uid": "california_schools:public.frpm",
+      "name": "School Name",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "FAME Public Charter",
+        "Envision Academy for Arts & Technology",
+        "Aspire California College Preparatory Academy",
+        "Community School for Creative Education",
+        "Yu Ming Charter"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.District Type",
+      "table_uid": "california_schools:public.frpm",
+      "name": "District Type",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "County Office of Education (COE)",
+        "State Special Schools",
+        "Unified School District",
+        "Elementary School District",
+        "High School District"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.School Type",
+      "table_uid": "california_schools:public.frpm",
+      "name": "School Type",
+      "data_type": "text",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "K-12 Schools (Public)",
+        "High Schools (Public)",
+        "Elementary Schools (Public)",
+        "Juvenile Court Schools",
+        "County Community"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Educational Option Type",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Educational Option Type",
+      "data_type": "text",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Traditional",
+        "Juvenile Court School",
+        "County Community School",
+        "State Special School",
+        "Alternative School of Choice"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.NSLP Provision Status",
+      "table_uid": "california_schools:public.frpm",
+      "name": "NSLP Provision Status",
+      "data_type": "text",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Breakfast Provision 2",
+        "Provision 2",
+        "CEP",
+        "Lunch Provision 2",
+        "Provision 1"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Charter School (Y/N)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Charter School (Y/N)",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "0"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Charter School Number",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Charter School Number",
+      "data_type": "text",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0728",
+        "0811",
+        "1049",
+        "1284",
+        "1296"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Charter Funding Type",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Charter Funding Type",
+      "data_type": "text",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Directly funded",
+        "Locally funded",
+        "Not in CS funding model"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.irc",
+      "table_uid": "california_schools:public.frpm",
+      "name": "irc",
+      "data_type": "bigint",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "0"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Low Grade",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Low Grade",
+      "data_type": "text",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "K",
+        "9",
+        "1",
+        "P",
+        "6"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.High Grade",
+      "table_uid": "california_schools:public.frpm",
+      "name": "High Grade",
+      "data_type": "text",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "12",
+        "8",
+        "5",
+        "Adult",
+        "6"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Enrollment (K-12)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Enrollment (K-12)",
+      "data_type": "real",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1087",
+        "395",
+        "244",
+        "191",
+        "257"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Free Meal Count (K-12)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Free Meal Count (K-12)",
+      "data_type": "real",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "565",
+        "186",
+        "134",
+        "113",
+        "14"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Percent (%) Eligible Free (K-12)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Percent (%) Eligible Free (K-12)",
+      "data_type": "real",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.5197792",
+        "0.47088608",
+        "0.5491803",
+        "0.591623",
+        "0.054474708"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.FRPM Count (K-12)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "FRPM Count (K-12)",
+      "data_type": "real",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "715",
+        "186",
+        "175",
+        "139",
+        "21"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Percent (%) Eligible FRPM (K-12)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Percent (%) Eligible FRPM (K-12)",
+      "data_type": "real",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.6577737",
+        "0.47088608",
+        "0.7172131",
+        "0.7277487",
+        "0.08171206"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Enrollment (Ages 5-17)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Enrollment (Ages 5-17)",
+      "data_type": "real",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1070",
+        "376",
+        "230",
+        "190",
+        "257"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Free Meal Count (Ages 5-17)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Free Meal Count (Ages 5-17)",
+      "data_type": "real",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "553",
+        "182",
+        "128",
+        "113",
+        "14"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Percent (%) Eligible Free (Ages 5-17)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Percent (%) Eligible Free (Ages 5-17)",
+      "data_type": "real",
+      "ordinal_position": 26,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.51682246",
+        "0.48404256",
+        "0.5565217",
+        "0.5947368",
+        "0.054474708"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.FRPM Count (Ages 5-17)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "FRPM Count (Ages 5-17)",
+      "data_type": "real",
+      "ordinal_position": 27,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "702",
+        "182",
+        "168",
+        "139",
+        "21"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.Percent (%) Eligible FRPM (Ages 5-17)",
+      "table_uid": "california_schools:public.frpm",
+      "name": "Percent (%) Eligible FRPM (Ages 5-17)",
+      "data_type": "real",
+      "ordinal_position": 28,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.65607476",
+        "0.48404256",
+        "0.7304348",
+        "0.73157895",
+        "0.08171206"
+      ]
+    },
+    {
+      "uid": "california_schools:public.frpm.2013-14 CALPADS Fall 1 Certification Status",
+      "table_uid": "california_schools:public.frpm",
+      "name": "2013-14 CALPADS Fall 1 Certification Status",
+      "data_type": "bigint",
+      "ordinal_position": 29,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.cds",
+      "table_uid": "california_schools:public.satscores",
+      "name": "cds",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "01100170000000",
+        "01100170109835",
+        "01100170112607",
+        "01100170118489",
+        "01611190000000"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.rtype",
+      "table_uid": "california_schools:public.satscores",
+      "name": "rtype",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "D",
+        "S"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.sname",
+      "table_uid": "california_schools:public.satscores",
+      "name": "sname",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "FAME Public Charter",
+        "Envision Academy for Arts & Technology",
+        "Aspire California College Preparatory Academy",
+        "Alameda Science and Technology Institute",
+        "Nea Community Learning Center"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.dname",
+      "table_uid": "california_schools:public.satscores",
+      "name": "dname",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Alameda County Office of Education",
+        "Alameda Unified",
+        "Albany City Unified",
+        "Berkeley Unified",
+        "Castro Valley Unified"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.cname",
+      "table_uid": "california_schools:public.satscores",
+      "name": "cname",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Alameda",
+        "Amador",
+        "Butte",
+        "Calaveras",
+        "Colusa"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.enroll12",
+      "table_uid": "california_schools:public.satscores",
+      "name": "enroll12",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "398",
+        "62",
+        "75",
+        "61",
+        "922"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.numtsttakr",
+      "table_uid": "california_schools:public.satscores",
+      "name": "numtsttakr",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "88",
+        "17",
+        "71",
+        "0",
+        "544"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.avgscrread",
+      "table_uid": "california_schools:public.satscores",
+      "name": "avgscrread",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "418",
+        "503",
+        "397",
+        "521",
+        "562"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.avgscrmath",
+      "table_uid": "california_schools:public.satscores",
+      "name": "avgscrmath",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "418",
+        "546",
+        "387",
+        "590",
+        "573"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.avgscrwrite",
+      "table_uid": "california_schools:public.satscores",
+      "name": "avgscrwrite",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "417",
+        "505",
+        "395",
+        "519",
+        "555"
+      ]
+    },
+    {
+      "uid": "california_schools:public.satscores.numge1500",
+      "table_uid": "california_schools:public.satscores",
+      "name": "numge1500",
+      "data_type": "bigint",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "14",
+        "9",
+        "5",
+        "333",
+        "29"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.cdscode",
+      "table_uid": "california_schools:public.schools",
+      "name": "cdscode",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "01100170000000",
+        "01100170109835",
+        "01100170112607",
+        "01100170118489",
+        "01100170123968"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.ncesdist",
+      "table_uid": "california_schools:public.schools",
+      "name": "ncesdist",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0691051",
+        "0600002",
+        "0600003",
+        "0601397",
+        "0601770"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.ncesschool",
+      "table_uid": "california_schools:public.schools",
+      "name": "ncesschool",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10546",
+        "10947",
+        "12283",
+        "12844",
+        "12901"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.statustype",
+      "table_uid": "california_schools:public.schools",
+      "name": "statustype",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Active",
+        "Closed",
+        "Merged"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.county",
+      "table_uid": "california_schools:public.schools",
+      "name": "county",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Alameda",
+        "Nevada",
+        "Amador",
+        "Plumas",
+        "San Bernardino"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.district",
+      "table_uid": "california_schools:public.schools",
+      "name": "district",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Alameda County Office of Education",
+        "California School for the Blind (State Special Schl)",
+        "California School for the Deaf-Fremont (State Special Schl)",
+        "California Community College, Chancellors",
+        "Mission Valley ROC/P"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.school",
+      "table_uid": "california_schools:public.schools",
+      "name": "school",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "FAME Public Charter",
+        "Envision Academy for Arts & Technology",
+        "Aspire California College Preparatory Academy",
+        "Community School for Creative Education",
+        "Yu Ming Charter"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.street",
+      "table_uid": "california_schools:public.schools",
+      "name": "street",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "313 West Winton Avenue",
+        "39899 Balentine Drive, Suite 335",
+        "1515 Webster Street",
+        "2125 Jefferson Avenue",
+        "2111 International Boulevard"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.streetabr",
+      "table_uid": "california_schools:public.schools",
+      "name": "streetabr",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "313 West Winton Ave.",
+        "39899 Balentine Dr., Ste. 335",
+        "1515 Webster St.",
+        "2125 Jefferson Ave.",
+        "2111 International Blvd."
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.city",
+      "table_uid": "california_schools:public.schools",
+      "name": "city",
+      "data_type": "text",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Hayward",
+        "Newark",
+        "Oakland",
+        "Berkeley",
+        "San Leandro"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.zip",
+      "table_uid": "california_schools:public.schools",
+      "name": "zip",
+      "data_type": "text",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "94544-1136",
+        "94560-5359",
+        "94612-3355",
+        "94703-1414",
+        "94606-4903"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.state",
+      "table_uid": "california_schools:public.schools",
+      "name": "state",
+      "data_type": "text",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "CA"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.mailstreet",
+      "table_uid": "california_schools:public.schools",
+      "name": "mailstreet",
+      "data_type": "text",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "313 West Winton Avenue",
+        "39899 Balentine Drive, Suite 335",
+        "1515 Webster Street",
+        "1001 22nd Avenue, Suite 100",
+        "2111 International Boulevard"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.mailstrabr",
+      "table_uid": "california_schools:public.schools",
+      "name": "mailstrabr",
+      "data_type": "text",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "313 West Winton Ave.",
+        "39899 Balentine Dr., Ste. 335",
+        "1515 Webster St.",
+        "1001 22nd Ave., Ste. 100",
+        "2111 International Blvd."
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.mailcity",
+      "table_uid": "california_schools:public.schools",
+      "name": "mailcity",
+      "data_type": "text",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Hayward",
+        "Newark",
+        "Oakland",
+        "San Leandro",
+        "Dublin"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.mailzip",
+      "table_uid": "california_schools:public.schools",
+      "name": "mailzip",
+      "data_type": "text",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "94544-1136",
+        "94560-5359",
+        "94612",
+        "94606",
+        "94606-4903"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.mailstate",
+      "table_uid": "california_schools:public.schools",
+      "name": "mailstate",
+      "data_type": "text",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "CA"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.phone",
+      "table_uid": "california_schools:public.schools",
+      "name": "phone",
+      "data_type": "text",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "(510) 887-0152",
+        "(510) 596-8901",
+        "(510) 686-4131",
+        "(510) 452-2063",
+        "(510) 842-1181"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.ext",
+      "table_uid": "california_schools:public.schools",
+      "name": "ext",
+      "data_type": "text",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "130",
+        "1240",
+        "1200",
+        "1311",
+        "39117"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.website",
+      "table_uid": "california_schools:public.schools",
+      "name": "website",
+      "data_type": "text",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "www.acoe.org",
+        "www.envisionacademy.org/",
+        "www.aspirepublicschools.org",
+        "www.communityschoolforcreativeeducation.org",
+        "www.yumingschool.org"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.opendate",
+      "table_uid": "california_schools:public.schools",
+      "name": "opendate",
+      "data_type": "date",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2005-08-29",
+        "2006-08-28",
+        "2008-08-21",
+        "2011-08-22",
+        "2011-08-09"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.closeddate",
+      "table_uid": "california_schools:public.schools",
+      "name": "closeddate",
+      "data_type": "date",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2015-07-31",
+        "2015-06-30",
+        "1989-06-30",
+        "2013-06-30",
+        "1987-06-22"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.charter",
+      "table_uid": "california_schools:public.schools",
+      "name": "charter",
+      "data_type": "bigint",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "0"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.charternum",
+      "table_uid": "california_schools:public.schools",
+      "name": "charternum",
+      "data_type": "text",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0728",
+        "0811",
+        "1049",
+        "1284",
+        "1296"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.fundingtype",
+      "table_uid": "california_schools:public.schools",
+      "name": "fundingtype",
+      "data_type": "text",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Directly funded",
+        "Locally funded",
+        "Not in CS funding model"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.doc",
+      "table_uid": "california_schools:public.schools",
+      "name": "doc",
+      "data_type": "text",
+      "ordinal_position": 26,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "00",
+        "31",
+        "34",
+        "42",
+        "54"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.doctype",
+      "table_uid": "california_schools:public.schools",
+      "name": "doctype",
+      "data_type": "text",
+      "ordinal_position": 27,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "County Office of Education (COE)",
+        "State Special Schools",
+        "Non-School Locations",
+        "Joint Powers Authority (JPA)",
+        "Unified School District"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.soc",
+      "table_uid": "california_schools:public.schools",
+      "name": "soc",
+      "data_type": "text",
+      "ordinal_position": 28,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "65",
+        "66",
+        "60",
+        "10",
+        "14"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.soctype",
+      "table_uid": "california_schools:public.schools",
+      "name": "soctype",
+      "data_type": "text",
+      "ordinal_position": 29,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "K-12 Schools (Public)",
+        "High Schools (Public)",
+        "Elementary Schools (Public)",
+        "County Community",
+        "Juvenile Court Schools"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.edopscode",
+      "table_uid": "california_schools:public.schools",
+      "name": "edopscode",
+      "data_type": "text",
+      "ordinal_position": 30,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TRAD",
+        "JUV",
+        "COMM",
+        "OPP",
+        "SPEC"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.edopsname",
+      "table_uid": "california_schools:public.schools",
+      "name": "edopsname",
+      "data_type": "text",
+      "ordinal_position": 31,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Traditional",
+        "Juvenile Court School",
+        "County Community School",
+        "Opportunity School",
+        "Special Education School"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.eilcode",
+      "table_uid": "california_schools:public.schools",
+      "name": "eilcode",
+      "data_type": "text",
+      "ordinal_position": 32,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "ELEMHIGH",
+        "HS",
+        "ELEM",
+        "UG",
+        "INTMIDJR"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.eilname",
+      "table_uid": "california_schools:public.schools",
+      "name": "eilname",
+      "data_type": "text",
+      "ordinal_position": 33,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Elementary-High Combination",
+        "High School",
+        "Elementary",
+        "Ungraded",
+        "Intermediate/Middle/Junior High"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.gsoffered",
+      "table_uid": "california_schools:public.schools",
+      "name": "gsoffered",
+      "data_type": "text",
+      "ordinal_position": 34,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "K-12",
+        "9-12",
+        "K-8",
+        "7-12",
+        "6-8"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.gsserved",
+      "table_uid": "california_schools:public.schools",
+      "name": "gsserved",
+      "data_type": "text",
+      "ordinal_position": 35,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "K-12",
+        "9-12",
+        "K-7",
+        "K-5",
+        "8-12"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.virtual",
+      "table_uid": "california_schools:public.schools",
+      "name": "virtual",
+      "data_type": "text",
+      "ordinal_position": 36,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "P",
+        "N"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.magnet",
+      "table_uid": "california_schools:public.schools",
+      "name": "magnet",
+      "data_type": "bigint",
+      "ordinal_position": 37,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.latitude",
+      "table_uid": "california_schools:public.schools",
+      "name": "latitude",
+      "data_type": "real",
+      "ordinal_position": 38,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "37.65821",
+        "37.521435",
+        "37.80452",
+        "37.86899",
+        "37.78465"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.longitude",
+      "table_uid": "california_schools:public.schools",
+      "name": "longitude",
+      "data_type": "real",
+      "ordinal_position": 39,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-122.09713",
+        "-121.99391",
+        "-122.26815",
+        "-122.27844",
+        "-122.23863"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admfname1",
+      "table_uid": "california_schools:public.schools",
+      "name": "admfname1",
+      "data_type": "text",
+      "ordinal_position": 40,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "L Karen",
+        "Laura",
+        "Clifford",
+        "Sue",
+        "David"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admlname1",
+      "table_uid": "california_schools:public.schools",
+      "name": "admlname1",
+      "data_type": "text",
+      "ordinal_position": 41,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Monroe",
+        "Robell",
+        "Thompson",
+        "Park",
+        "Castillo"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admemail1",
+      "table_uid": "california_schools:public.schools",
+      "name": "admemail1",
+      "data_type": "text",
+      "ordinal_position": 42,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "lkmonroe@acoe.org",
+        "laura@envisionacademy.org",
+        "cliffordt@communityschoolforcreativeeducation.org",
+        "spark@yumingschool.org",
+        "davidc@urbanmontessori.org"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admfname2",
+      "table_uid": "california_schools:public.schools",
+      "name": "admfname2",
+      "data_type": "text",
+      "ordinal_position": 43,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Sau-Lim (Lance)",
+        "Jennifer",
+        "Annalisa",
+        "Woo",
+        "David"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admlname2",
+      "table_uid": "california_schools:public.schools",
+      "name": "admlname2",
+      "data_type": "text",
+      "ordinal_position": 44,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Tsang",
+        "Koelling",
+        "Moore",
+        "Williams",
+        "Hoopes"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admemail2",
+      "table_uid": "california_schools:public.schools",
+      "name": "admemail2",
+      "data_type": "text",
+      "ordinal_position": 45,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "stsang@unityhigh.org",
+        "jkoelling@efcps.net",
+        "annalisa.moore@neaclc.org",
+        "wwilliams@aoaschools.org",
+        "david.hoopes@alamedaclc.org"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admfname3",
+      "table_uid": "california_schools:public.schools",
+      "name": "admfname3",
+      "data_type": "text",
+      "ordinal_position": 46,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Drew",
+        "Irma",
+        "Vickie",
+        "Barbara",
+        "Kelly"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admlname3",
+      "table_uid": "california_schools:public.schools",
+      "name": "admlname3",
+      "data_type": "text",
+      "ordinal_position": 47,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Sarratore",
+        "Munoz",
+        "Chang",
+        "Mandelbaum",
+        "Kriss"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.admemail3",
+      "table_uid": "california_schools:public.schools",
+      "name": "admemail3",
+      "data_type": "text",
+      "ordinal_position": 48,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "dsarratore@vincentacademy.org",
+        "gmunoz@piedmont.k12.ca.us",
+        "vickiechang@acoe.org",
+        "bmandelbaum@bcoe.org",
+        "kkriss@pusdk12.org"
+      ]
+    },
+    {
+      "uid": "california_schools:public.schools.lastupdate",
+      "table_uid": "california_schools:public.schools",
+      "name": "lastupdate",
+      "data_type": "date",
+      "ordinal_position": 49,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2015-06-23",
+        "2015-09-01",
+        "2015-06-18",
+        "2015-07-01",
+        "2016-07-18"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "california_schools:public.frpm.cdscode",
+      "to_column": "california_schools:public.schools.cdscode",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "1:1",
+      "constraint_name": "frpm_cdscode_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "california_schools:public.satscores.cds",
+      "to_column": "california_schools:public.schools.cdscode",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "1:1",
+      "constraint_name": "satscores_cds_fkey",
+      "evidence": null
+    }
+  ]
+}

@@ -57,6 +57,7 @@ def test_tier_counts_distinct_tables():
         ("SELECT n FROM (SELECT n FROM t ORDER BY n) s", False),   # inner ordering is invisible
         ("SELECT n FROM t UNION SELECT n FROM u", False),
         ("SELECT * FROM", False),
+        ("SELECT n FROM t WHERE a = 'x ORDER BY n", False),   # unterminated quote
     ],
 )
 def test_order_matters_heuristic(sql, expected):

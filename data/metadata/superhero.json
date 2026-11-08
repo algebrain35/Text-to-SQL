@@ -1,0 +1,796 @@
+{
+  "db_id": "superhero",
+  "extracted_at": "2026-11-08T01:40:14.833309Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "superhero:public.alignment",
+      "schema": "public",
+      "name": "alignment",
+      "description": null,
+      "description_source": null,
+      "row_count": 4,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.attribute",
+      "schema": "public",
+      "name": "attribute",
+      "description": null,
+      "description_source": null,
+      "row_count": 6,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.colour",
+      "schema": "public",
+      "name": "colour",
+      "description": null,
+      "description_source": null,
+      "row_count": 35,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.gender",
+      "schema": "public",
+      "name": "gender",
+      "description": null,
+      "description_source": null,
+      "row_count": 3,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.hero_attribute",
+      "schema": "public",
+      "name": "hero_attribute",
+      "description": null,
+      "description_source": null,
+      "row_count": 3738,
+      "primary_key": []
+    },
+    {
+      "uid": "superhero:public.hero_power",
+      "schema": "public",
+      "name": "hero_power",
+      "description": null,
+      "description_source": null,
+      "row_count": 5825,
+      "primary_key": []
+    },
+    {
+      "uid": "superhero:public.publisher",
+      "schema": "public",
+      "name": "publisher",
+      "description": null,
+      "description_source": null,
+      "row_count": 25,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.race",
+      "schema": "public",
+      "name": "race",
+      "description": null,
+      "description_source": null,
+      "row_count": 61,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero",
+      "schema": "public",
+      "name": "superhero",
+      "description": null,
+      "description_source": null,
+      "row_count": 750,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "superhero:public.superpower",
+      "schema": "public",
+      "name": "superpower",
+      "description": null,
+      "description_source": null,
+      "row_count": 167,
+      "primary_key": [
+        "id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "superhero:public.alignment.id",
+      "table_uid": "superhero:public.alignment",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "uid": "superhero:public.alignment.alignment",
+      "table_uid": "superhero:public.alignment",
+      "name": "alignment",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Good",
+        "Bad",
+        "Neutral",
+        "N/A"
+      ]
+    },
+    {
+      "uid": "superhero:public.attribute.id",
+      "table_uid": "superhero:public.attribute",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.attribute.attribute_name",
+      "table_uid": "superhero:public.attribute",
+      "name": "attribute_name",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Intelligence",
+        "Strength",
+        "Speed",
+        "Durability",
+        "Power"
+      ]
+    },
+    {
+      "uid": "superhero:public.colour.id",
+      "table_uid": "superhero:public.colour",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.colour.colour",
+      "table_uid": "superhero:public.colour",
+      "name": "colour",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "No Colour",
+        "Amber",
+        "Auburn",
+        "Black",
+        "Black/Blue"
+      ]
+    },
+    {
+      "uid": "superhero:public.gender.id",
+      "table_uid": "superhero:public.gender",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "uid": "superhero:public.gender.gender",
+      "table_uid": "superhero:public.gender",
+      "name": "gender",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Male",
+        "Female",
+        "N/A"
+      ]
+    },
+    {
+      "uid": "superhero:public.hero_attribute.hero_id",
+      "table_uid": "superhero:public.hero_attribute",
+      "name": "hero_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.hero_attribute.attribute_id",
+      "table_uid": "superhero:public.hero_attribute",
+      "name": "attribute_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "uid": "superhero:public.hero_attribute.attribute_value",
+      "table_uid": "superhero:public.hero_attribute",
+      "name": "attribute_value",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "80",
+        "75",
+        "95",
+        "85",
+        "100"
+      ]
+    },
+    {
+      "uid": "superhero:public.hero_power.hero_id",
+      "table_uid": "superhero:public.hero_power",
+      "name": "hero_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.hero_power.power_id",
+      "table_uid": "superhero:public.hero_power",
+      "name": "power_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "18",
+        "26",
+        "31",
+        "2"
+      ]
+    },
+    {
+      "uid": "superhero:public.publisher.id",
+      "table_uid": "superhero:public.publisher",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.publisher.publisher_name",
+      "table_uid": "superhero:public.publisher",
+      "name": "publisher_name",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "ABC Studios",
+        "Dark Horse Comics",
+        "DC Comics",
+        "George Lucas",
+        "Hanna-Barbera"
+      ]
+    },
+    {
+      "uid": "superhero:public.race.id",
+      "table_uid": "superhero:public.race",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.race.race",
+      "table_uid": "superhero:public.race",
+      "name": "race",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "Alien",
+        "Alpha",
+        "Amazon",
+        "Android"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.id",
+      "table_uid": "superhero:public.superhero",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.superhero_name",
+      "table_uid": "superhero:public.superhero",
+      "name": "superhero_name",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3-D Man",
+        "A-Bomb",
+        "Abe Sapien",
+        "Abin Sur",
+        "Abomination"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.full_name",
+      "table_uid": "superhero:public.superhero",
+      "name": "full_name",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Charles Chandler",
+        "Richard Milhouse Jones",
+        "Abraham Sapien",
+        "-",
+        "Emil Blonsky"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.gender_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "gender_id",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.eye_colour_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "eye_colour_id",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9",
+        "33",
+        "7",
+        "14",
+        "1"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.hair_colour_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "hair_colour_id",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "13",
+        "1",
+        "4",
+        "6",
+        "9"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.skin_colour_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "skin_colour_id",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "7",
+        "23",
+        "4",
+        "13"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.race_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "race_id",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "24",
+        "33",
+        "55",
+        "28"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.publisher_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "publisher_id",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "13",
+        "3",
+        "4",
+        "15",
+        "25"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.alignment_id",
+      "table_uid": "superhero:public.superhero",
+      "name": "alignment_id",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.height_cm",
+      "table_uid": "superhero:public.superhero",
+      "name": "height_cm",
+      "data_type": "bigint",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "188",
+        "203",
+        "191",
+        "185",
+        "0"
+      ]
+    },
+    {
+      "uid": "superhero:public.superhero.weight_kg",
+      "table_uid": "superhero:public.superhero",
+      "name": "weight_kg",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "90",
+        "441",
+        "65",
+        "0",
+        "122"
+      ]
+    },
+    {
+      "uid": "superhero:public.superpower.id",
+      "table_uid": "superhero:public.superpower",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "superhero:public.superpower.power_name",
+      "table_uid": "superhero:public.superpower",
+      "name": "power_name",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Agility",
+        "Accelerated Healing",
+        "Lantern Power Ring",
+        "Dimensional Awareness",
+        "Cold Resistance"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "superhero:public.hero_attribute.attribute_id",
+      "to_column": "superhero:public.attribute.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "hero_attribute_attribute_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.hero_attribute.hero_id",
+      "to_column": "superhero:public.superhero.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "hero_attribute_hero_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.hero_power.hero_id",
+      "to_column": "superhero:public.superhero.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "hero_power_hero_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.hero_power.power_id",
+      "to_column": "superhero:public.superpower.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "hero_power_power_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.alignment_id",
+      "to_column": "superhero:public.alignment.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_alignment_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.eye_colour_id",
+      "to_column": "superhero:public.colour.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_eye_colour_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.gender_id",
+      "to_column": "superhero:public.gender.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_gender_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.hair_colour_id",
+      "to_column": "superhero:public.colour.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_hair_colour_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.publisher_id",
+      "to_column": "superhero:public.publisher.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_publisher_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.race_id",
+      "to_column": "superhero:public.race.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_race_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "superhero:public.superhero.skin_colour_id",
+      "to_column": "superhero:public.colour.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "superhero_skin_colour_id_fkey",
+      "evidence": null
+    }
+  ]
+}

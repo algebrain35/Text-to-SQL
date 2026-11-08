@@ -71,6 +71,42 @@ def test_password_is_not_printed(cfg):
     assert "adminpw" not in repr(cfg.postgres.admin.password)
 
 
+def test_llm_and_pipeline_settings_load_without_storing_secrets(tmp_path, monkeypatch):
+    monkeypatch.setenv("TEST_LLM_KEY", "not-in-config")
+    path = tmp_path / "config.yml"
+    path.write_text(
+        CONFIG_YAML
+        + """
+llm:
+  model: test-model
+  api_key_env: TEST_LLM_KEY
+  base_url: http://localhost:1234/v1
+pipeline:
+  top_k: 4
+  max_attempts: 2
+  row_limit: 50
+  examples_k: 1
+"""
+    )
+
+    loaded = load_config(path)
+
+    assert loaded.llm is not None
+    assert loaded.llm.model == "test-model"
+    assert loaded.llm.api_key.get_secret_value() == "not-in-config"
+    assert loaded.pipeline.top_k == 4
+    assert loaded.pipeline.max_attempts == 2
+    assert loaded.pipeline.row_limit == 50
+    assert loaded.pipeline.examples_k == 1
+
+
+def test_pipeline_settings_validate_runtime_limits(tmp_path):
+    path = tmp_path / "config.yml"
+    path.write_text(CONFIG_YAML + "pipeline:\n  max_attempts: 0\n")
+    with pytest.raises(ValidationError):
+        load_config(path)
+
+
 def test_unknown_key_rejected(tmp_path):
     path = tmp_path / "config.yml"
     path.write_text(CONFIG_YAML + "  surprise: true\n")

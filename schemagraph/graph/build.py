@@ -19,7 +19,10 @@ written yet, so it is not a step here; embeddings use whatever descriptions the 
 Everything that can fail for the whole run (Neo4j unreachable, no embedding config, missing API
 key, a model whose vectors are not the configured size) is checked once, before any database is
 touched. After that, one database failing does not stop the others; the exit code is 1 if any failed
-or did not verify, 2 if the run could not start.
+or did not verify, 2 if the run could not start, and 3 if embedding was cut short by rate limiting.
+
+Embedding is saved as it goes and resumes: after a rate-limited (partial) run, rerun the same command
+without --rebuild and only the missing or changed nodes are embedded. --reembed redoes everything.
 """
 
 from __future__ import annotations
@@ -49,6 +52,7 @@ class Options:
     skip_extraction: bool = False
     skip_inference: bool = False
     skip_enrichment: bool = False
+    reembed: bool = False
     sample_n: int = 5
     min_overlap: float | None = None  # None: the inference default
     min_confidence: float = 0.5
@@ -73,7 +77,7 @@ class Steps:
     ingest: Callable[..., Any]                       # (meta, rebuild=) -> IngestReport
     apply_weights: Callable[[str], int]
     create_indexes: Callable[[int, str], None]       # (dimensions, name)
-    embed: Callable[..., Any]                        # (db_id, embedder, name) -> EmbedReport
+    embed: Callable[..., Any]                        # (db_id, embedder, name, reembed=) -> EmbedReport
     verify: Callable[[DatabaseMetadata], list[str]]
 
 
@@ -84,8 +88,8 @@ def default_steps() -> Steps:
     def create_indexes(dimensions: int, name: str) -> None:
         vector.create_vector_indexes(dimensions, name=name)
 
-    def do_embed(db_id: str, embedder: Any, name: str) -> Any:
-        return enrich.embed_nodes(db_id, embedder, name=name)
+    def do_embed(db_id: str, embedder: Any, name: str, reembed: bool = False) -> Any:
+        return enrich.embed_nodes(db_id, embedder, name=name, reembed=reembed)
 
     return Steps(
         extract=build_metadata.build_one,
@@ -108,15 +112,25 @@ class GraphResult:
     declared: int = 0
     inferred: int = 0
     edges_weighted: int = 0
-    embedded_tables: int = 0
+    embedded_tables: int = 0       # embedded in this run
     embedded_columns: int = 0
+    tables_current: int = 0        # with an up-to-date vector afterwards, of ...
+    tables_total: int = 0
+    columns_current: int = 0
+    columns_total: int = 0
+    partial: str | None = None     # embedding stopped early (rate limiting): why
     problems: list[str] = field(default_factory=list)  # verify differences
     error: str | None = None
     seconds: float = 0.0
 
     @property
     def ok(self) -> bool:
-        return self.error is None and not self.problems
+        return self.error is None and not self.problems and self.partial is None
+
+    @property
+    def failed(self) -> bool:
+        """A real failure, as opposed to a partial embedding run that can be resumed."""
+        return self.error is not None or bool(self.problems)
 
 
 # ---------------------------------------------------------------------------
@@ -207,9 +221,12 @@ def build_graph(
             if enrichment is None:
                 raise RuntimeError("enrichment requested but no embedder was prepared")
             steps.create_indexes(enrichment.dimensions, enrichment.name)
-            report = steps.embed(db_id, enrichment.embedder, enrichment.name)
+            report = steps.embed(db_id, enrichment.embedder, enrichment.name, reembed=options.reembed)
             result.embedded_tables, result.embedded_columns = report.tables, report.columns
-            result.steps_done.append("embed")
+            result.tables_current, result.tables_total = report.tables_current, report.tables_total
+            result.columns_current, result.columns_total = report.columns_current, report.columns_total
+            result.partial = report.stopped
+            result.steps_done.append("embed" if report.stopped is None else "embed (partial)")
 
         result.problems = list(steps.verify(meta))
         result.steps_done.append("verify")
@@ -239,17 +256,31 @@ def format_results(results: list[GraphResult], options: Options | None = None) -
             lines.append(f"  FAIL  {r.db_id:<28} after [{', '.join(r.steps_done) or 'nothing'}]: {r.error}")
             continue
         edges = f"{r.declared} declared + {r.inferred} inferred relationships"
-        embed = "" if options.skip_enrichment else f", embedded {r.embedded_tables} tables / {r.embedded_columns} columns"
-        status = "ok  " if r.ok else "DIFF"
+        embed = ""
+        if not options.skip_enrichment:
+            embed = (
+                f", embedded {r.tables_current}/{r.tables_total} tables and {r.columns_current}/{r.columns_total} columns"
+                f" ({r.embedded_tables + r.embedded_columns} new)"
+            )
+        status = "DIFF" if r.problems else "PART" if r.partial else "ok  "
         lines.append(f"  {status}  {r.db_id:<28} {r.tables:>4} tables {r.columns:>5} columns, {edges}{embed}  ({r.seconds:.1f}s)")
+        if r.partial:
+            lines.append(f"          stopped early: {r.partial}")
+            lines.append(
+                "          what was embedded is saved; rerun the same command"
+                + (" WITHOUT --rebuild (it would clear it)" if options.rebuild else "")
+                + " later to finish (add --skip-extraction to reuse the metadata file)"
+            )
         for problem in r.problems[:10]:
             lines.append(f"          {problem}")
         if len(r.problems) > 10:
             lines.append(f"          ... and {len(r.problems) - 10} more")
         if r.problems and not options.rebuild:
             lines.append("          the graph differs from the metadata; if tables were dropped or renamed, rerun with --rebuild")
-    failed = sum(not r.ok for r in results)
-    lines.append(f"{len(results) - failed} built, {failed} failed")
+    failed = sum(r.failed for r in results)
+    partial = sum(r.partial is not None and not r.failed for r in results)
+    built = len(results) - failed - partial
+    lines.append(f"{built} built, {partial} partial, {failed} failed")
     return "\n".join(lines)
 
 
@@ -268,6 +299,7 @@ def main(argv: list[str] | None = None, steps: Steps | None = None) -> int:
     parser.add_argument("--skip-extraction", action="store_true", help="reuse data/metadata/<db>.json")
     parser.add_argument("--skip-inference", action="store_true", help="declared relationships only")
     parser.add_argument("--skip-enrichment", action="store_true", help="no vector indexes or embeddings")
+    parser.add_argument("--reembed", action="store_true", help="embed every node again, not only new or changed ones")
     parser.add_argument("--sample-n", type=int, default=5)
     parser.add_argument("--min-overlap", type=float, default=infer.MIN_OVERLAP)
     parser.add_argument("--min-confidence", type=float, default=0.5)
@@ -284,6 +316,7 @@ def main(argv: list[str] | None = None, steps: Steps | None = None) -> int:
         skip_extraction=args.skip_extraction,
         skip_inference=args.skip_inference,
         skip_enrichment=args.skip_enrichment,
+        reembed=args.reembed,
         sample_n=args.sample_n,
         min_overlap=args.min_overlap,
         min_confidence=args.min_confidence,
@@ -314,7 +347,9 @@ def main(argv: list[str] | None = None, steps: Steps | None = None) -> int:
         driver.close_driver()
 
     print(format_results(results, options))
-    return 0 if all(r.ok for r in results) else 1
+    if any(r.failed for r in results):
+        return 1
+    return 3 if any(r.partial for r in results) else 0
 
 
 if __name__ == "__main__":

@@ -699,7 +699,7 @@ python scripts/build_graph.py --db adventureworks [--skip-inference] [--skip-enr
 
 Runs `extract_metadata` → `infer_relationships` → `save_metadata` → `ingest_metadata` → `apply_weights` → `generate_missing_descriptions` → `create_vector_indexes` → `embed_nodes` → `verify_against_metadata`.
 
-**Written** (`schemagraph/graph/build.py`, run through `scripts/build_graph.py`). It also takes `--all`, repeated `--db`, `--rebuild` and `--skip-extraction`. `generate_missing_descriptions` is not a step yet. Neo4j, the embedding config and the embedding size are checked once before any database is touched (exit 2); after that one database failing does not stop the others (exit 1 if any failed or `verify_against_metadata` reports differences).
+**Written** (`schemagraph/graph/build.py`, run through `scripts/build_graph.py`). It also takes `--all`, repeated `--db`, `--rebuild` and `--skip-extraction`. `generate_missing_descriptions` is not a step yet. Neo4j, the embedding config and the embedding size are checked once before any database is touched (exit 2); after that one database failing does not stop the others (exit 1 if any failed or `verify_against_metadata` reports differences). Embedding is saved per chunk, tables first, and resumes: nodes are fingerprinted by text and model, and a rerun embeds only missing or changed ones (`--reembed` forces all). Rate limiting (HTTP 429) waits up to `embedding.max_wait_s`, then stops with a partial result and exit code 3.
 
 ### 5.22 Frontend — Davin
 

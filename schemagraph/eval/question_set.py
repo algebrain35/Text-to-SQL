@@ -1,13 +1,17 @@
 """Checks on a set of evaluation questions, shared by every question file.
 
-    python -m schemagraph.eval.question_set schemagraph/eval/questions/*.jsonl \\
+    python -m schemagraph.eval.question_set schemagraph/eval/questions/adventureworks.jsonl \\
+        schemagraph/eval/questions/bird_subset.jsonl \\
         --fewshot schemagraph/eval/questions/fewshot_examples.jsonl
 
 Prints how the questions are spread over databases, tiers and splits, and lists
 anything that would corrupt an evaluation: duplicate ids, a gold query that is not a
 single read-only SELECT, the same question twice, a bad db_id, and (given the
 few-shot file) any question that also appears as a few-shot example, which would let
-the model see the answer.
+the model see the answer. Development questions may also be few-shot examples (they are not
+reported), so only test questions are checked; every few-shot example must itself be a development
+question. With --verify it also runs every gold query against the databases and says which fail or
+return nothing.
 """
 
 from __future__ import annotations
@@ -48,9 +52,10 @@ def problems(questions: list[Question], fewshot: list[Question] | None = None) -
         seen_text.setdefault(key, q.id)
 
     if fewshot:
+        found += [f"{s.id}: few-shot examples must use split 'dev', not {s.split!r}" for s in fewshot if s.split != "dev"]
         shot_ids = {s.id for s in fewshot}
         shot_text = {(s.db_id, normalize_text(s.question)) for s in fewshot}
-        for q in questions:
+        for q in (q for q in questions if q.split == "test"):
             if q.id in shot_ids:
                 found.append(f"{q.id}: also in the few-shot examples (same id)")
             elif (q.db_id, normalize_text(q.question)) in shot_text:
@@ -74,12 +79,29 @@ def describe(questions: list[Question]) -> str:
     return "\n".join(lines)
 
 
+def verify_gold(questions: list[Question]) -> tuple[list[str], int]:
+    """Run every gold query. Returns report lines (failures grouped by message) and how many failed."""
+    from schemagraph.eval.bird_questions import group_drops
+    from schemagraph.eval.run_eval import check_gold
+
+    check = check_gold(questions)
+    lines = []
+    for why, ids in group_drops(check.errors):
+        shown = ", ".join(ids[:3]) + (", ..." if len(ids) > 3 else "")
+        lines.append(f"  PROBLEM {len(ids)} gold queries failed: {why} (e.g. {shown})")
+    if check.empty:
+        lines.append(f"  note: {len(check.empty)} gold queries return no rows (weak tests): {', '.join(check.empty[:5])}")
+    lines.append(f"gold SQL ran for {len(check.results)} of {len(questions)} questions")
+    return lines, len(check.errors)
+
+
 def main(argv: list[str] | None = None) -> int:
     from schemagraph.eval.run_eval import load_question_files
 
     parser = argparse.ArgumentParser(description="Check evaluation question files.")
     parser.add_argument("files", nargs="+", type=Path)
     parser.add_argument("--fewshot", type=Path, help="few-shot examples file; no question may also appear there")
+    parser.add_argument("--verify", action="store_true", help="also run every gold query against its database")
     args = parser.parse_args(argv)
 
     questions = load_question_files(args.files, "all")
@@ -90,7 +112,11 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  PROBLEM {issue}")
     if not issues:
         print("no problems found")
-    return 1 if issues else 0
+    failed = 0
+    if args.verify:
+        lines, failed = verify_gold(questions)
+        print("\n".join(lines))
+    return 1 if issues or failed else 0
 
 
 if __name__ == "__main__":

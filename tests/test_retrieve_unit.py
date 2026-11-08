@@ -66,6 +66,7 @@ class FakeVectorStore:
         self.columns: dict[str, dict] = {}
         self.col_table: dict[str, str] = {}
         self.queries: list[tuple[str, dict]] = []
+        self.writes: list[int] = []         # rows per embedding write, to see that work is saved in chunks
 
     def add_metadata(self, meta, db_id=None):
         db_id = db_id or meta.db_id
@@ -88,9 +89,18 @@ class FakeVectorStore:
             label = "Table" if "(n:Table" in query else "Column"
             store = self.tables if label == "Table" else self.columns
             prop = re.search(r"SET n\.(\w+) = row\.vec", query).group(1)
+            hash_prop = re.search(r"n\.(\w+) = row\.hash", query)
             for row in params["rows"]:
                 store[row["uid"]][prop] = row["vec"]
+                if hash_prop:
+                    store[row["uid"]][hash_prop.group(1)] = row["hash"]
+            self.writes.append(len(params["rows"]))
             return self
+        if query.startswith("MATCH (n:") and " AS hash" in query:
+            label = re.match(r"MATCH \(n:(\w+)", query).group(1)
+            hash_prop = re.search(r"n\.(\w+) AS hash", query).group(1)
+            nodes = self.tables if label == "Table" else self.columns
+            return [Rec(uid=uid, hash=p.get(hash_prop)) for uid, p in nodes.items() if p["db_id"] == params["db_id"]]
         if "queryNodes" in query:
             if params["index"] == vector.TABLE_INDEX:
                 nodes, is_col = self.tables, False
@@ -384,7 +394,7 @@ def test_http_embedder_retries_then_succeeds(server, monkeypatch):
     Handler.script = [(429, {"error": "slow down"}), (503, {"error": "x"})]
     emb, sleeps = make(server, monkeypatch)
     assert emb.embed_query("x") == [0.0] * 3
-    assert len(Handler.seen) == 3 and sleeps == [1, 2]
+    assert len(Handler.seen) == 3 and sleeps == [5, 1]   # 429 waits on the rate-limit schedule, 503 on the short one
 
 
 def test_http_embedder_does_not_retry_client_errors(server, monkeypatch):

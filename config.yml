@@ -24,12 +24,12 @@ neo4j:
 # vector index. Changing either later means dropping the indexes and re-embedding.
 #
 # OpenAI (or any OpenAI-style server, e.g. Ollama's http://localhost:11434/v1 with api_key_env: null):
-embedding:
-   provider: openai
-   model: text-embedding-3-large
-   dimensions: 1024
-   send_dimensions: true            # asks OpenAI for shortened vectors; without it you get 3072
-   api_key_env: OPENAI_API_KEY    # the default for openai
+# embedding:
+#    provider: openai
+#    model: text-embedding-3-large
+#    dimensions: 1024
+#    send_dimensions: true            # asks OpenAI for shortened vectors; without it you get 3072
+#    api_key_env: OPENAI_API_KEY    # the default for openai
 #
 # Anthropic has no embedding model of its own and recommends Voyage AI, so `anthropic` means Voyage.
 # embedding:
@@ -39,6 +39,21 @@ embedding:
 #   # api_key_env: VOYAGE_API_KEY    # the default for voyage
 #   # base_url: https://ai.mongodb.com/v1   # Voyage's current endpoint; keys issued by voyageai.com may need https://api.voyageai.com/v1
 #
+# Google Gemini (key in GEMINI_API_KEY):
+embedding:
+  provider: gemini
+  model: gemini-embedding-2        # or gemini-embedding-001
+  dimensions: 1536                 # default is 3072; Google recommends 768, 1536 or 3072
+  send_dimensions: true            # needed for anything other than 3072
+  name: gemini
+  # Free tier? Any provider accepts these two:
+  max_wait_s: 120                # longest total wait on one rate-limited request (default 120), then it stops and keeps what is saved
+  requests_per_minute: 15        # spaces requests out so the limit is not reached (default: no pacing)
+  query_cache: data/cache/query_embeddings.sqlite   # each question is embedded once, however many modes, sweeps and reruns ask it
+                                 # (free tiers count every embedding call; delete the file to start over; remove the line to turn it off)
+  # include_relationships: true  # embed each table with its foreign-key neighbours ("References: ... Referenced by: ...").
+  #                              # Use a new `name` with it, so the plain vectors stay for comparison.
+
 # To keep two models in one graph (for example to compare them), give each its own `name`
 # and switch between configs with SCHEMAGRAPH_CONFIG. Vectors and indexes are stored per name.
 #   name: voyage

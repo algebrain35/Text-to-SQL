@@ -1,4 +1,7 @@
+import json
+
 from schemagraph.eval import question_set as qs
+from schemagraph.eval import run_eval
 from schemagraph.models import Question
 
 
@@ -33,7 +36,7 @@ def test_bad_db_id_and_empty_question():
 
 
 def test_fewshot_overlap_by_id_and_by_text():
-    shots = [q("aw-1", text="Something else"), q("fs-9", text="HOW many orders?")]
+    shots = [q("aw-1", text="Something else", split="dev"), q("fs-9", text="HOW many orders?", split="dev")]
     found = qs.problems([q(), q("aw-2", text="how many orders?")], shots)
     assert any("aw-1" in p and "same id" in p for p in found)
     assert any("aw-2" in p and "same question text" in p for p in found)
@@ -53,9 +56,56 @@ def test_cli(tmp_path, capsys):
     good = tmp_path / "q.jsonl"
     good.write_text(q().model_dump_json() + "\n")
     shots = tmp_path / "s.jsonl"
-    shots.write_text(q("fs-1", text="Different").model_dump_json() + "\n")
+    shots.write_text(q("fs-1", text="Different", split="dev").model_dump_json() + "\n")
     assert qs.main([str(good), "--fewshot", str(shots)]) == 0
     assert "no problems found" in capsys.readouterr().out
-    shots.write_text(q("fs-1").model_dump_json() + "\n")      # same question text as the test question
+    shots.write_text(q("fs-1", split="dev").model_dump_json() + "\n")      # same question text as the test question
     assert qs.main([str(good), "--fewshot", str(shots)]) == 1
     assert "PROBLEM" in capsys.readouterr().out
+
+
+def test_dev_questions_may_be_few_shot_examples_but_test_questions_may_not():
+    shot = q("fs-1", text="How many orders?", split="dev")
+    assert qs.problems([q(split="dev")], [shot]) == []                       # a dev question is not reported
+    assert any("same question text" in p for p in qs.problems([q(split="test")], [shot]))
+    assert qs.problems([q("aw-1", split="dev")], [q("aw-1", text="x", split="dev")]) == []
+
+
+def test_every_few_shot_example_must_be_a_dev_question():
+    found = qs.problems([q("aw-9", text="Unrelated")], [q("fs-1", text="Something", split="test")])
+    assert any("fs-1" in p and "split 'dev'" in p for p in found)
+
+
+def fake_runner(failing=(), empty=()):
+    def run(db_id, sql, row_limit):
+        if any(f in sql for f in failing):
+            raise RuntimeError('database "adventureworks" does not exist')
+        rows = [] if any(e in sql for e in empty) else [["1"]]
+        return run_eval.QueryResult(columns=["n"], rows=rows, row_count=len(rows))
+
+    return run
+
+
+def test_verify_gold_groups_failures_and_notes_empty_results(monkeypatch):
+    monkeypatch.setattr(run_eval, "_default_query", fake_runner(failing=["customer"], empty=["store"]))
+    questions = [
+        q("a", text="1", sql="SELECT 1 FROM customer"), q("b", text="2", sql="SELECT 2 FROM customer"),
+        q("c", text="3", sql="SELECT 3 FROM store"), q("d", text="4", sql="SELECT 4"),
+    ]
+    lines, failed = qs.verify_gold(questions)
+    text = "\n".join(lines)
+    assert failed == 2 and "2 gold queries failed" in text and 'database "..." does not exist' in text
+    assert "1 gold queries return no rows" in text and "gold SQL ran for 2 of 4 questions" in text
+
+
+def test_cli_verify(tmp_path, capsys, monkeypatch):
+    path = tmp_path / "q.jsonl"
+    path.write_text("\n".join(x.model_dump_json() for x in [q("a", text="1"), q("b", text="2", sql="SELECT 2 FROM customer")]) + "\n")
+    monkeypatch.setattr(run_eval, "_default_query", fake_runner())
+    assert qs.main([str(path), "--verify"]) == 0
+    assert "gold SQL ran for 2 of 2 questions" in capsys.readouterr().out
+    monkeypatch.setattr(run_eval, "_default_query", fake_runner(failing=["customer"]))
+    assert qs.main([str(path), "--verify"]) == 1
+    assert "PROBLEM 1 gold queries failed" in capsys.readouterr().out
+    assert qs.main([str(path)]) == 0                                        # without --verify nothing is run
+    assert json.loads(path.read_text().splitlines()[0])["id"] == "a"

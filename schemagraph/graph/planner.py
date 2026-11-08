@@ -318,8 +318,8 @@ def solve_networkx(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tup
         tree = steiner_tree(g, terminals, weight="weight", method="mehlhorn")
     except (nx.NetworkXException, KeyError):
         return None
-    if not all(t in tree for t in terminals):
-        return None
+    if not all(t in tree for t in terminals) or not nx.is_connected(tree):
+        return None  # a banned bridge can split the seeds into separate components; the "tree" is then a forest
 
     def oriented(root: str) -> list[Arc]:
         chosen: list[Arc] = []

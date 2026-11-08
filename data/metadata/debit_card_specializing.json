@@ -1,0 +1,509 @@
+{
+  "db_id": "debit_card_specializing",
+  "extracted_at": "2026-11-08T01:40:05.118527Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "debit_card_specializing:public.customers",
+      "schema": "public",
+      "name": "customers",
+      "description": null,
+      "description_source": null,
+      "row_count": 32461,
+      "primary_key": [
+        "customerid"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.gasstations",
+      "schema": "public",
+      "name": "gasstations",
+      "description": null,
+      "description_source": null,
+      "row_count": 5716,
+      "primary_key": [
+        "gasstationid"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.products",
+      "schema": "public",
+      "name": "products",
+      "description": null,
+      "description_source": null,
+      "row_count": 591,
+      "primary_key": [
+        "productid"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k",
+      "schema": "public",
+      "name": "transactions_1k",
+      "description": null,
+      "description_source": null,
+      "row_count": 1000,
+      "primary_key": [
+        "transactionid"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.yearmonth",
+      "schema": "public",
+      "name": "yearmonth",
+      "description": null,
+      "description_source": null,
+      "row_count": 383282,
+      "primary_key": []
+    }
+  ],
+  "columns": [
+    {
+      "uid": "debit_card_specializing:public.customers.customerid",
+      "table_uid": "debit_card_specializing:public.customers",
+      "name": "customerid",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "5",
+        "6",
+        "7",
+        "9"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.customers.segment",
+      "table_uid": "debit_card_specializing:public.customers",
+      "name": "segment",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "SME",
+        "LAM",
+        "KAM"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.customers.currency",
+      "table_uid": "debit_card_specializing:public.customers",
+      "name": "currency",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "EUR",
+        "CZK"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.gasstations.gasstationid",
+      "table_uid": "debit_card_specializing:public.gasstations",
+      "name": "gasstationid",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "44",
+        "45",
+        "46",
+        "47",
+        "48"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.gasstations.chainid",
+      "table_uid": "debit_card_specializing:public.gasstations",
+      "name": "chainid",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "13",
+        "6",
+        "23",
+        "33",
+        "4"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.gasstations.country",
+      "table_uid": "debit_card_specializing:public.gasstations",
+      "name": "country",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "CZE"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.gasstations.segment",
+      "table_uid": "debit_card_specializing:public.gasstations",
+      "name": "segment",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Value for money",
+        "Premium",
+        "Other",
+        "Noname",
+        "Discount"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.products.productid",
+      "table_uid": "debit_card_specializing:public.products",
+      "name": "productid",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.products.description",
+      "table_uid": "debit_card_specializing:public.products",
+      "name": "description",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Rucní zadání",
+        "Nafta",
+        "Special",
+        "Super",
+        "Natural"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.transactionid",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "transactionid",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.date",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "date",
+      "data_type": "date",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2012-08-24",
+        "2012-08-23",
+        "2012-08-25",
+        "2012-08-26"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.time",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "time",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "09:41:00",
+        "10:03:00",
+        "13:53:00",
+        "08:49:00",
+        "08:53:00"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.customerid",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "customerid",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "31543",
+        "46707",
+        "7654",
+        "17373",
+        "7881"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.cardid",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "cardid",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "486621",
+        "550134",
+        "684220",
+        "536109",
+        "99745"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.gasstationid",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "gasstationid",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3704",
+        "656",
+        "741",
+        "1152",
+        "636"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.productid",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "productid",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "23",
+        "5",
+        "11",
+        "7"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.amount",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "amount",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "28",
+        "18",
+        "1",
+        "5",
+        "4"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.transactions_1k.price",
+      "table_uid": "debit_card_specializing:public.transactions_1k",
+      "name": "price",
+      "data_type": "real",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "672.64",
+        "430.72",
+        "121.99",
+        "120.74",
+        "645.05"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.yearmonth.customerid",
+      "table_uid": "debit_card_specializing:public.yearmonth",
+      "name": "customerid",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5",
+        "6",
+        "7",
+        "9",
+        "20"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.yearmonth.date",
+      "table_uid": "debit_card_specializing:public.yearmonth",
+      "name": "date",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "201207",
+        "201302",
+        "201303",
+        "201304",
+        "201203"
+      ]
+    },
+    {
+      "uid": "debit_card_specializing:public.yearmonth.consumption",
+      "table_uid": "debit_card_specializing:public.yearmonth",
+      "name": "consumption",
+      "data_type": "real",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "528.3",
+        "1598.28",
+        "1931.36",
+        "1497.14",
+        "51.06"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "debit_card_specializing:public.transactions_1k.customerid",
+      "to_column": "debit_card_specializing:public.customers.customerid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "debit_card_specializing:public.transactions_1k.gasstationid",
+      "to_column": "debit_card_specializing:public.gasstations.gasstationid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "debit_card_specializing:public.transactions_1k.productid",
+      "to_column": "debit_card_specializing:public.products.productid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "debit_card_specializing:public.yearmonth.customerid",
+      "to_column": "debit_card_specializing:public.customers.customerid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    }
+  ]
+}

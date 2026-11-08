@@ -1,0 +1,1252 @@
+{
+  "db_id": "thrombosis_prediction",
+  "extracted_at": "2026-11-08T01:40:16.374017Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "thrombosis_prediction:public.examination",
+      "schema": "public",
+      "name": "examination",
+      "description": null,
+      "description_source": null,
+      "row_count": 106,
+      "primary_key": []
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory",
+      "schema": "public",
+      "name": "laboratory",
+      "description": null,
+      "description_source": null,
+      "row_count": 13908,
+      "primary_key": []
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient",
+      "schema": "public",
+      "name": "patient",
+      "description": null,
+      "description_source": null,
+      "row_count": 1238,
+      "primary_key": [
+        "id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "thrombosis_prediction:public.examination.id",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "14872",
+        "48473",
+        "102490",
+        "108788",
+        "122405"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.Examination Date",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "Examination Date",
+      "data_type": "date",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1997-05-27",
+        "1992-12-21",
+        "1995-04-20",
+        "1997-05-06",
+        "1998-04-02"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.aCL IgG",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "aCL IgG",
+      "data_type": "real",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.3",
+        "4.3",
+        "2.3",
+        "0",
+        "1"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.aCL IgM",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "aCL IgM",
+      "data_type": "real",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.6",
+        "4.6",
+        "2.5",
+        "0",
+        "4"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.ana",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "ana",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "256",
+        "0",
+        "16",
+        "4",
+        "1024"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.ANA Pattern",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "ANA Pattern",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "P",
+        "P,S",
+        "S",
+        "D,P,S",
+        "S,D"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.aCL IgA",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "aCL IgA",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "3",
+        "4",
+        "9",
+        "12"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.diagnosis",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "diagnosis",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "MCTD, AMI",
+        "SLE",
+        "PSS",
+        "SLE, SjS, vertigo",
+        "SLE, AIHA"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.kct",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "kct",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "+"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.rvvt",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "rvvt",
+      "data_type": "text",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "+"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.lac",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "lac",
+      "data_type": "text",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "+"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.symptoms",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "symptoms",
+      "data_type": "text",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "AMI",
+        "CNS lupus",
+        "thrombophlebitis",
+        "thrombocytopenia",
+        "CNS susp"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.examination.thrombosis",
+      "table_uid": "thrombosis_prediction:public.examination",
+      "name": "thrombosis",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "0",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.id",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "27654",
+        "30609",
+        "43003",
+        "48473",
+        "57266"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.date",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "date",
+      "data_type": "date",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1991-09-11",
+        "1991-09-17",
+        "1991-09-19",
+        "1991-09-20",
+        "1991-09-21"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.got",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "got",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "34",
+        "29",
+        "26",
+        "23",
+        "24"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.gpt",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "gpt",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "36",
+        "31",
+        "22",
+        "18",
+        "4"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.ldh",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "ldh",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "567",
+        "579",
+        "684",
+        "552",
+        "701"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.alp",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "alp",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "166",
+        "154",
+        "138",
+        "131",
+        "108"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.tp",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "tp",
+      "data_type": "real",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4.5",
+        "5.1",
+        "5.5",
+        "4.2",
+        "4.7"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.alb",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "alb",
+      "data_type": "real",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.3",
+        "3.4",
+        "3.6",
+        "2.9",
+        "3.2"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.ua",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "ua",
+      "data_type": "real",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.8",
+        "4.2",
+        "4.9",
+        "4.8",
+        "5.2"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.un",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "un",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "29",
+        "36",
+        "34",
+        "22",
+        "8"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.cre",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "cre",
+      "data_type": "real",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.8",
+        "0.9",
+        "0.7",
+        "0.6",
+        "1"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.T-BIL",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "T-BIL",
+      "data_type": "real",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.3",
+        "0.2",
+        "0.4",
+        "0.5",
+        "0.6"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.T-CHO",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "T-CHO",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "165",
+        "134",
+        "140",
+        "123",
+        "107"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.tg",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "tg",
+      "data_type": "bigint",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "185",
+        "205",
+        "254",
+        "125",
+        "131"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.cpk",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "cpk",
+      "data_type": "bigint",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9",
+        "10",
+        "11",
+        "26",
+        "31"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.glu",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "glu",
+      "data_type": "bigint",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "88",
+        "134",
+        "161",
+        "93",
+        "101"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.wbc",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "wbc",
+      "data_type": "real",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5",
+        "10.4",
+        "10.5",
+        "10.3",
+        "14.3"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.rbc",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "rbc",
+      "data_type": "real",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2.6",
+        "2.9",
+        "3.4",
+        "3.2",
+        "3.3"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.hgb",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "hgb",
+      "data_type": "real",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6.4",
+        "6.7",
+        "7.9",
+        "6.1",
+        "7.2"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.hct",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "hct",
+      "data_type": "real",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "20.3",
+        "21.6",
+        "24.7",
+        "19.3",
+        "23.4"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.plt",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "plt",
+      "data_type": "bigint",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "227",
+        "242",
+        "233",
+        "201",
+        "215"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.pt",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "pt",
+      "data_type": "real",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "11.3",
+        "12",
+        "11.8",
+        "12.6",
+        "12.2"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.aptt",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "aptt",
+      "data_type": "bigint",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "108",
+        "84",
+        "76",
+        "90",
+        "120"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.fg",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "fg",
+      "data_type": "real",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "27",
+        "38.6",
+        "27.6",
+        "29.8",
+        "27.7"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.pic",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "pic",
+      "data_type": "bigint",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "320",
+        "513",
+        "284",
+        "529",
+        "430"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.tat",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "tat",
+      "data_type": "bigint",
+      "ordinal_position": 26,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "77",
+        "108",
+        "115",
+        "107",
+        "86"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.tat2",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "tat2",
+      "data_type": "bigint",
+      "ordinal_position": 27,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "113",
+        "88",
+        "104",
+        "101",
+        "109"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.U-PRO",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "U-PRO",
+      "data_type": "text",
+      "ordinal_position": 28,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "0",
+        "TR",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.igg",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "igg",
+      "data_type": "bigint",
+      "ordinal_position": 29,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "339",
+        "771",
+        "430",
+        "562",
+        "625"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.iga",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "iga",
+      "data_type": "bigint",
+      "ordinal_position": 30,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "145",
+        "188",
+        "118",
+        "152",
+        "195"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.igm",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "igm",
+      "data_type": "bigint",
+      "ordinal_position": 31,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "46",
+        "132",
+        "56",
+        "124",
+        "142"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.crp",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "crp",
+      "data_type": "text",
+      "ordinal_position": 32,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.6",
+        "2.7",
+        "1.2",
+        "3.9",
+        "2.8"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.ra",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "ra",
+      "data_type": "text",
+      "ordinal_position": 33,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "+",
+        "+-",
+        "2+"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.rf",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "rf",
+      "data_type": "text",
+      "ordinal_position": 34,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<20.5",
+        "<20.8",
+        "<40",
+        "<17.0",
+        "<21.3"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.c3",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "c3",
+      "data_type": "bigint",
+      "ordinal_position": 35,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "30",
+        "82",
+        "103",
+        "63",
+        "53"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.c4",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "c4",
+      "data_type": "bigint",
+      "ordinal_position": 36,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "14",
+        "26",
+        "35",
+        "31",
+        "34"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.rnp",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "rnp",
+      "data_type": "text",
+      "ordinal_position": 37,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1",
+        "256",
+        "negative",
+        "16"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.sm",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "sm",
+      "data_type": "text",
+      "ordinal_position": 38,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1",
+        "negative",
+        "2",
+        "8"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.sc170",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "sc170",
+      "data_type": "text",
+      "ordinal_position": 39,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "16",
+        "1",
+        "0",
+        "negative",
+        "4"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.ssa",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "ssa",
+      "data_type": "text",
+      "ordinal_position": 40,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "negative",
+        "16",
+        "4",
+        "256"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.ssb",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "ssb",
+      "data_type": "text",
+      "ordinal_position": 41,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "negative",
+        "1",
+        "32",
+        "8"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.centromea",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "centromea",
+      "data_type": "text",
+      "ordinal_position": 42,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "negative"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.dna",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "dna",
+      "data_type": "text",
+      "ordinal_position": 43,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "41.9",
+        "18",
+        "4.3",
+        "5.56",
+        "9.88"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.laboratory.DNA-II",
+      "table_uid": "thrombosis_prediction:public.laboratory",
+      "name": "DNA-II",
+      "data_type": "bigint",
+      "ordinal_position": 44,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": []
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.id",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2110",
+        "11408",
+        "12052",
+        "14872",
+        "27654"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.sex",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "sex",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "F",
+        "M"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.birthday",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "birthday",
+      "data_type": "date",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1934-02-13",
+        "1937-05-02",
+        "1956-04-14",
+        "1953-09-21",
+        "1936-03-25"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.description",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "description",
+      "data_type": "date",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1994-02-14",
+        "1996-12-01",
+        "1991-08-13",
+        "1997-08-13",
+        "1994-03-08"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.First Date",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "First Date",
+      "data_type": "date",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1993-02-10",
+        "1973-01-01",
+        "1992-02-03",
+        "1994-03-08",
+        "1993-02-05"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.admission",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "admission",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "+",
+        "-"
+      ]
+    },
+    {
+      "uid": "thrombosis_prediction:public.patient.diagnosis",
+      "table_uid": "thrombosis_prediction:public.patient",
+      "name": "diagnosis",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "RA susp.",
+        "PSS",
+        "SLE",
+        "MCTD",
+        "RA, SLE susp"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "thrombosis_prediction:public.examination.id",
+      "to_column": "thrombosis_prediction:public.patient.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "examination_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "thrombosis_prediction:public.laboratory.id",
+      "to_column": "thrombosis_prediction:public.patient.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "laboratory_id_fkey",
+      "evidence": null
+    }
+  ]
+}

@@ -86,7 +86,6 @@ class TableMeta(Contract):
     description_source: DescriptionSource | None = None
     row_count: int | None = None
     primary_key: list[str] = Field(default_factory=list)  # in key order
-
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
 

@@ -41,7 +41,7 @@ from typing import Any
 
 import sqlglot
 from sqlglot import exp
-from sqlglot.errors import ParseError
+from sqlglot.errors import SqlglotError
 
 from schemagraph.config import DB_ID_RE
 from schemagraph.eval import question_set
@@ -99,7 +99,7 @@ def order_matters_for(gold_sql: str) -> bool:
     """True if the gold query orders its output and is not a single-row 'top 1' query."""
     try:
         tree = sqlglot.parse_one(gold_sql, read="postgres")
-    except ParseError:
+    except SqlglotError:
         return False
     if not isinstance(tree, exp.Select) or not tree.args.get("order"):
         return False

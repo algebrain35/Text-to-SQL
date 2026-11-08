@@ -237,7 +237,7 @@ def test_request_shape_and_flags(tmp_path):
     assert (r1.mode, r2.mode) == ("full", "graph")
     assert r1.options.row_limit == ev.GOLD_ROW_LIMIT
     assert r1.question == "total per person\nHint: firstname is the given name"
-    assert k1 == {"explain": False, "planner_options": {"weighted": False}}
+    assert k1 == {"explain": False, "planner_options": {"weighted": False}, "exclude_example_ids": frozenset({"aw-001"})}
 
 
 def test_evidence_can_be_left_out_and_planner_options_omitted_when_empty(tmp_path):
@@ -248,7 +248,7 @@ def test_evidence_can_be_left_out_and_planner_options_omitted_when_empty(tmp_pat
         return graph_response()
 
     run(tmp_path, answer, rows=[question(evidence="hint")], use_evidence=False)
-    assert seen[0][0].question == "total per person" and seen[0][1] == {"explain": False}
+    assert seen[0][0].question == "total per person" and seen[0][1] == {"explain": False, "exclude_example_ids": frozenset({"aw-001"})}
 
 
 def test_unknown_mode_is_rejected(tmp_path):
@@ -348,3 +348,194 @@ def test_cli_summarize_and_check_gold(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(ev, "_default_query", broken)
     assert ev.main(["--questions", str(qfile), "--check-gold"]) == 1
     assert "ERROR aw-001" in capsys.readouterr().out
+
+
+# ----------------------------------------------------------------- sweeps
+
+
+def test_parse_variant_forms_and_errors():
+    assert ev.parse_variant("5") == ev.Variant(5, 0, 1)
+    assert ev.parse_variant("8+4") == ev.Variant(8, 4, 1)
+    assert ev.parse_variant("8+4:2") == ev.Variant(8, 4, 2)
+    assert [ev.parse_variant(s).label for s in ("5", "8+4", "8+4:2")] == ["k5", "k8+4h1", "k8+4h2"]
+    assert ev.Variant(5).expand == {"max_added": 0, "hops": 1}
+    for bad in ("", "x", "0", "5+", "5+2:0", "5+-1", "5+a"):
+        with pytest.raises(ValueError, match="bad variant"):
+            ev.parse_variant(bad)
+
+
+def test_run_eval_passes_top_k_and_expansion_to_the_pipeline_only_when_given(tmp_path):
+    seen = []
+
+    def answer(request, explain=False, **kw):
+        seen.append((request.options.top_k, kw))
+        return graph_response()
+
+    run(tmp_path, answer)
+    assert seen[-1] == (None, {"exclude_example_ids": frozenset({"aw-001"})})
+    run(tmp_path, answer, top_k=8, expand={"max_added": 4, "hops": 2}, rows=[question(id="aw-002")])
+    assert seen[-1] == (8, {"exclude_example_ids": frozenset({"aw-002"}), "expand": {"max_added": 4, "hops": 2}})
+
+
+def test_sweep_runs_every_variant_under_its_own_run_id_and_resumes(tmp_path):
+    calls = []
+
+    def answer(request, explain=False, **kw):
+        calls.append((request.options.top_k, kw.get("expand")))
+        # a bigger context for the bigger variant, and a wrong answer for the smallest
+        tables = (HEADER, CUSTOMER, PERSON) if request.options.top_k > 3 else (HEADER,)
+        wrong = qr(["x"], [["0"]])
+        return graph_response(tables=tables, seeds=tables[:1], result=GOLD if request.options.top_k > 3 else wrong)
+
+    qfile = write_questions(tmp_path / "q.jsonl", [question()])
+    out = tmp_path / "sweep.jsonl"
+    variants = [ev.parse_variant(s) for s in ("3", "5", "5+2:2")]
+    kw = {"llm_model": "m", "answer": answer, "run_query": lambda db, sql, n: GOLD, "now": lambda: NOW}
+
+    reports = ev.run_sweep(variants, [qfile], ["graph"], out, "sw", **kw)
+    assert [r.written for _, r in reports] == [1, 1, 1]
+    assert calls == [(3, {"max_added": 0, "hops": 1}), (5, {"max_added": 0, "hops": 1}), (5, {"max_added": 2, "hops": 2})]
+    assert {r["run_id"] for r in read(out)} == {"sw-k3", "sw-k5", "sw-k5+2h2"}
+
+    calls.clear()
+    again = ev.run_sweep(variants, [qfile], ["graph"], out, "sw", **kw)
+    assert calls == [] and [r.already_done for _, r in again] == [1, 1, 1]  # nothing is asked twice
+
+    rows = {r["run_id"]: r for r in ev.aggregate_runs(ev.load_results(out))}
+    assert rows["sw-k3"]["accuracy"] == 0.0 and rows["sw-k5"]["accuracy"] == 1.0
+    assert rows["sw-k3"]["context_tables"] == 1 and rows["sw-k5"]["context_tables"] == 3
+    text = ev.format_runs(list(rows.values()))
+    assert "sw-k5+2h2" in text and "accuracy" in text and "100.0%" in text
+
+
+def test_cli_compare_runs_prints_one_row_per_run(tmp_path, capsys):
+    _, out = run(tmp_path, lambda request, explain=False, **kw: graph_response())
+    assert ev.main(["--compare-runs", str(out)]) == 0
+    printed = capsys.readouterr().out
+    assert "run-a" in printed and "graph" in printed
+
+
+def test_each_question_is_asked_with_its_own_id_excluded_from_the_few_shot_examples(tmp_path):
+    """A dev question is also a few-shot example; without this the model would be shown its own answer."""
+    excluded = []
+
+    def answer(request, explain=False, **kw):
+        excluded.append(kw["exclude_example_ids"])
+        return graph_response()
+
+    run(tmp_path, answer, rows=[question(id="aw-dev-01", split="dev"), question(id="aw-dev-02", split="dev")], split="dev")
+    assert excluded == [frozenset({"aw-dev-01"}), frozenset({"aw-dev-02"})]
+
+
+# ----------------------------------------------------------------- embedding quota
+
+
+def quota_error():
+    from schemagraph.graph.vector import RateLimited
+
+    return RateLimited("rate limited (HTTP 429)", retry_after=3600.0)
+
+
+def test_run_stops_after_three_quota_refusals_in_a_row_and_keeps_finished_rows(tmp_path):
+    rows = [question(id=f"q{i}") for i in range(8)]
+    calls = []
+
+    def answer(request, **k):
+        calls.append(request.question)
+        if len(calls) > 2:
+            raise quota_error()
+        return graph_response()
+
+    report, out = run(tmp_path, answer, rows=rows)
+    assert report.written == 2 and len(report.errors) == 3 and "quota" in report.stopped
+    assert len(calls) == 5                                      # not 8: the rest were not attempted
+    assert [r["question_id"] for r in read(out)] == ["q0", "q1"]
+
+    report2, out = run(tmp_path, lambda req, **k: graph_response(), rows=rows)   # quota back: resumes
+    assert report2.stopped is None and report2.already_done == 2 and report2.written == 6
+
+
+def test_isolated_quota_errors_and_other_errors_do_not_stop_a_run(tmp_path):
+    rows = [question(id=f"q{i}") for i in range(6)]
+    calls = []
+
+    def answer(request, **k):
+        calls.append(1)
+        n = len(calls)
+        if n in (1, 2, 4):
+            raise quota_error()
+        if n == 3:
+            raise RuntimeError("model error")                    # resets the streak
+        return graph_response()
+
+    report, _ = run(tmp_path, answer, rows=rows)
+    assert report.stopped is None and len(calls) == 6 and len(report.errors) == 4
+
+
+def test_sweep_stops_at_the_first_variant_that_hits_the_quota(tmp_path):
+    def answer(request, **k):
+        raise quota_error()
+
+    qfile = write_questions(tmp_path / "q.jsonl", [question(id=f"q{i}") for i in range(5)])
+    variants = [ev.parse_variant(s) for s in ("3", "5")]
+    reports = ev.run_sweep(variants, [qfile], ["graph"], tmp_path / "s.jsonl", "sw", llm_model="m", answer=answer,
+                           run_query=lambda d, s, n: GOLD, now=lambda: NOW)
+    assert len(reports) == 1 and reports[0][1].stopped
+
+
+# ----------------------------------------------------------------- embedding the questions in advance
+
+
+class FakeEmbedder:
+    def __init__(self):
+        self.texts = None
+
+    def prefetch_queries(self, texts):
+        self.texts = texts
+        return len(texts)
+
+
+def test_warm_query_cache_embeds_the_text_the_pipeline_will_be_asked(tmp_path):
+    qs = ev.load_questions(write_questions(tmp_path / "q.jsonl", [
+        question(id="a", question="plain"), question(id="b", question="hinted", evidence="a hint")]), "test")
+    emb = FakeEmbedder()
+    assert ev.warm_query_cache(qs, True, embedder=emb) == 2
+    assert emb.texts == ["plain", "hinted\nHint: a hint"]
+    ev.warm_query_cache(qs, False, embedder=emb)
+    assert emb.texts == ["plain", "hinted"]
+    assert ev.warm_query_cache(qs, True, embedder=object()) == 0       # an embedder without a cache has nothing to do
+
+
+def cli(tmp_path, monkeypatch, modes, warm):
+    from schemagraph.eval import run_eval as module
+
+    qfile = write_questions(tmp_path / "q.jsonl", [question()])
+    ran = []
+    monkeypatch.setattr(module, "warm_query_cache", warm)
+    monkeypatch.setattr(module, "run_eval", lambda *a, **k: ran.append(1) or module.RunReport("r"))
+    (tmp_path / "out.jsonl").write_text("")
+    code = module.main(["--questions", str(qfile), "--modes", *modes, "--out", str(tmp_path / "out.jsonl")])
+    return code, ran
+
+
+def test_cli_stops_before_running_when_the_questions_cannot_be_embedded(tmp_path, monkeypatch, capsys):
+    from schemagraph.graph.vector import RateLimited
+
+    def refuse(*a, **k):
+        raise RateLimited("daily quota")
+
+    code, ran = cli(tmp_path, monkeypatch, ["graph"], refuse)
+    assert code == 3 and ran == [] and "STOPPED" in capsys.readouterr().err
+
+
+def test_cli_does_not_embed_for_full_mode_and_survives_other_embedding_errors(tmp_path, monkeypatch, capsys):
+    def boom(*a, **k):
+        raise AssertionError("must not be called")
+
+    assert cli(tmp_path, monkeypatch, ["full"], boom) == (0, [1])
+
+    def broken(*a, **k):
+        raise RuntimeError("no embedding section")
+
+    code, ran = cli(tmp_path, monkeypatch, ["retrieval"], broken)
+    assert (code, ran) == (0, [1]) and "one at a time" in capsys.readouterr().err

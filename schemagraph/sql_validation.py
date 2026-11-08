@@ -12,7 +12,7 @@ from typing import NamedTuple
 
 import sqlglot
 from sqlglot import exp
-from sqlglot.errors import ParseError
+from sqlglot.errors import SqlglotError
 
 # Functions a plain SELECT can call that read files, change session settings,
 # take locks, send signals, touch sequences, or run SQL held in a string.
@@ -85,7 +85,7 @@ def check_select(statement: object) -> SqlCheck:
 
     try:
         statements = [node for node in sqlglot.parse(statement, read="postgres") if node]
-    except ParseError:
+    except SqlglotError:  # ParseError, and TokenError for an unterminated quote
         return SqlCheck(False, "The SQL could not be parsed as PostgreSQL.")
 
     if len(statements) != 1:
@@ -128,7 +128,7 @@ def referenced_tables(statement: str) -> set[str]:
     """
     try:
         parsed = [node for node in sqlglot.parse(statement, read="postgres") if node]
-    except ParseError:
+    except SqlglotError:
         return set()
     found: set[str] = set()
     for tree in parsed:

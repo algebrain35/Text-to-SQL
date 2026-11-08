@@ -1,0 +1,1505 @@
+{
+  "db_id": "codebase_community",
+  "extracted_at": "2026-11-08T01:40:04.419675Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "codebase_community:public.badges",
+      "schema": "public",
+      "name": "badges",
+      "description": null,
+      "description_source": null,
+      "row_count": 79851,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments",
+      "schema": "public",
+      "name": "comments",
+      "description": null,
+      "description_source": null,
+      "row_count": 174285,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory",
+      "schema": "public",
+      "name": "posthistory",
+      "description": null,
+      "description_source": null,
+      "row_count": 303155,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.postlinks",
+      "schema": "public",
+      "name": "postlinks",
+      "description": null,
+      "description_source": null,
+      "row_count": 11102,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts",
+      "schema": "public",
+      "name": "posts",
+      "description": null,
+      "description_source": null,
+      "row_count": 91966,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.tags",
+      "schema": "public",
+      "name": "tags",
+      "description": null,
+      "description_source": null,
+      "row_count": 1032,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users",
+      "schema": "public",
+      "name": "users",
+      "description": null,
+      "description_source": null,
+      "row_count": 40325,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes",
+      "schema": "public",
+      "name": "votes",
+      "description": null,
+      "description_source": null,
+      "row_count": 38930,
+      "primary_key": [
+        "id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "codebase_community:public.badges.id",
+      "table_uid": "codebase_community:public.badges",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.badges.userid",
+      "table_uid": "codebase_community:public.badges",
+      "name": "userid",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5",
+        "6",
+        "8",
+        "23",
+        "36"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.badges.name",
+      "table_uid": "codebase_community:public.badges",
+      "name": "name",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Teacher",
+        "Student",
+        "Editor",
+        "Organizer",
+        "Supporter"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.badges.date",
+      "table_uid": "codebase_community:public.badges",
+      "name": "date",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-07-19 11:39:07+00",
+        "2010-07-19 11:39:08+00",
+        "2010-07-19 11:39:09+00",
+        "2010-07-19 11:39:10+00",
+        "2010-07-19 11:44:07+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.id",
+      "table_uid": "codebase_community:public.comments",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.postid",
+      "table_uid": "codebase_community:public.comments",
+      "name": "postid",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "5",
+        "9",
+        "14",
+        "18"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.score",
+      "table_uid": "codebase_community:public.comments",
+      "name": "score",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "4",
+        "1",
+        "9",
+        "2"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.text",
+      "table_uid": "codebase_community:public.comments",
+      "name": "text",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "@Tom - Yes, bar charts are used to display quantities, so you could use a simple dot plot or line ch",
+        "I tried, but  ERROR: dependencies ‘lme4’ are not available for package ‘ez’ \n* removing ‘/Library/Fr",
+        "I don't dispute any of the three previous answers, but the (simple) analysis in the answer I have of",
+        "+1: i too learned from Lehman (very good reference), but this one is not mentionned nearly enough",
+        "looks like lme4 isn't installing properly. try: install.packages(\"lme4\", repos=\"http://R-Forge.R-pro"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.creationdate",
+      "table_uid": "codebase_community:public.comments",
+      "name": "creationdate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-10-06 22:45:18+00",
+        "2010-10-06 22:53:49+00",
+        "2010-10-06 23:10:19+00",
+        "2010-10-07 00:16:54+00",
+        "2010-10-07 00:27:38+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.userid",
+      "table_uid": "codebase_community:public.comments",
+      "name": "userid",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1118",
+        "919",
+        "1739",
+        "183",
+        "223"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.comments.userdisplayname",
+      "table_uid": "codebase_community:public.comments",
+      "name": "userdisplayname",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Will",
+        "Igor",
+        "asd123",
+        "user28",
+        "Thomas"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.id",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.posthistorytypeid",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "posthistorytypeid",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "1",
+        "3",
+        "16",
+        "6"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.postid",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "postid",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "562",
+        "564",
+        "565",
+        "566",
+        "567"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.revisionguid",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "revisionguid",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5d422017-da96-46fc-824a-8da075649ce0",
+        "0cafddd3-f08f-4480-9d71-2ba915422be4",
+        "b291ace5-46ad-4b4f-b9b3-3d5e6ae219b2",
+        "b573b004-da96-445d-936b-4ff7d4c4d65b",
+        "0e65e727-8d9f-4668-81e1-cf3331870365"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.creationdate",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "creationdate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-08-12 09:08:46+00",
+        "2010-08-12 09:31:16+00",
+        "2010-08-12 09:54:22+00",
+        "2010-08-12 11:52:35+00",
+        "2010-08-12 11:55:02+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.userid",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "userid",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "930",
+        "428",
+        "442",
+        "1094",
+        "431"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.text",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "text",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "I'll try and minimise the mathematics in my explanation as there are some good mathematical explanat",
+        "There are 100 people in a room.\\\\nWhat are the odds at least 1 person is born in January?\\\\n\\\\nWhat ",
+        "Odds at least 1 person is born in January?",
+        "<distributions><confidence-interval><binomial>",
+        "Do you mean [odds or probability][1]?\\\\n\\\\np(at least 1 person born in January) = 1 - p(no one born "
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.comment",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "comment",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "added 432 characters in body",
+        "Fixed spelling errors",
+        "deleted 22 characters in body; edited title",
+        "edited tags",
+        "added 260 characters in body"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posthistory.userdisplayname",
+      "table_uid": "codebase_community:public.posthistory",
+      "name": "userdisplayname",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Shankar",
+        "Joseph Rickert",
+        "user3483",
+        "Feral Oink",
+        "Roger"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.postlinks.id",
+      "table_uid": "codebase_community:public.postlinks",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "108",
+        "145",
+        "217",
+        "263",
+        "264"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.postlinks.creationdate",
+      "table_uid": "codebase_community:public.postlinks",
+      "name": "creationdate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-07-21 06:47:33+00",
+        "2010-07-23 08:30:41+00",
+        "2010-07-26 12:12:15+00",
+        "2010-07-27 08:00:22+00",
+        "2010-07-27 09:19:27+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.postlinks.postid",
+      "table_uid": "codebase_community:public.postlinks",
+      "name": "postid",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "395",
+        "548",
+        "375",
+        "769",
+        "790"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.postlinks.relatedpostid",
+      "table_uid": "codebase_community:public.postlinks",
+      "name": "relatedpostid",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "173",
+        "539",
+        "30",
+        "31",
+        "6"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.postlinks.linktypeid",
+      "table_uid": "codebase_community:public.postlinks",
+      "name": "linktypeid",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.id",
+      "table_uid": "codebase_community:public.posts",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.posttypeid",
+      "table_uid": "codebase_community:public.posts",
+      "name": "posttypeid",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.acceptedanswerid",
+      "table_uid": "codebase_community:public.posts",
+      "name": "acceptedanswerid",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1113",
+        "1210",
+        "1150",
+        "1170",
+        "1171"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.creaiondate",
+      "table_uid": "codebase_community:public.posts",
+      "name": "creaiondate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2011-02-04 07:38:21+00",
+        "2011-02-04 07:38:59+00",
+        "2011-02-04 08:07:50+00",
+        "2011-02-04 08:40:59+00",
+        "2011-02-04 09:00:11+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.score",
+      "table_uid": "codebase_community:public.posts",
+      "name": "score",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "7",
+        "5",
+        "6",
+        "2"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.viewcount",
+      "table_uid": "codebase_community:public.posts",
+      "name": "viewcount",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "193",
+        "84",
+        "375",
+        "116",
+        "52"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.body",
+      "table_uid": "codebase_community:public.posts",
+      "name": "body",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<p>I set$$\\\\mu=\\\\frac{\\\\alpha}{\\\\alpha+\\\\beta}$$and$$\\\\sigma^2=\\\\frac{\\\\alpha\\\\beta}{(\\\\alpha+\\\\beta",
+        "<p>Here's a generic way to solve these types of problems, using Maple instead of R. This works for o",
+        "<p>You need to provide a two column data frame to the function. In your example it will be</p>\n\n<pre",
+        "<p>It makes no sense to slap the 7 points/day together in a contiguous fashion as your answer sugges",
+        "<p>Apologies for newbie question but have failed to understand what I've read about in this area so "
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.owneruserid",
+      "table_uid": "codebase_community:public.posts",
+      "name": "owneruserid",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3601",
+        "3432",
+        "3961",
+        "5020",
+        "2669"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.lasactivitydate",
+      "table_uid": "codebase_community:public.posts",
+      "name": "lasactivitydate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2011-08-21 03:49:59+00",
+        "2011-08-22 11:23:27+00",
+        "2011-08-20 16:34:00+00",
+        "2011-08-20 17:18:47+00",
+        "2011-08-20 18:39:29+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.title",
+      "table_uid": "codebase_community:public.posts",
+      "name": "title",
+      "data_type": "text",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Confidence of a variance estimate",
+        "Is it valid to include a baseline measure as control variable when testing the effect of an independ",
+        "How to find out which distribution is it?",
+        "Best bayesian network program for mac?",
+        "Metric for probability based classification"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.tags",
+      "table_uid": "codebase_community:public.posts",
+      "name": "tags",
+      "data_type": "text",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<r><anova><repeated-measures>",
+        "<time-series><trend>",
+        "<machine-learning><recommender-system>",
+        "<time-series><causal-inference>",
+        "<bayesian><ranking>"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.answercount",
+      "table_uid": "codebase_community:public.posts",
+      "name": "answercount",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "5",
+        "4",
+        "3"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.commentcount",
+      "table_uid": "codebase_community:public.posts",
+      "name": "commentcount",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "6",
+        "1",
+        "0",
+        "3"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.favoritecount",
+      "table_uid": "codebase_community:public.posts",
+      "name": "favoritecount",
+      "data_type": "bigint",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "1",
+        "6",
+        "11",
+        "19"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.lasteditoruserid",
+      "table_uid": "codebase_community:public.posts",
+      "name": "lasteditoruserid",
+      "data_type": "bigint",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9174",
+        "4856",
+        "88",
+        "12518",
+        "8507"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.lasteditdate",
+      "table_uid": "codebase_community:public.posts",
+      "name": "lasteditdate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2012-08-22 09:36:37+00",
+        "2012-08-21 13:19:17+00",
+        "2012-08-21 15:20:44+00",
+        "2012-08-21 13:20:01+00",
+        "2012-08-21 13:57:21+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.communityowneddate",
+      "table_uid": "codebase_community:public.posts",
+      "name": "communityowneddate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2012-09-26 07:47:42+00",
+        "2012-09-29 15:06:37+00",
+        "2012-10-02 08:35:10+00",
+        "2012-10-02 08:37:50+00",
+        "2012-10-02 09:46:38+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.parentid",
+      "table_uid": "codebase_community:public.posts",
+      "name": "parentid",
+      "data_type": "bigint",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1081",
+        "1099",
+        "146",
+        "1053",
+        "1112"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.closeddate",
+      "table_uid": "codebase_community:public.posts",
+      "name": "closeddate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2013-02-13 07:09:23+00",
+        "2010-10-14 00:57:22+00",
+        "2013-02-07 12:59:40+00",
+        "2010-10-06 17:30:50+00",
+        "2010-10-20 09:16:08+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.ownerdisplayname",
+      "table_uid": "codebase_community:public.posts",
+      "name": "ownerdisplayname",
+      "data_type": "text",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "ECII",
+        "MSalters",
+        "user35349",
+        "Jason Samuels",
+        "Devansh"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.posts.lasteditordisplayname",
+      "table_uid": "codebase_community:public.posts",
+      "name": "lasteditordisplayname",
+      "data_type": "text",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "user5644",
+        "user2264",
+        "DBR",
+        "user6020",
+        "user10525"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.tags.id",
+      "table_uid": "codebase_community:public.tags",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.tags.tagname",
+      "table_uid": "codebase_community:public.tags",
+      "name": "tagname",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "bayesian",
+        "prior",
+        "elicitation",
+        "normality",
+        "open-source"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.tags.count",
+      "table_uid": "codebase_community:public.tags",
+      "name": "count",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1342",
+        "168",
+        "6",
+        "191",
+        "13"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.tags.excerptpostid",
+      "table_uid": "codebase_community:public.tags",
+      "name": "excerptpostid",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "20258",
+        "62158",
+        "67815",
+        "8046",
+        "9066"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.tags.wikipostid",
+      "table_uid": "codebase_community:public.tags",
+      "name": "wikipostid",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "20257",
+        "62157",
+        "67814",
+        "8045",
+        "9065"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.id",
+      "table_uid": "codebase_community:public.users",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.reputation",
+      "table_uid": "codebase_community:public.users",
+      "name": "reputation",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "101",
+        "6792",
+        "457",
+        "429"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.creationdate",
+      "table_uid": "codebase_community:public.users",
+      "name": "creationdate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-07-18 22:55:26+00",
+        "2010-07-19 06:01:36+00",
+        "2010-07-19 07:34:50+00",
+        "2010-07-19 11:03:27+00",
+        "2010-07-19 11:03:57+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.displayname",
+      "table_uid": "codebase_community:public.users",
+      "name": "displayname",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Community",
+        "Geoff Dalgas",
+        "Jarrod Dixon",
+        "Emmett",
+        "Shane"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.lastaccessdate",
+      "table_uid": "codebase_community:public.users",
+      "name": "lastaccessdate",
+      "data_type": "timestamp with time zone",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-07-18 22:55:26+00",
+        "2013-11-12 14:07:23+00",
+        "2014-08-07 22:42:58+00",
+        "2014-01-02 01:31:02+00",
+        "2014-08-12 16:23:47+00"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.websiteurl",
+      "table_uid": "codebase_community:public.users",
+      "name": "websiteurl",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "http://meta.stackexchange.com/",
+        "http://stackoverflow.com",
+        "http://minesweeperonline.com",
+        "http://www.statalgo.com",
+        "http://www.harlan.harris.name"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.location",
+      "table_uid": "codebase_community:public.users",
+      "name": "location",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "on the server farm",
+        "Corvallis, OR",
+        "New York, NY",
+        "San Francisco, CA",
+        "District of Columbia"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.aboutme",
+      "table_uid": "codebase_community:public.users",
+      "name": "aboutme",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<p>Hi, I'm not really a person.</p>\n\n<p>I'm a background process that helps keep this site clean!</p",
+        "<p>Developer on the StackOverflow team.  Find me on</p>\n\n<p><a href=\"http://www.twitter.com/SuperDal",
+        "<p><a href=\"http://blog.stackoverflow.com/2009/01/welcome-stack-overflow-valued-associate-00002/\">De",
+        "<p>currently at a startup in SF</p>\n\n<p>formerly a dev at Stack Exchange :)</p>\n",
+        "<p>Quantitative researcher focusing on statistics and machine learning methods in finance. Primarily"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.views",
+      "table_uid": "codebase_community:public.users",
+      "name": "views",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "25",
+        "22",
+        "11",
+        "1145"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.upvotes",
+      "table_uid": "codebase_community:public.users",
+      "name": "upvotes",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5007",
+        "3",
+        "19",
+        "0",
+        "662"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.downvotes",
+      "table_uid": "codebase_community:public.users",
+      "name": "downvotes",
+      "data_type": "bigint",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1920",
+        "0",
+        "5",
+        "25",
+        "1"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.accountid",
+      "table_uid": "codebase_community:public.users",
+      "name": "accountid",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-1",
+        "2",
+        "3",
+        "1998",
+        "54503"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.age",
+      "table_uid": "codebase_community:public.users",
+      "name": "age",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "37",
+        "35",
+        "28",
+        "41",
+        "36"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.users.profileimageurl",
+      "table_uid": "codebase_community:public.users",
+      "name": "profileimageurl",
+      "data_type": "text",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "http://i.stack.imgur.com/d1oHX.jpg",
+        "http://i.stack.imgur.com/km1pr.jpg",
+        "http://i.stack.imgur.com/wSfuj.png",
+        "http://i.stack.imgur.com/ILcTf.png",
+        "https://www.gravatar.com/avatar/?s=128&d=identicon&r=PG&f=1"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes.id",
+      "table_uid": "codebase_community:public.votes",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes.postid",
+      "table_uid": "codebase_community:public.votes",
+      "name": "postid",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "2",
+        "5",
+        "4",
+        "6"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes.votetypeid",
+      "table_uid": "codebase_community:public.votes",
+      "name": "votetypeid",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "5",
+        "3",
+        "1"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes.creationdate",
+      "table_uid": "codebase_community:public.votes",
+      "name": "creationdate",
+      "data_type": "date",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-07-19",
+        "2010-07-20",
+        "2010-07-21"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes.userid",
+      "table_uid": "codebase_community:public.votes",
+      "name": "userid",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "58",
+        "6",
+        "66",
+        "71",
+        "22"
+      ]
+    },
+    {
+      "uid": "codebase_community:public.votes.bountyamount",
+      "table_uid": "codebase_community:public.votes",
+      "name": "bountyamount",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "50",
+        "25",
+        "0",
+        "100",
+        "150"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "codebase_community:public.badges.userid",
+      "to_column": "codebase_community:public.users.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "badges_userid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "codebase_community:public.comments.userid",
+      "to_column": "codebase_community:public.users.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "comments_userid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "codebase_community:public.posthistory.userid",
+      "to_column": "codebase_community:public.users.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "posthistory_userid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "codebase_community:public.posts.lasteditoruserid",
+      "to_column": "codebase_community:public.users.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "posts_lasteditoruserid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "codebase_community:public.posts.owneruserid",
+      "to_column": "codebase_community:public.users.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "posts_owneruserid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "codebase_community:public.votes.postid",
+      "to_column": "codebase_community:public.posts.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "votes_postid_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "codebase_community:public.votes.userid",
+      "to_column": "codebase_community:public.users.id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "votes_userid_fkey",
+      "evidence": null
+    }
+  ]
+}

@@ -111,6 +111,7 @@ EMBEDDING_PROVIDERS = {
     # provider: (default base_url, default api key variable)
     "openai": ("https://api.openai.com/v1", "OPENAI_API_KEY"),
     "voyage": ("https://ai.mongodb.com/v1", "VOYAGE_API_KEY"),
+    "gemini": ("https://generativelanguage.googleapis.com/v1beta", "GEMINI_API_KEY"),
 }
 PROFILE_NAME_RE = re.compile(r"^[a-z][a-z0-9_]{0,30}$")
 
@@ -122,11 +123,17 @@ class EmbeddingConfig(BaseModel):
         `openai`: OpenAI, or any server with an OpenAI-style /embeddings endpoint
         (Ollama's /v1, vLLM, ...). `voyage`: Voyage AI. Anthropic has no embedding model
         of its own and recommends Voyage, so `anthropic` is accepted as another name
-        for `voyage`.
+        for `voyage`. `gemini`: Google's Gemini API (`gemini-embedding-2`, `gemini-embedding-001`).
     name
         Names this set of vectors in Neo4j. The default keeps the plain index and property
         names; any other name adds a suffix, so vectors from different models can sit
         side by side in one graph and be compared (see graph/vector.py).
+
+    max_wait_s / requests_per_minute
+        Rate limits (HTTP 429, common on free tiers): a limited request waits and retries
+        (honouring Retry-After) for at most `max_wait_s` seconds in total, then gives up with
+        a "rate limited" result and the embeddings stored so far are kept. `requests_per_minute`
+        spaces requests out so the limit is not hit in the first place.
 
     Defaults for base_url and api_key_env depend on the provider. Set `api_key_env: null`
     for a local server that needs no key.
@@ -134,15 +141,26 @@ class EmbeddingConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
 
-    provider: Literal["openai", "voyage", "anthropic"] = "openai"
+    provider: Literal["openai", "voyage", "gemini", "anthropic"] = "openai"
     name: str = "default"
     base_url: str | None = None            # default: the provider's public endpoint
     model: str
     dimensions: int = Field(ge=1)          # must match the vector index; changing it means re-embedding
     api_key_env: str | None = None         # default: OPENAI_API_KEY / VOYAGE_API_KEY; null means no key
     send_dimensions: bool = False          # ask the API for shortened vectors (OpenAI v3, Voyage 4 support it)
-    batch_size: int = Field(default=64, ge=1)
+    batch_size: int = Field(default=64, ge=1)   # texts per request (gemini: 100 unless set)
+    # Add each table's foreign-key neighbours to its embedded text ("References: ... Referenced by: ..."),
+    # so link tables (product, person) match questions about what they link. Changing it changes the text,
+    # so embed under a new `name` (or the stored vectors are recomputed) and compare with retrieval_eval.
+    include_relationships: bool = False
     timeout_s: float = Field(default=30.0, gt=0)
+    max_wait_s: float = Field(default=120.0, ge=0)             # longest total wait on one rate-limited request
+    requests_per_minute: int | None = Field(default=None, ge=1)  # pace calls to stay under a free-tier limit
+    # Remember each question's embedding in this SQLite file, so a question is paid for once however many modes,
+    # settings and reruns ask it (an evaluation sweep embeds the same question dozens of times). Keyed by
+    # provider, model, dimensions and text, so changing the model never returns another model's vector.
+    # null (the default) turns it off; delete the file to start over.
+    query_cache: str | None = None
 
     @field_validator("name")
     @classmethod
@@ -156,6 +174,8 @@ class EmbeddingConfig(BaseModel):
         if self.provider == "anthropic":
             self.provider = "voyage"
         base_url, key_env = EMBEDDING_PROVIDERS[self.provider]
+        if self.provider == "gemini" and "batch_size" not in self.model_fields_set:
+            self.batch_size = 100  # Gemini accepts up to 100 texts per batchEmbedContents call
         if self.base_url is None:
             self.base_url = base_url
         if "api_key_env" not in self.model_fields_set:  # an explicit null stays null

@@ -18,7 +18,7 @@ downstream reads that file's shape (`schemagraph/models.py`), so changes to it n
 | --- | --- | --- | --- |
 | **Emmanuel** | Postgres access, metadata extraction, relationship inference, evaluation harness | `schemagraph/db/`, `schemagraph/extraction/`, `schemagraph/eval/`, `scripts/` | Postgres access, extraction and inference built and tested. Evaluation code written and tested with fakes: `compare.py`, `schema_metrics.py`, `run_eval.py` (it needs `answer_question`, and the question files, to run for real). `infer_recovery.py` also exists |
 | **Cameron** | Graph: weights, ingest, retrieval, join planner, graph queries | `schemagraph/graph/` | `weights`, `driver`, `ingest`, `queries`, `planner` written; Cypher needs a first run on a real Neo4j. Retrieval and embeddings written (not yet run on a real Neo4j); description generation not started |
-| **Mohammed** | LLM pipeline and FastAPI | `schemagraph/pipeline/`, `schemagraph/api/` | SQL validation implemented; the rest is not started |
+| **Mohammed** | LLM pipeline and FastAPI | `schemagraph/pipeline/`, `schemagraph/api/` | Context building, few-shot selection, OpenAI-compatible generation, SQL validation, explanation, and `answer_question` implemented; FastAPI is not started |
 | **Davin** | React frontend | `frontend/` | Not started |
 
 The full design is in `SPEC.md`. Section numbers quoted in the code (3 for contracts, 5.6 for edge
@@ -68,6 +68,29 @@ weights, 7 for the two Postgres roles) refer to it.
   Python (`schema`, `from`).
 - **Config:** add your section to `config.py` (`llm`, `pipeline`) the way `neo4j` was added: a Pydantic model,
   an optional field on `AppConfig`, secrets by environment variable name. Never put a key in `config.yml`.
+- **Chat model:** `llm` uses an OpenAI-compatible `/chat/completions` endpoint. Set the model and `api_key_env` in
+  `config.yml`; the key itself belongs only in the environment. Local compatible servers can set `api_key_env: null`.
+- **Pipeline defaults:** `pipeline` supports `top_k`, `max_attempts`, `row_limit`, `examples_k`, `fewshot_path`, and (off by default) `expand_seeds` / `expand_hops`.
+  Few-shot files must contain development examples only.
+
+Example additions to `config.yml`:
+
+```yaml
+llm:
+  provider: openai_compatible
+  base_url: https://api.openai.com/v1
+  model: your-chat-model
+  api_key_env: OPENAI_API_KEY
+  timeout_s: 60
+  temperature: 0
+  max_tokens: 2048
+pipeline:
+  top_k: 5
+  max_attempts: 3
+  row_limit: 100
+  examples_k: 3
+  fewshot_path: schemagraph/eval/questions/fewshot_examples.jsonl
+```
 
 ### If you are Davin (frontend)
 
@@ -186,16 +209,100 @@ python scripts/build_graph.py --db adventureworks --skip-extraction   # reuse da
 Before touching any database it checks that Neo4j answers and, unless `--skip-enrichment`, that the configured embedding
 model is reachable and returns vectors of the size `config.yml` says (a wrong size would leave the index silently empty).
 Those failures exit 2 with nothing changed. After that, one database failing does not stop the others; the exit code is 1 if
-any failed or the graph does not match its metadata. `--rebuild` clears each db_id's nodes first, which also removes
-its embeddings, so use it with enrichment on. If you change a model's `dimensions`, call
-`vector.drop_vector_indexes(name=...)` first, because an existing index keeps its old size. LLM-written descriptions are
-not a step yet.
+any failed or the graph does not match its metadata, and 3 if embedding was cut short by rate limiting (below).
+`--rebuild` clears each db_id's nodes first, which also removes its embeddings, so use it with enrichment on.
+If you change a model's `dimensions`, call `vector.drop_vector_indexes(name=...)` first, because an existing index keeps
+its old size. LLM-written descriptions are not a step yet.
+
+**Rate limits and resuming (free-tier API keys).** Embeddings are saved as they are made: tables first, then columns, one
+request's worth of texts at a time. A rate-limited request (HTTP 429) waits as long as the service asks (`Retry-After`, or
+Google's `retryDelay`), at least 5, 15, 30, then 60 seconds, until `max_wait_s` (default 120) is used up. Then embedding stops
+cleanly: the run prints `PART ... embedded 7/7 tables and 40/93 columns`, keeps everything saved, and exits 3. Rerun the same
+command **without `--rebuild`** (it would clear the vectors) and only what is missing is embedded; add `--skip-extraction` to
+reuse the metadata file. Every stored vector carries a fingerprint of its text and model, so a rerun also re-embeds nodes whose
+description changed, or whose model, provider or dimensions changed under the same `name`. `--reembed` redoes everything.
+Vectors written before fingerprints existed are replaced once. In `config.yml` under `embedding:`:
+`max_wait_s` (a longer budget rides out per-minute limits; a daily quota will not clear in any budget, so the run stops) and
+`requests_per_minute` (spaces requests out so the limit is not hit). Gemini sends 100 texts per request unless `batch_size` says
+otherwise, which matters on tiers limited by requests per minute. Retrieval skips nodes without a vector, so do not rely on a
+partial graph for answers; the coverage numbers in the summary say how far it got.
+
+**Embedding quota.** Every `retrieval` and `graph` call embeds its question, and free tiers count each call against a daily
+limit, so a sweep over four settings would embed each question four times. With `embedding.query_cache` set (it is in
+`config.yml`), a question is embedded once and reused from `data/cache/query_embeddings.sqlite` by every mode, setting and
+rerun; the key includes the provider, model and dimensions, so changing the model starts fresh. `run_eval` and `retrieval_eval`
+also embed all their questions in advance, `batch_size` per request (one request for up to 100 questions), before the first
+model call; if the quota is already gone, `run_eval` says so and exits with status 3 before running anything. If the service still refuses
+three questions in a row (quota used up), `run_eval` stops instead of failing the rest, prints `STOPPED: ...`, exits with
+status 3 and keeps every finished row: rerun the same command later (a daily quota resets overnight, Pacific time for Google) and it
+carries on from where it stopped. `--modes full` needs no embedding at all.
+
+### Smoke test the whole path
+
+After building a graph, push a few questions through the real services before any long run:
+
+```bash
+python scripts/smoke_test.py --db adventureworks                       # five built-in questions, all three modes
+python scripts/smoke_test.py --db adventureworks --question "How many employees are there?" --mode graph
+python scripts/smoke_test.py --db card_games --questions-file schemagraph/eval/questions/bird_subset.jsonl --n 5
+python scripts/smoke_test.py --db adventureworks --no-llm              # retrieval and join planning only
+```
+
+For each question and mode it prints what retrieval found (with scores), the join plan, the tables the model was given,
+and, with an `llm:` section in `config.yml`, the SQL, whether it ran, and its cost. With a questions file it also says
+whether the result matches the gold result and what share of the gold tables the model was given. It stores nothing.
+Exit code 1 means some question hit an error (shown on its line), 2 means it could not start.
+
+### Score retrieval on its own
+
+The smoke test shows a few questions in detail; this scores all of them, with no LLM and no Postgres:
+
+```bash
+python scripts/retrieval_eval.py --db adventureworks --questions-file schemagraph/eval/questions/adventureworks.jsonl \
+    --label gemini-1536 --out runs/gemini.json
+python scripts/retrieval_eval.py --compare runs/openai.json runs/gemini.json     # side by side
+```
+
+It embeds each question once and reports (1) recall@k: how many of the tables the gold SQL reads are among the k
+best-scoring tables, (2) the mean score at ranks 1, 5 and 20, which shows whether scores separate relevant tables from
+noise, and (3) for each seed strategy (`top_k`, with or without adding up to N tables the seeds have foreign keys to),
+the planner's context as the model would see it: recall and the average number of tables. Use it to choose `top_k`
+and to compare embedding models and embedding texts: build one graph (or one named vector set, `embedding.name`)
+per variant, run once per variant with `SCHEMAGRAPH_CONFIG=<config>` and `--out`, then `--compare`. Runs are
+comparable only on the same question file and split.
+`--no-graph` skips the planning part.
+
+Two ways to bring in tables a question never names (the person behind a salesperson, the product under a category):
+
+- `embedding.include_relationships: true` embeds each table with its foreign-key neighbours, so a link table matches
+  questions about what it links. It changes the embedded text; give the config a new `embedding.name` and run
+  `python scripts/build_graph.py --db <db> --skip-extraction` to embed under it (the plain vectors are kept).
+- `pipeline.expand_seeds: N` (graph mode) adds up to N tables that the retrieved tables reference, `expand_hops` links
+  away, before join planning. The retrieval script's `+N (H-hop)` rows measure it before you turn it on; the
+  explanation marks an added table "Added because X has a foreign key to it".
 
 ## API reference
 
 The backend is a FastAPI app (`schemagraph/api/main.py`, Mohammed). It serves OpenAPI docs at `/docs` and the
 schema at `/openapi.json`; the frontend generates `types.ts` from that. CORS allows `http://localhost:5173`.
 `SPEC.md` section 3 and 4 is the source of truth; this is the short version. Where the two differ, fix this file.
+
+### Running it
+
+```bash
+pip install -e '.[api]'
+uvicorn schemagraph.api.main:app --reload        # http://localhost:8000/docs
+```
+
+There is one code path: every `/api/ask` call runs `answer_question`, the function the evaluation harness uses, so
+the evaluation measures what users get (there is no demo or sample mode). Status codes follow `SPEC.md` 3.5: `200` for
+every completed run, including failures reported in `status`; `400` for bad input (empty question, unknown `db_id`,
+invalid `mode` or `options`; never FastAPI's default `422`); `404` for a table that is not in the graph; `503` when
+PostgreSQL, Neo4j, the embedding service or the LLM cannot be reached. A `503` names the failing dependency and nothing
+else (no URL, key or trace; those go to the server log), and carries `Retry-After` when the embedding service is rate
+limited. `GET /api/health` reports `ok`, `error` or (LLM only) `not_configured` per dependency; add `?deep=true` to make a
+real one-line LLM call (otherwise it only checks that an `llm` section and its key exist, so polling it costs nothing).
+`/api/databases` lists databases that are both in PostgreSQL and have a graph built.
 
 ### Endpoints
 
@@ -293,8 +400,8 @@ Signatures are the contract; helpers are up to the owner. All are in SPEC sectio
 | `graph/queries.py` | Cameron (written) | `get_tables`, `get_all_tables`, `list_tables`, `get_table_detail`, `get_reference_edges` |
 | `graph/planner.py` | Cameron (written) | `plan_joins(db_id, seeds, include_inferred, weighted)`, `plan_from_edges(...)` (same, on in-memory edges) |
 | `graph/enrich.py`, `retrieve.py` | Cameron | `embed_nodes`, `retrieve_seed_tables(db_id, question, k)` |
-| `pipeline/context.py`, `examples.py`, `generate.py`, `validate.py`, `explain.py` | Mohammed | `build_context`, `retrieve_examples`, `generate_sql`, `is_single_select`, `validate`, `build_explanation` |
-| `pipeline/pipeline.py` | Mohammed | `answer_question(request, explain=True)`: the single entry point |
+| `pipeline/context.py`, `examples.py`, `generate.py`, `validate.py`, `explain.py` | Mohammed (written) | `build_context`, `retrieve_examples`, `generate_sql`, `is_single_select`, `validate`, `build_explanation` |
+| `pipeline/pipeline.py` | Mohammed (written) | `answer_question(request, explain=True, *, planner_options=None)`: the single entry point |
 | `api/main.py` | Mohammed | Thin routes: validate input, call the above, map errors to HTTP codes |
 | `src/api/client.ts` | Davin | `getHealth`, `getDatabases`, `ask`, `plan`, `listTables`, `getTable` |
 
@@ -348,6 +455,7 @@ Set the model in the `embedding:` section of `config.yml` (commented examples ar
 | --- | --- | --- | --- |
 | `openai` | `text-embedding-3-large`, `-3-small`, or any OpenAI-style server (Ollama, vLLM) | `OPENAI_API_KEY` | `send_dimensions: true` makes OpenAI return shortened vectors. Use `api_key_env: null` for a local server |
 | `voyage` (or `anthropic`) | `voyage-4`, `voyage-4-large`, `voyage-4-lite`, `voyage-code-4` | `VOYAGE_API_KEY` | Anthropic has no embedding model of its own and recommends Voyage AI, so `anthropic` is another name for `voyage`. Voyage embeds queries and documents differently; the code sets that for you |
+| `gemini` | `gemini-embedding-2` (current, multimodal, stable), `gemini-embedding-001` (text only) | `GEMINI_API_KEY` | Default size is 3072; `send_dimensions: true` asks for fewer (Google recommends 768, 1536 or 3072). The two models tell queries from documents differently (`-001` a `taskType`, `-2` a text prefix) and the code does it for you. Their vectors are not compatible, so changing one for the other means re-embedding. The request shape follows Google's REST docs and has not yet been run against the live API |
 
 - **`dimensions` must match the model.** The code checks every response and says so if it does not. The vector index has the
   same dimension (Neo4j allows 1 to 4096; above 2048 needs Neo4j 5.18 or later).
@@ -370,6 +478,48 @@ python -m schemagraph.eval.run_eval --questions schemagraph/eval/questions/adven
 python -m schemagraph.eval.run_eval --summarize results/RUN.jsonl
 ```
 
+### Compare retrieval settings end to end
+
+Retrieval recall says whether the right tables arrive; only a model run says whether more tables help or hurt the SQL.
+`--sweep` runs the same questions once per variant, `K` (top_k), `K+N` (also add up to N tables the seeds reference) or
+`K+N:H` (looking H links away), and prints one row per variant with accuracy, schema recall, tables in the context,
+tries, tokens and latency:
+
+```bash
+python -m schemagraph.eval.run_eval --questions schemagraph/eval/questions/adventureworks.jsonl \
+    --modes graph --sweep 5 8 12 5+4:2 8+4:2 --out results/sweep.jsonl --run-id sweep --llm-model <model>
+python -m schemagraph.eval.run_eval --compare-runs results/sweep.jsonl      # the table again, any time
+```
+
+Each variant is its own run id (`sweep-k8+4h2`), so an interrupted sweep resumes and finished rows are never asked
+twice. It prints how many model calls it may make first (questions x modes x variants). `--top-k` and `--expand N[:H]`
+override the config for a single ordinary run. Use the test split for the final choice and the dev split while exploring. Dev questions are also the few-shot examples, so `run_eval` tells the pipeline to leave a question's own
+example out of its prompt (`exclude_example_ids`); without that, a dev run would show the model the answer.
+
+### Evaluate on BIRD
+
+BIRD's eleven databases are small (3 to 13 tables each) and each question reads 2.3 tables on average, so a `top_k` of
+8 hands the model the whole schema for 49 of the 60 questions and tells you nothing about retrieval. Use `top_k` 2 to 5
+here. Build only the eleven BIRD graphs (not `--all`, which would also pick up `bird_staging`; drop that database once
+the split is done):
+
+```bash
+NAMES=$(grep -v '^\(#\|$\)' scripts/bird_tables.tsv | cut -f1 | sort -u)       # the eleven db_ids
+python scripts/build_graph.py $(sed 's/^/--db /' <<< "$NAMES") --skip-extraction   # per-db metadata files are in data/metadata/
+```
+
+1. **Held-out inference.** Hide every declared foreign key and see how many come back (needs the databases, for the
+   value-overlap check). One run per database; `debit_card_specializing` declares none, so it only shows what inference adds:
+   `for d in $NAMES; do python -m schemagraph.eval.infer_recovery --db $d --fraction 1.0 --seeds 1; done`
+2. **Retrieval alone** (no LLM), all eleven databases in one report with a per-database table:
+   `python scripts/retrieval_eval.py --questions-file schemagraph/eval/questions/bird_subset.jsonl --top-k 2 3 5 --label bird --out runs/bird.json`.
+   A database with at most 20 tables must reach 100% at k=20; if one does not, the shared vector index is cutting
+   candidates before the `db_id` filter and `DEFAULT_CANDIDATES` in `graph/retrieve.py` needs raising.
+3. **End to end**, modes and settings:
+   `python -m schemagraph.eval.run_eval --questions schemagraph/eval/questions/bird_subset.jsonl --modes full retrieval graph --top-k 3 --out results/bird-modes.jsonl --run-id bird-modes --llm-model <model>`
+   and `--modes graph --sweep 2 3 5 2+2:1 3+2:1 --out results/bird-sweep.jsonl --run-id bird-sweep`, then `--compare-runs`.
+   Run it once more with `--no-evidence` to see how much BIRD's hint is doing.
+
 ### Building the question files
 
 `bird_subset.jsonl` is generated from BIRD's own questions (the `mini_dev_postgresql.json` that `scripts/load_bird.sh` copies
@@ -378,7 +528,10 @@ to `data/bird/`), not written by hand:
 ```bash
 python -m schemagraph.eval.bird_questions --input data/bird/mini_dev_postgresql.json \
     --out schemagraph/eval/questions/bird_subset.jsonl --verify      # --verify needs the BIRD databases loaded
-python -m schemagraph.eval.question_set schemagraph/eval/questions/*.jsonl      # checks any question files
+# check the question files (list them; fewshot_examples.jsonl is not a question file) and the few-shot examples:
+python -m schemagraph.eval.question_set schemagraph/eval/questions/adventureworks.jsonl \
+    schemagraph/eval/questions/bird_subset.jsonl --fewshot schemagraph/eval/questions/fewshot_examples.jsonl
+# add --verify to also run every gold query against the loaded databases
 ```
 
 With `--verify`, failed gold queries are printed grouped by message. If at least half of all questions fail for one
@@ -392,6 +545,17 @@ scorer, which ignores row order); those questions say so in `notes`. `--verify` 
 that fail, time out, or return no rows. `question_set.py` also catches duplicate ids and questions, gold SQL that is not
 a single safe SELECT, and any overlap with `fewshot_examples.jsonl` (`--fewshot`). The questions not chosen are a pool for
 few-shot examples.
+
+`adventureworks.jsonl` is hand-written: 50 `test` questions (10 / 15 / 25 at tiers 1 / 2 / 3) and 10 `dev` questions, each with
+gold SQL that was run against a real AdventureWorks and checked to run, return rows and have one clear answer (ranking
+questions have no ties at the cut-off). The tier is again the number of distinct tables in the gold query, the same rule as
+for BIRD, so tier 3 here means three or more tables, not "crosses schemas". Date-dependent questions fit this sample's dates
+(orders 2022-05 to 2025-06, hire dates 2006 to 2013); the `notes` field says where a question depends on a reading such as
+"currently". They are drafts: read them and edit any whose wording or gold SQL you would not defend.
+
+`fewshot_examples.jsonl` holds every `dev` question of both files, the only questions the model may see as examples
+(`retrieve_examples` filters by database and refuses any example that is not `dev`). The checker flags a few-shot
+example that is not a `dev` question, and any `test` question that also appears there.
 
 `--check-gold` runs every gold query first and reports failures and queries that return no rows; a real run does the
 same check before any model call. A run is resumable: repeat the command with the same `--run-id` and finished rows are
@@ -432,7 +596,11 @@ Before you push, run once with everything you have available. A skipped test has
 
 ## Known limits
 
-- Relationship inference was tuned on AdventureWorks. Its accuracy on other databases is not measured yet; BIRD is the planned test.
+- Relationship inference was tuned on AdventureWorks. On BIRD the name rules can reach only 43 of the 87 declared single-column
+  foreign keys (49%), against 86 of 89 (97%) on AdventureWorks: none in `codebase_community`, `student_club` or
+  `thrombosis_prediction`, which name keys `userid`, `link_to_member` or a bare `id`. That is the ceiling before the data check;
+  the recovered/wrong/extra counts need `infer_recovery` run with the databases (step 1 of "Evaluate on BIRD"). Rules changed to
+  fix BIRD are no longer held out.
 - Inference proposes single-column relationships only. Declared composite keys are extracted correctly.
 - Two tables with identical key sets cannot be told apart by the data, so inference picks one deterministically.
 - The Postgres wrapper is Postgres-only by choice; abstracting it for other engines was deferred.
