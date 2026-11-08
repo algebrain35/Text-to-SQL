@@ -1,0 +1,18 @@
+.git
+.venv
+**/__pycache__
+.pytest_cache
+.ruff_cache
+*.egg-info
+.env
+*.diff
+frontend
+tests
+runs
+results
+text-to-sql
+mini_dev
+adventureworks-for-postgres
+data/bird
+data/cache
+project overview

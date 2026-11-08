@@ -9,3 +9,6 @@ __pycache__/
 # retrieval_eval / run_eval outputs
 runs/
 data/cache/
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local

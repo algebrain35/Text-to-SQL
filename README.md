@@ -19,7 +19,7 @@ downstream reads that file's shape (`schemagraph/models.py`), so changes to it n
 | **Emmanuel** | Postgres access, metadata extraction, relationship inference, evaluation harness | `schemagraph/db/`, `schemagraph/extraction/`, `schemagraph/eval/`, `scripts/` | Postgres access, extraction and inference built and tested. Evaluation code written and tested with fakes: `compare.py`, `schema_metrics.py`, `run_eval.py` (it needs `answer_question`, and the question files, to run for real). `infer_recovery.py` also exists |
 | **Cameron** | Graph: weights, ingest, retrieval, join planner, graph queries | `schemagraph/graph/` | `weights`, `driver`, `ingest`, `queries`, `planner` written; Cypher needs a first run on a real Neo4j. Retrieval and embeddings written (not yet run on a real Neo4j); description generation not started |
 | **Mohammed** | LLM pipeline and FastAPI | `schemagraph/pipeline/`, `schemagraph/api/` | Context building, few-shot selection, OpenAI-compatible generation, SQL validation, explanation, and `answer_question` implemented; FastAPI is not started |
-| **Davin** | React frontend | `frontend/` | Not started |
+| **Davin** | React frontend | `frontend/` | Drafted to SPEC 5.22 (all components, client, mocks, tests); needs Davin's review and a run against the real API |
 
 The full design is in `SPEC.md`. Section numbers quoted in the code (3 for contracts, 5.6 for edge
 weights, 7 for the two Postgres roles) refer to it.
@@ -281,6 +281,43 @@ Two ways to bring in tables a question never names (the person behind a salesper
   away, before join planning. The retrieval script's `+N (H-hop)` rows measure it before you turn it on; the
   explanation marks an added table "Added because X has a foreign key to it".
 
+### Run the whole app with Docker
+
+`docker-compose.yml` also builds and runs the API and the web app, so the full stack is four containers:
+
+| Service | URL | What |
+| --- | --- | --- |
+| `frontend` | <http://localhost:5173> | the React app, built once and served by nginx |
+| `api` | <http://localhost:8000> (docs at `/docs`) | `schemagraph.api.main:app` |
+| `db` | `127.0.0.1:5432` | Postgres 17 |
+| `neo4j` | <http://localhost:7474>, bolt `127.0.0.1:7687` | the graph |
+
+```bash
+cp .env.example .env                  # then fill in the passwords and the key your config.yml uses
+docker compose up -d db neo4j         # databases first
+# load the data and build the graph from the host, as in the sections above
+docker compose up -d --build          # then the API and the web app
+```
+
+Notes:
+
+- `.env` needs `PG_ADMIN_PASSWORD`, `PG_READONLY_PASSWORD` and `NEO4J_PASSWORD` as well as the two Postgres superuser
+  passwords above. Compose refuses to start the API without them. Provider keys (`GEMINI_API_KEY`, `ANTHROPIC_API_KEY`,
+  `OPENAI_API_KEY`, `VOYAGE_API_KEY`) are passed through only if you set them, so a missing one shows as `not_configured`
+  in `/api/health`. Do not put a blank value in `.env`: an empty key counts as set.
+- The API reads the same `config.yml` as the scripts. Its entrypoint (`docker/api-entrypoint.sh`) swaps `127.0.0.1` or
+  `localhost` for `db` and `neo4j` in a copy, so you do not keep a second config. A config that points elsewhere is untouched.
+  `config.yml` is copied into the image: rebuild (`docker compose up -d --build api`) after editing it.
+- `/api/databases` lists only databases that exist in Postgres *and* have a graph. If the database picker is empty, the graph
+  has not been built.
+- The web app's API address is compiled in, and it is the address your **browser** uses, so it defaults to
+  `http://localhost:8000`. Change it with `VITE_API_URL=... docker compose build frontend`, and add the web app's address to
+  `CORS_ORIGINS` in `api/main.py` if it is not `localhost:5173`.
+- Ports are bound to `127.0.0.1` only. The query-embedding cache lives in the `querycache` volume.
+- First check: `curl localhost:8000/api/health` should show `ok` for `postgres` and `neo4j`, then open the web app.
+- Day to day development is faster outside Docker (`uvicorn ... --reload`, `npm run dev`); the containers are for running
+  the whole thing together.
+
 ## API reference
 
 The backend is a FastAPI app (`schemagraph/api/main.py`, Mohammed). It serves OpenAPI docs at `/docs` and the
@@ -426,6 +463,38 @@ Two rules hold the pieces together:
   in sync). `ask_response.sample.json` is a successful graph-mode answer to the same question; it embeds that join
   plan, and `tests/test_contract_examples.py` checks it against the models and the other samples. Still to write: the
   frontend mock (switched with `VITE_USE_MOCKS=true`), and samples for failure responses if the UI needs them.
+
+## Frontend
+
+A React + TypeScript app (Vite) in `frontend/`, built to SPEC 5.22. Node 20.19 or later.
+
+```bash
+cd frontend
+npm install
+npm run dev                          # http://localhost:5173; expects the API on http://localhost:8000
+VITE_USE_MOCKS=true npm run dev      # no backend: answers from src/mocks (the sample data in contracts/examples)
+npm test                             # unit and component tests (no API, no network)
+npm run build                        # type-check, then build to dist/
+npm run gen:types                    # rewrite src/api/types.ts from the running API's /openapi.json
+```
+
+Set `VITE_API_URL` if the API runs elsewhere (see `frontend/.env.example`; the API's CORS list allows only
+`localhost:5173` and `127.0.0.1:5173`, so change `CORS_ORIGINS` in `api/main.py` too). In mock mode a question that starts with
+`mock:invalid_sql`, `mock:no_schema`, `mock:bad` (HTTP 400) or `mock:unavailable` (HTTP 503) shows that failure.
+
+| Where | What |
+| --- | --- |
+| `src/api/client.ts` | `getHealth`, `getDatabases`, `ask`, `plan`, `listTables`, `getTable`; maps 400, 404 and 503 to an `ApiError` carrying the API's message, and a dead API to `NetworkError` |
+| `src/api/types.ts` | Generated from the API's OpenAPI schema. Do not edit by hand; run `npm run gen:types` when `models.py` changes |
+| `src/components/` | `DatabaseSelector`, `QuestionInput`, `ResultTable`, `SqlView`, `TablesUsed`, `JoinPathView`, `ExplanationPanel`, `WarningsView`, `AttemptsView` (collapsed by default), `ModeSelector` (developer view only), plus `SchemaBrowser` for the two `/api/schema` endpoints |
+| `src/mocks/` | Copies of `contracts/examples/*.json`; a test fails if they drift from the originals |
+
+What the page shows: a pipeline failure reported in `status` (HTTP 200) is shown with its explanation and attempts, never as a
+crash; a 400, 404 or 503 is shown as a message that says what to do. The join path is drawn as a line of stops:
+a filled stop is a table that matched the question, a ring is a table passed through to connect them, a solid line is a declared
+join and a dashed amber line is an inferred one (README for Davin, above, asks the UI to make that visible). Shapes carry the meaning, not
+only colour. The developer view (toggle in the header, or `?dev=1`) adds the mode selector, "Plan only" (`/api/plan`, no model
+call), request metrics and the full join plan. Table and column names are shown as the API gives them; the page never splits a UID.
 
 ## What each folder does
 
