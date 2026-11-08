@@ -277,6 +277,23 @@ The backend is a FastAPI app (`schemagraph/api/main.py`, Mohammed). It serves Op
 schema at `/openapi.json`; the frontend generates `types.ts` from that. CORS allows `http://localhost:5173`.
 `SPEC.md` section 3 and 4 is the source of truth; this is the short version. Where the two differ, fix this file.
 
+### Running it
+
+```bash
+pip install -e '.[api]'
+uvicorn schemagraph.api.main:app --reload        # http://localhost:8000/docs
+```
+
+There is one code path: every `/api/ask` call runs `answer_question`, the function the evaluation harness uses, so
+the evaluation measures what users get (there is no demo or sample mode). Status codes follow `SPEC.md` 3.5: `200` for
+every completed run, including failures reported in `status`; `400` for bad input (empty question, unknown `db_id`,
+invalid `mode` or `options`; never FastAPI's default `422`); `404` for a table that is not in the graph; `503` when
+PostgreSQL, Neo4j, the embedding service or the LLM cannot be reached. A `503` names the failing dependency and nothing
+else (no URL, key or trace; those go to the server log), and carries `Retry-After` when the embedding service is rate
+limited. `GET /api/health` reports `ok`, `error` or (LLM only) `not_configured` per dependency; add `?deep=true` to make a
+real one-line LLM call (otherwise it only checks that an `llm` section and its key exist, so polling it costs nothing).
+`/api/databases` lists databases that are both in PostgreSQL and have a graph built.
+
 ### Endpoints
 
 | Method | Path | Purpose | Response |

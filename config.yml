@@ -81,6 +81,23 @@ llm:
 #   #   max_tokens_param: max_completion_tokens    send the limit under the name they accept
 #   api_key_env: OPENAI_API_KEY
 #
+# Anthropic (Claude), through its OpenAI-compatible endpoint, which this client speaks. Set ANTHROPIC_API_KEY:
+# llm:
+#   provider: openai_compatible
+#   base_url: https://api.anthropic.com/v1/
+#   model: claude-sonnet-5-5         # or claude-haiku-5-5 (cheaper, faster) / claude-opus-5-5 (strongest)
+#   api_key_env: ANTHROPIC_API_KEY
+#   temperature: null                # Claude 4.7 and later reject any temperature below 1, so leave it out.
+#                                    # SPEC 2.4 says temperature 0; on these models that is not possible, so
+#                                    # runs are not exactly repeatable. Compare variants over the whole question set.
+#   max_tokens: 4096                 # thinking is on by default on Claude 5 models and may use part of this budget
+#   timeout_s: 120
+#   max_retries: 3                   # 429 and 5xx are retried, honouring Retry-After (see the options above)
+#   # The key must belong to a workspace (a normal Console key does). A personal or service-account key that is
+#   # not scoped to one needs an `anthropic-workspace-id` header, which this client cannot send yet.
+#   # Anthropic describes this endpoint as meant for testing and comparing models; the native Messages API is
+#   # the long-term route (tools, prompt caching, thinking summaries). `llm.provider: anthropic` would add it.
+#
 # A local server (Ollama, vLLM, LM Studio), no key:
 # llm:
 #   provider: openai_compatible

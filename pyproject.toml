@@ -16,7 +16,8 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "fastapi>=0.110", "httpx>=0.27"]  # httpx: FastAPI's TestClient
+api = ["fastapi>=0.110", "uvicorn[standard]>=0.29"]
 eval = ["pandas>=2"]  # only for run_eval.summarize(); the command-line summary does not need it
 
 [tool.setuptools.packages.find]

@@ -191,3 +191,18 @@ def test_default_request_body_is_unchanged(monkeypatch):
     llm.complete(LLMConfig(model="m", api_key_env=None), MESSAGES)
     body = json.loads(calls[0].data)
     assert body["max_tokens"] == 2048 and body["temperature"] == 0.0
+
+
+def test_anthropic_through_its_openai_compatible_endpoint(monkeypatch):
+    """What config.yml's anthropic block sends: Bearer key, /v1/chat/completions, and no temperature
+    (Claude 4.7 and later reject any value below 1)."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test")
+    _, calls = _script(monkeypatch, [_Response()])
+    config = LLMConfig(base_url="https://api.anthropic.com/v1/", model="claude-sonnet-5-5",
+                       api_key_env="ANTHROPIC_API_KEY", temperature=None, max_tokens=4096)
+    assert llm.complete(config, MESSAGES)[0] == "SELECT 1"
+    request = calls[0]
+    assert request.full_url == "https://api.anthropic.com/v1/chat/completions"
+    assert request.get_header("Authorization") == "Bearer sk-ant-test"
+    body = json.loads(request.data)
+    assert body["model"] == "claude-sonnet-5-5" and body["max_tokens"] == 4096 and "temperature" not in body
