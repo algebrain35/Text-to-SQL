@@ -8,5 +8,10 @@ Requires-Dist: psycopg[binary]>=3.1
 Requires-Dist: neo4j>=5.20
 Requires-Dist: networkx>=3.2
 Requires-Dist: sqlglot>=25
+Requires-Dist: langchain-core>=0.3
+Requires-Dist: langchain-anthropic>=0.3
+Requires-Dist: langchain-openai>=0.3
 Provides-Extra: dev
 Requires-Dist: pytest>=8; extra == "dev"
+Provides-Extra: eval
+Requires-Dist: pandas>=2; extra == "eval"

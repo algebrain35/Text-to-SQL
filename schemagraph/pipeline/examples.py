@@ -1,61 +1,67 @@
-"""Load and rank explicitly approved development few-shot examples."""
+"""
+Examples come ONLY from fewshot_examples.jsonl, which must never contain test
+questions. The ones put in the prompt are the most similar to the question by
+shared words, from the same database. A missing file means no examples.
+"""
 
 from __future__ import annotations
-
 import logging
 import re
-from collections.abc import Collection
 from functools import lru_cache
 from pathlib import Path
-
-from schemagraph.config import get_config
 from schemagraph.models import FewShotExample
-
 log = logging.getLogger(__name__)
-_WORD = re.compile(r"[a-z0-9_]+", re.IGNORECASE)
+DEFAULT_PATH = Path(__file__).resolve().parent.parent / "eval" / "questions" / "fewshot_examples.jsonl"
+_WORD = re.compile(r"[a-z0-9]+")
+_STOP = {
+    "a", "an", "the", "of", "for", "in", "on", "to", "and", "or", "by", "with", "is", "are", "was",
+    "what", "which", "who", "how", "many", "much", "list", "show", "give", "me", "all", "each", "per",
+    "that", "this", "do", "does", "have", "has", "from", "at", "as", "be", "their", "its",
+}
+
+def words(text: str) -> set[str]:
+    return {w for w in _WORD.findall(text.lower()) if w not in _STOP}
+
+def similarity(a: str, b: str) -> float:
+    """Share of distinct words in common, 0 to 1."""
+    wa, wb = words(a), words(b)
+    if not wa or not wb:
+        return 0.0
+    return len(wa & wb) / len(wa | wb)
+
+@lru_cache(maxsize=8)
+def _load(path: str, mtime: float) -> tuple[FewShotExample, ...]:  #reload when the file changes
+    out = []
+    with open(path, encoding="utf-8") as f:
+        for n, line in enumerate(f, 1):
+            if not line.strip():
+                continue
+            ex = FewShotExample.model_validate_json(line)
+            if ex.split == "test":
+                log.warning("%s line %d: skipping %s, test questions are never used as examples", path, n, ex.id)
+                continue
+            out.append(ex)
+    return tuple(out)
 
 
-@lru_cache(maxsize=4)
-def _load_examples(path: str, _modified_ns: int | None) -> tuple[FewShotExample, ...]:
-    file_path = Path(path)
-    if not file_path.exists():
-        log.warning("few-shot examples file %s does not exist; continuing without examples", file_path)
-        return ()
-
-    examples = []
-    for line_no, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), start=1):
-        if not line.strip():
-            continue
-        try:
-            example = FewShotExample.model_validate_json(line)
-        except ValueError as exc:
-            raise ValueError(f"{file_path}:{line_no}: invalid few-shot example: {exc}") from exc
-        if example.split != "dev":
-            raise ValueError(f"{file_path}:{line_no}: few-shot examples must use split='dev', never 'test'")
-        examples.append(example)
-    return tuple(examples)
-
-
-def retrieve_examples(
-    db_id: str, question: str, k: int = 3, exclude_ids: Collection[str] = ()
-) -> list[FewShotExample]:
-    """Return the top lexical-overlap development examples for this database.
-
-    `exclude_ids` are example ids that must not be returned. The evaluation passes the id of the question it is
-    asking: a dev question is also a few-shot example, and without this it would be its own best match, so the
-    model would be shown the question with its gold SQL.
-    """
-    if k <= 0 or not question.strip():
+def load_examples(path: Path | None = None) -> list[FewShotExample]:
+    path = Path(path or DEFAULT_PATH)
+    if not path.exists():
         return []
-    path = str(get_config().pipeline.fewshot_path)
-    file_path = Path(path)
-    modified_ns = file_path.stat().st_mtime_ns if file_path.exists() else None
-    candidates = [example for example in _load_examples(path, modified_ns) if example.db_id == db_id and example.id not in exclude_ids]
-    query_words = set(_WORD.findall(question.lower()))
+    return list(_load(str(path), path.stat().st_mtime))
 
-    def rank(example: FewShotExample) -> tuple[float, str]:
-        words = set(_WORD.findall(example.question.lower()))
-        score = len(query_words & words) / len(query_words | words) if query_words | words else 0.0
-        return (-score, example.id)
 
-    return sorted(candidates, key=rank)[:k]
+def rank_examples(question: str, db_id: str, pool: list[FewShotExample], k: int) -> list[FewShotExample]:
+    """
+    An example with exactly the same question is skipped, so a question can never
+    be answered by copying its own gold SQL.
+    """
+    if k <= 0:
+        return []
+    asked = question.strip().lower()
+    candidates = [ex for ex in pool if ex.db_id == db_id and ex.question.strip().lower() != asked]
+    candidates.sort(key=lambda ex: (-similarity(question, ex.question), ex.id))
+    return candidates[:k]
+
+def retrieve_examples(db_id: str, question: str, k: int = 3, *, path: Path | None = None) -> list[FewShotExample]:
+    return rank_examples(question, db_id, load_examples(path), k)

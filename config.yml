@@ -58,61 +58,13 @@ embedding:
 # and switch between configs with SCHEMAGRAPH_CONFIG. Vectors and indexes are stored per name.
 #   name: voyage
 
-# Chat model that writes the SQL and the one-line explanation (pipeline/llm.py). Any OpenAI-compatible
-# /chat/completions endpoint works; the key itself only ever lives in the environment.
-#
-# Google Gemini through its OpenAI-compatible endpoint (same GEMINI_API_KEY as the embeddings):
-# llm:
-#   provider: openai_compatible
-#   base_url: https://generativelanguage.googleapis.com/v1beta/openai
-#   model: gemini-3.5-flash          # any chat model your key can use
-#   api_key_env: GEMINI_API_KEY
-#   timeout_s: 60
-#   temperature: 0
-#   max_tokens: 4096                 # Gemini 2.5 models count their hidden "thinking" tokens against this
-#   max_retries: 3                   # HTTP 429/5xx, timeouts and dropped connections are retried (2, 4, 8 s, or Retry-After)
-#   max_wait_s: 30                   # longest single wait; a service asking for more fails at once with its message
-#
-# OpenAI:
-# llm:
-#   provider: openai_compatible
-#   base_url: https://api.openai.com/v1
-#   model: gpt-4o-mini
-#   # For reasoning models (o-series, gpt-5): they reject max_tokens and temperature (HTTP 400), so
-#   #   temperature: null                          leave temperature out of the request
-#   #   max_tokens_param: max_completion_tokens    send the limit under the name they accept
-#   api_key_env: OPENAI_API_KEY
-#
-# Anthropic (Claude), through its OpenAI-compatible endpoint, which this client speaks. Set ANTHROPIC_API_KEY:
 llm:
-  provider: openai_compatible
-  base_url: https://api.anthropic.com/v1/
-  model: claude-sonnet-5-5         # or claude-haiku-5-5 (cheaper, faster) / claude-opus-5-5 (strongest)
+  provider: anthropic
+  model: claude-sonnet-5-5
   api_key_env: ANTHROPIC_API_KEY
-  temperature: null                # Claude 4.7 and later reject any temperature below 1, so leave it out.
-#                                    # SPEC 2.4 says temperature 0; on these models that is not possible, so
-#                                    # runs are not exactly repeatable. Compare variants over the whole question set.
-#   max_tokens: 4096                 # thinking is on by default on Claude 5 models and may use part of this budget
-#   timeout_s: 120
-#   max_retries: 3                   # 429 and 5xx are retried, honouring Retry-After (see the options above)
-#   # The key must belong to a workspace (a normal Console key does). A personal or service-account key that is
-#   # not scoped to one needs an `anthropic-workspace-id` header, which this client cannot send yet.
-#   # Anthropic describes this endpoint as meant for testing and comparing models; the native Messages API is
-#   # the long-term route (tools, prompt caching, thinking summaries). `llm.provider: anthropic` would add it.
-#
-# A local server (Ollama, vLLM, LM Studio), no key:
-# llm:
-#   provider: openai_compatible
-#   base_url: http://localhost:11434/v1
-#   model: qwen2.5-coder:14b
-#   api_key_env: null
 
-# Defaults for answer_question; a request's `options` override them.
 pipeline:
-  top_k: 5                         # tables retrieval returns
-  max_attempts: 3                  # SQL generation tries, feeding each error back to the model
-  row_limit: 100                   # rows returned to the caller
-  examples_k: 3                    # few-shot examples (dev split only); none if the file is missing
-  fewshot_path: schemagraph/eval/questions/fewshot_examples.jsonl
-  # expand_seeds: 2                # graph mode: add up to this many tables the retrieved tables have foreign keys to
-  # expand_hops: 1                 # ...looking this many links away (0 tables = off, the default)
+  top_k: 5
+  max_attempts: 3
+  row_limit: 200
+  fewshot_k: 3

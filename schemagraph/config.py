@@ -192,27 +192,28 @@ class EmbeddingConfig(BaseModel):
         return SecretStr(value)
 
 
+LLM_PROVIDERS = {
+    "anthropic": "ANTHROPIC_API_KEY",
+    "openai": "OPENAI_API_KEY",
+}
+
+
 class LLMConfig(BaseModel):
-    """OpenAI-compatible chat-completions endpoint used by the question pipeline."""
-
     model_config = ConfigDict(extra="forbid")
-
-    provider: Literal["openai_compatible"] = "openai_compatible"
-    base_url: str = "https://api.openai.com/v1"
+    provider: Literal["anthropic", "openai"] = "anthropic"
     model: str
-    api_key_env: str | None = "OPENAI_API_KEY"
+    api_key_env: str | None = None
+    base_url: str | None = None
+    max_tokens: int = Field(default=1024, ge=1)
     timeout_s: float = Field(default=60.0, gt=0)
-    temperature: float | None = Field(default=0.0, ge=0.0, le=2.0)  # null: leave it out (reasoning models reject it)
-    max_tokens: int = Field(default=2048, ge=1)
-    # Newer OpenAI models reject "max_tokens" and want "max_completion_tokens".
-    max_tokens_param: Literal["max_tokens", "max_completion_tokens"] = "max_tokens"
-    # Transient failures (HTTP 429/5xx, timeouts, connection errors) are retried this many times,
-    # waiting what the service asks for (Retry-After) or 2, 4, 8 ... seconds, never more than max_wait_s
-    # for one wait; a longer demand fails at once with the service's message.
-    max_retries: int = Field(default=3, ge=0)
-    max_wait_s: float = Field(default=30.0, gt=0)
 
-    @cached_property
+    @model_validator(mode="after")
+    def _provider_defaults(self) -> "LLMConfig":
+        if "api_key_env" not in self.model_fields_set:
+            self.api_key_env = LLM_PROVIDERS[self.provider]
+        return self
+
+    @property
     def api_key(self) -> SecretStr | None:
         if self.api_key_env is None:
             return None
@@ -223,19 +224,12 @@ class LLMConfig(BaseModel):
 
 
 class PipelineConfig(BaseModel):
-    """Default runtime limits for the question-answering pipeline."""
-
+    """Defaults for /api/ask when a request's `options` leave a value out"""
     model_config = ConfigDict(extra="forbid")
-
-    top_k: int = Field(default=5, ge=1, le=100)
-    max_attempts: int = Field(default=3, ge=1, le=10)
-    row_limit: int = Field(default=100, ge=1, le=100_000)
-    examples_k: int = Field(default=3, ge=0, le=20)
-    fewshot_path: Path = Path("schemagraph/eval/questions/fewshot_examples.jsonl")
-    # Graph mode: after retrieval, add up to `expand_seeds` tables that the retrieved tables have foreign keys to
-    # (looking `expand_hops` links away), best-shared first, before join planning. 0 turns it off.
-    expand_seeds: int = Field(default=0, ge=0, le=20)
-    expand_hops: int = Field(default=1, ge=1, le=3)
+    top_k: int = Field(default=5, ge=1)
+    max_attempts: int = Field(default=3, ge=1)
+    row_limit: int = Field(default=200, ge=1)
+    fewshot_k: int = Field(default=3, ge=0)
 
 
 class AppConfig(BaseModel):
@@ -246,9 +240,11 @@ class AppConfig(BaseModel):
     # needs the graph calls graph.driver.get_driver(), which says what is missing.
     neo4j: Neo4jConfig | None = None
     embedding: EmbeddingConfig | None = None
+    # Optional so extraction and graph building need no LLM, the pipeline checks for it.
     llm: LLMConfig | None = None
     pipeline: PipelineConfig = Field(default_factory=PipelineConfig)
     # graph: GraphConfig         <- max_bridge_tables, weight penalties
+
 
 
 def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> AppConfig:
