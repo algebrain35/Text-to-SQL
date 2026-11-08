@@ -11,11 +11,12 @@ candidates than needed and keeps only those with this database's db_id.
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from typing import Any
 
 from schemagraph.graph import vector
 from schemagraph.graph.cypher import read, use_session
-from schemagraph.models import SeedTable
+from schemagraph.models import SeedTable, display_name
 
 DEFAULT_CANDIDATES = 100
 COLUMN_FACTOR = 3  # a table has several columns, so over-fetch column hits
@@ -81,3 +82,55 @@ def retrieve_seed_tables(
     if min_score is not None:
         seeds = [s_ for s_ in seeds if s_.score >= min_score]
     return seeds
+
+
+EXPAND_MIN_CONFIDENCE = 0.8  # declared keys are 1.0; weak inferred links would only add noise
+EXPAND_SCORE_STEP = 0.05     # an added table scores this much below the seed that reached it, per link
+
+
+def expand_seeds(
+    seeds: list[SeedTable],
+    edges: Iterable[Any],
+    *,
+    max_added: int,
+    hops: int = 1,
+    min_confidence: float = EXPAND_MIN_CONFIDENCE,
+) -> list[SeedTable]:
+    """The seeds plus up to `max_added` tables they have foreign keys to, within `hops` links. Pure.
+
+    Retrieval finds the tables a question talks about, but the table holding a needed column is often one the
+    question never names: the person behind a salesperson, the department of an employee, the product under a
+    category. Those are what the seeds *reference*, so they are the candidates (not the tables that reference
+    the seeds, which would multiply with every child table). A candidate is ranked by how many seeds reach it,
+    then by fewer links, then by the best score among the seeds that reach it. `edges` are anything with
+    from_table, to_table (the foreign-key side first) and confidence, e.g. `queries.ReferenceEdge`.
+    An added table's `matched_on` is 'reference_of:<seed>' and its score a little below that seed's.
+    """
+    if max_added <= 0 or not seeds:
+        return list(seeds)
+    parents: dict[str, set[str]] = {}
+    for e in edges:
+        if e.confidence >= min_confidence and e.from_table != e.to_table:
+            parents.setdefault(e.from_table, set()).add(e.to_table)
+
+    seed_uids = {s.uid for s in seeds}
+    reached: dict[str, dict[str, Any]] = {}  # candidate uid -> {"seeds": set, "hop": int, "score": float, "via": str}
+    for seed in sorted(seeds, key=lambda s: (-s.score, s.uid)):
+        frontier, seen = {seed.uid}, {seed.uid}
+        for hop in range(1, hops + 1):
+            frontier = {p for t in frontier for p in parents.get(t, ()) if p not in seen}
+            seen |= frontier
+            for uid in frontier - seed_uids:
+                c = reached.setdefault(uid, {"seeds": set(), "hop": hop, "score": seed.score, "via": seed.uid})
+                c["seeds"].add(seed.uid)
+                c["hop"] = min(c["hop"], hop)  # score and via keep the first, i.e. best-scoring, seed to reach it
+    ranked = sorted(reached.items(), key=lambda kv: (-len(kv[1]["seeds"]), kv[1]["hop"], -kv[1]["score"], kv[0]))
+    added = [
+        SeedTable(
+            uid=uid,
+            score=round(max(c["score"] - EXPAND_SCORE_STEP * c["hop"], 0.0), 4),
+            matched_on=f"reference_of:{display_name(c['via'])}",
+        )
+        for uid, c in ranked[:max_added]
+    ]
+    return list(seeds) + added

@@ -1,0 +1,10698 @@
+{
+ "label": "gemini-1536",
+ "db_id": "adventureworks",
+ "split": "all",
+ "summary": {
+  "questions": 59,
+  "errors": 1,
+  "recall_at": {
+   "1": 0.4596045197740113,
+   "3": 0.7742937853107345,
+   "5": 0.885593220338983,
+   "8": 0.9319209039548023,
+   "10": 0.9494350282485876,
+   "20": 0.9867231638418079
+  },
+  "all_gold_at": {
+   "1": 0.1864406779661017,
+   "3": 0.5423728813559322,
+   "5": 0.7627118644067796,
+   "8": 0.7966101694915254,
+   "10": 0.8305084745762712,
+   "20": 0.9491525423728814
+  },
+  "mean_score_at_rank": {
+   "1": 0.8502118644067796,
+   "5": 0.8158322033898305,
+   "20": 0.7940457627118644
+  },
+  "strategies": {
+   "top_k=3, gap<=0.03": {
+    "graph_recall": 0.8228813559322034,
+    "all_gold": 0.6271186440677966,
+    "context_tables": 3.135593220338983,
+    "questions": 59
+   },
+   "top_k=3, gap<=0.05": {
+    "graph_recall": 0.8483050847457627,
+    "all_gold": 0.6610169491525424,
+    "context_tables": 3.593220338983051,
+    "questions": 59
+   },
+   "top_k=3, gap<=0.08": {
+    "graph_recall": 0.8483050847457627,
+    "all_gold": 0.6610169491525424,
+    "context_tables": 3.76271186440678,
+    "questions": 59
+   },
+   "top_k=3": {
+    "graph_recall": 0.8483050847457627,
+    "all_gold": 0.6610169491525424,
+    "context_tables": 3.76271186440678,
+    "questions": 59
+   },
+   "top_k=5, gap<=0.03": {
+    "graph_recall": 0.881638418079096,
+    "all_gold": 0.7457627118644068,
+    "context_tables": 4.220338983050848,
+    "questions": 59
+   },
+   "top_k=5, gap<=0.05": {
+    "graph_recall": 0.9183615819209039,
+    "all_gold": 0.8135593220338984,
+    "context_tables": 5.576271186440678,
+    "questions": 59
+   },
+   "top_k=5, gap<=0.08": {
+    "graph_recall": 0.9268361581920903,
+    "all_gold": 0.8305084745762712,
+    "context_tables": 6.11864406779661,
+    "questions": 59
+   },
+   "top_k=5": {
+    "graph_recall": 0.9268361581920903,
+    "all_gold": 0.8305084745762712,
+    "context_tables": 6.11864406779661,
+    "questions": 59
+   },
+   "top_k=8, gap<=0.03": {
+    "graph_recall": 0.901412429378531,
+    "all_gold": 0.7966101694915254,
+    "context_tables": 5.3559322033898304,
+    "questions": 59
+   },
+   "top_k=8, gap<=0.05": {
+    "graph_recall": 0.9494350282485876,
+    "all_gold": 0.864406779661017,
+    "context_tables": 8.305084745762711,
+    "questions": 59
+   },
+   "top_k=8, gap<=0.08": {
+    "graph_recall": 0.9635593220338984,
+    "all_gold": 0.8983050847457628,
+    "context_tables": 9.796610169491526,
+    "questions": 59
+   },
+   "top_k=8": {
+    "graph_recall": 0.9635593220338984,
+    "all_gold": 0.8983050847457628,
+    "context_tables": 9.830508474576272,
+    "questions": 59
+   },
+   "top_k=12, gap<=0.03": {
+    "graph_recall": 0.901412429378531,
+    "all_gold": 0.7966101694915254,
+    "context_tables": 6.033898305084746,
+    "questions": 59
+   },
+   "top_k=12, gap<=0.05": {
+    "graph_recall": 0.9607344632768361,
+    "all_gold": 0.8983050847457628,
+    "context_tables": 10.94915254237288,
+    "questions": 59
+   },
+   "top_k=12, gap<=0.08": {
+    "graph_recall": 0.9901129943502824,
+    "all_gold": 0.9661016949152542,
+    "context_tables": 13.796610169491526,
+    "questions": 59
+   },
+   "top_k=12": {
+    "graph_recall": 0.9901129943502824,
+    "all_gold": 0.9661016949152542,
+    "context_tables": 13.94915254237288,
+    "questions": 59
+   }
+  }
+ },
+ "questions": [
+  {
+   "id": "aw-001",
+   "gold": [
+    "humanresources.employee"
+   ],
+   "seeds": [
+    [
+     "humanresources.employee",
+     0.8428,
+     "table"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8323,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8316,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8301,
+     "column:demographics"
+    ],
+    [
+     "person.businessentity",
+     0.8273,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8256,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8231,
+     "column:employeeid"
+    ],
+    [
+     "humanresources.department",
+     0.8224,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8217,
+     "table"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.8213,
+     "column:businessentityid"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.8201,
+     "column:payfrequency"
+    ],
+    [
+     "production.document",
+     0.8184,
+     "column:owner"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8148,
+     "column:businessentityid"
+    ],
+    [
+     "person.address",
+     0.8141,
+     "table"
+    ],
+    [
+     "humanresources.shift",
+     0.8115,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8113,
+     "column:businessentityid"
+    ],
+    [
+     "person.businessentityaddress",
+     0.8113,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.8096,
+     "table"
+    ],
+    [
+     "person.contacttype",
+     0.8083,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8069,
+     "column:quantity"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     8
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     12
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-002",
+   "gold": [
+    "humanresources.employee"
+   ],
+   "seeds": [
+    [
+     "humanresources.employee",
+     0.8766,
+     "column:salariedflag"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.8553,
+     "column:payfrequency"
+    ],
+    [
+     "sales.store",
+     0.8261,
+     "column:demographics"
+    ],
+    [
+     "sales.salesperson",
+     0.8242,
+     "table"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8233,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8187,
+     "column:employeeid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8164,
+     "column:businessentityid"
+    ],
+    [
+     "person.person",
+     0.815,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8146,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8143,
+     "column:businessentityid"
+    ],
+    [
+     "production.document",
+     0.814,
+     "column:owner"
+    ],
+    [
+     "sales.currencyrate",
+     0.8129,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8124,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8118,
+     "table"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.8117,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8116,
+     "column:salespersonid"
+    ],
+    [
+     "humanresources.shift",
+     0.8108,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8108,
+     "column:businessentityid"
+    ],
+    [
+     "humanresources.department",
+     0.8095,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.8091,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     2
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     2
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     2
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     2
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-003",
+   "gold": [
+    "production.product"
+   ],
+   "seeds": [
+    [
+     "production.product",
+     0.8717,
+     "column:listprice"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8642,
+     "column:listprice"
+    ],
+    [
+     "purchasing.productvendor",
+     0.838,
+     "column:standardprice"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8332,
+     "column:unitprice"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8277,
+     "column:unitprice"
+    ],
+    [
+     "production.productcategory",
+     0.8273,
+     "table"
+    ],
+    [
+     "production.productcosthistory",
+     0.8216,
+     "column:standardcost"
+    ],
+    [
+     "production.productphoto",
+     0.8163,
+     "column:largephotofilename"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.815,
+     "column:productid"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8149,
+     "column:shipbase"
+    ],
+    [
+     "sales.specialoffer",
+     0.8146,
+     "column:maxqty"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8105,
+     "column:productid"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.81,
+     "column:subtotal"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8099,
+     "column:freight"
+    ],
+    [
+     "production.billofmaterials",
+     0.8085,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8072,
+     "column:productid"
+    ],
+    [
+     "production.productmodel",
+     0.8064,
+     "column:catalogdescription"
+    ],
+    [
+     "sales.salesperson",
+     0.806,
+     "column:salesquota"
+    ],
+    [
+     "production.transactionhistory",
+     0.8046,
+     "column:actualcost"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.8043,
+     "column:rate"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-004",
+   "gold": [
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8434,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.828,
+     "column:orderqty"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8244,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8217,
+     "column:salesorderid"
+    ],
+    [
+     "sales.salesterritory",
+     0.8187,
+     "column:saleslastyear"
+    ],
+    [
+     "sales.salesperson",
+     0.8185,
+     "column:saleslastyear"
+    ],
+    [
+     "sales.store",
+     0.8166,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8147,
+     "column:orderqty"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8118,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.8109,
+     "column:expyear"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8105,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8097,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.8093,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8093,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8091,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8079,
+     "column:status"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8042,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8038,
+     "column:customerid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8009,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.7991,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=5": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     7
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     11
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     11
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-005",
+   "gold": [
+    "sales.customer"
+   ],
+   "seeds": [
+    [
+     "sales.store",
+     0.8782,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8662,
+     "column:storeid"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8354,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.827,
+     "column:customerid"
+    ],
+    [
+     "person.businessentity",
+     0.8248,
+     "table"
+    ],
+    [
+     "person.businessentityaddress",
+     0.8213,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8203,
+     "column:persontype"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8191,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.8156,
+     "table"
+    ],
+    [
+     "production.location",
+     0.8137,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8113,
+     "table"
+    ],
+    [
+     "production.productreview",
+     0.811,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8102,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8078,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8075,
+     "table"
+    ],
+    [
+     "person.emailaddress",
+     0.8064,
+     "column:businessentityid"
+    ],
+    [
+     "sales.personcreditcard",
+     0.8053,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8047,
+     "table"
+    ],
+    [
+     "production.document",
+     0.8032,
+     "column:owner"
+    ],
+    [
+     "purchasing.vendor",
+     0.803,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-006",
+   "gold": [
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8887,
+     "column:freight"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8743,
+     "column:freight"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8306,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8283,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8274,
+     "table"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8235,
+     "column:shiprate"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8217,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8171,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.817,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.8165,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.815,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesperson",
+     0.8142,
+     "column:salesytd"
+    ],
+    [
+     "sales.currency",
+     0.814,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8112,
+     "column:costytd"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8103,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8061,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesreason",
+     0.8055,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8034,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8019,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7998,
+     "column:onorderqty"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     3
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-007",
+   "gold": [
+    "production.product"
+   ],
+   "seeds": [
+    [
+     "production.product",
+     0.8787,
+     "column:color"
+    ],
+    [
+     "production.productreview",
+     0.8088,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.8073,
+     "column:description"
+    ],
+    [
+     "production.location",
+     0.8054,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8042,
+     "table"
+    ],
+    [
+     "production.productmodel",
+     0.8036,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8011,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7997,
+     "column:productid"
+    ],
+    [
+     "production.productphoto",
+     0.7995,
+     "column:largephotofilename"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7983,
+     "column:productid"
+    ],
+    [
+     "production.productproductphoto",
+     0.798,
+     "column:primary"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7968,
+     "column:rowguid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7966,
+     "column:productid"
+    ],
+    [
+     "production.productmodelproductdescriptionculture",
+     0.7961,
+     "column:cultureid"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.7961,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.7945,
+     "column:transactiontype"
+    ],
+    [
+     "production.culture",
+     0.7944,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.794,
+     "column:unitmeasurecode"
+    ],
+    [
+     "sales.store",
+     0.7938,
+     "column:rowguid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7938,
+     "column:productid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-008",
+   "gold": [
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8694,
+     "column:onlineorderflag"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8587,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8434,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.833,
+     "column:salesorderid"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8305,
+     "column:orderqty"
+    ],
+    [
+     "sales.store",
+     0.8252,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8203,
+     "column:status"
+    ],
+    [
+     "sales.customer",
+     0.8201,
+     "column:storeid"
+    ],
+    [
+     "sales.salesperson",
+     0.8192,
+     "column:businessentityid"
+    ],
+    [
+     "sales.creditcard",
+     0.8169,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8159,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8157,
+     "column:saleslastyear"
+    ],
+    [
+     "sales.salesreason",
+     0.8153,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8147,
+     "column:referenceorderid"
+    ],
+    [
+     "sales.currencyrate",
+     0.8143,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8138,
+     "column:onorderqty"
+    ],
+    [
+     "production.transactionhistory",
+     0.8133,
+     "column:referenceorderid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8115,
+     "column:businessentityid"
+    ],
+    [
+     "person.person",
+     0.8112,
+     "column:demographics"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8112,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=5": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     5
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-009",
+   "gold": [
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8811,
+     "column:group"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.844,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8328,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesperson",
+     0.8315,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8312,
+     "column:territoryid"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8278,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.8236,
+     "column:territoryid"
+    ],
+    [
+     "sales.currencyrate",
+     0.8168,
+     "table"
+    ],
+    [
+     "person.countryregion",
+     0.8162,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8153,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.8151,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8105,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8101,
+     "column:category"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8075,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8064,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8048,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.8031,
+     "column:groupname"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8001,
+     "column:rowguid"
+    ],
+    [
+     "production.productsubcategory",
+     0.7983,
+     "column:name"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.7962,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-010",
+   "gold": [
+    "humanresources.employee"
+   ],
+   "seeds": [
+    [
+     "humanresources.employee",
+     0.8879,
+     "column:vacationhours"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.8187,
+     "column:rate"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8118,
+     "table"
+    ],
+    [
+     "production.location",
+     0.8114,
+     "column:availability"
+    ],
+    [
+     "production.workorderrouting",
+     0.8091,
+     "column:actualresourcehrs"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8042,
+     "column:employeeid"
+    ],
+    [
+     "humanresources.shift",
+     0.8006,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7988,
+     "column:averageleadtime"
+    ],
+    [
+     "sales.currencyrate",
+     0.7987,
+     "column:averagerate"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.7967,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.7954,
+     "column:bonus"
+    ],
+    [
+     "humanresources.department",
+     0.7893,
+     "table"
+    ],
+    [
+     "production.document",
+     0.7891,
+     "column:owner"
+    ],
+    [
+     "sales.salesorderheader",
+     0.789,
+     "column:freight"
+    ],
+    [
+     "production.productinventory",
+     0.7868,
+     "column:quantity"
+    ],
+    [
+     "purchasing.vendor",
+     0.7867,
+     "column:creditrating"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7864,
+     "table"
+    ],
+    [
+     "person.person",
+     0.7847,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.7839,
+     "column:businessentityid"
+    ],
+    [
+     "production.product",
+     0.7838,
+     "column:safetystocklevel"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     1
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-011",
+   "gold": [
+    "production.product",
+    "production.productmodel"
+   ],
+   "seeds": [
+    [
+     "production.productmodel",
+     0.8575,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8392,
+     "column:productmodelid"
+    ],
+    [
+     "production.productmodelillustration",
+     0.8338,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8273,
+     "table"
+    ],
+    [
+     "production.productmodelproductdescriptionculture",
+     0.826,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.8241,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8199,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8188,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8165,
+     "table"
+    ],
+    [
+     "production.document",
+     0.8151,
+     "table"
+    ],
+    [
+     "production.productreview",
+     0.8132,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8119,
+     "table"
+    ],
+    [
+     "production.productproductphoto",
+     0.8113,
+     "table"
+    ],
+    [
+     "production.workorder",
+     0.8106,
+     "column:productid"
+    ],
+    [
+     "production.location",
+     0.809,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8084,
+     "column:productid"
+    ],
+    [
+     "production.billofmaterials",
+     0.8078,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8076,
+     "column:productid"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.807,
+     "column:productid"
+    ],
+    [
+     "production.productdescription",
+     0.8066,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     3
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-012",
+   "gold": [
+    "production.product",
+    "production.productsubcategory"
+   ],
+   "seeds": [
+    [
+     "production.productsubcategory",
+     0.8586,
+     "column:name"
+    ],
+    [
+     "production.billofmaterials",
+     0.8382,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8316,
+     "column:name"
+    ],
+    [
+     "production.productcategory",
+     0.826,
+     "column:name"
+    ],
+    [
+     "production.illustration",
+     0.8259,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.8238,
+     "column:description"
+    ],
+    [
+     "production.productphoto",
+     0.8158,
+     "column:largephotofilename"
+    ],
+    [
+     "production.productmodel",
+     0.8126,
+     "column:name"
+    ],
+    [
+     "sales.store",
+     0.8099,
+     "column:name"
+    ],
+    [
+     "production.productdocument",
+     0.8067,
+     "table"
+    ],
+    [
+     "purchasing.vendor",
+     0.8059,
+     "column:name"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8024,
+     "column:productid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8023,
+     "column:productid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8014,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.8011,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8009,
+     "column:productid"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8005,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.7985,
+     "column:productid"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7983,
+     "column:productid"
+    ],
+    [
+     "production.productmodelillustration",
+     0.798,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=12": [
+     1.0,
+     11
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     3
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-013",
+   "gold": [
+    "humanresources.employee",
+    "person.person"
+   ],
+   "seeds": [
+    [
+     "humanresources.employee",
+     0.8327,
+     "column:jobtitle"
+    ],
+    [
+     "person.person",
+     0.8193,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.8109,
+     "column:name"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8084,
+     "column:employeeid"
+    ],
+    [
+     "production.document",
+     0.8014,
+     "column:owner"
+    ],
+    [
+     "person.emailaddress",
+     0.7995,
+     "column:emailaddress"
+    ],
+    [
+     "person.businessentity",
+     0.7987,
+     "column:businessentityid"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.7984,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesperson",
+     0.798,
+     "column:businessentityid"
+    ],
+    [
+     "production.productreview",
+     0.7968,
+     "column:reviewername"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.7959,
+     "column:businessentityid"
+    ],
+    [
+     "production.product",
+     0.7957,
+     "column:productnumber"
+    ],
+    [
+     "person.contacttype",
+     0.795,
+     "column:name"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.7938,
+     "column:businessentityid"
+    ],
+    [
+     "person.password",
+     0.7934,
+     "column:businessentityid"
+    ],
+    [
+     "production.location",
+     0.7934,
+     "column:name"
+    ],
+    [
+     "person.businessentitycontact",
+     0.793,
+     "table"
+    ],
+    [
+     "production.illustration",
+     0.7914,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.7911,
+     "column:name"
+    ],
+    [
+     "sales.customer",
+     0.7897,
+     "column:personid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     5
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-014",
+   "gold": [
+    "humanresources.department",
+    "humanresources.employeedepartmenthistory"
+   ],
+   "seeds": [
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8387,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.8316,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.8241,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8129,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.7967,
+     "table"
+    ],
+    [
+     "person.person",
+     0.7959,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7953,
+     "table"
+    ],
+    [
+     "humanresources.shift",
+     0.7931,
+     "table"
+    ],
+    [
+     "production.document",
+     0.7928,
+     "column:owner"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.7912,
+     "table"
+    ],
+    [
+     "production.location",
+     0.7911,
+     "column:name"
+    ],
+    [
+     "person.businessentity",
+     0.7885,
+     "column:businessentityid"
+    ],
+    [
+     "sales.store",
+     0.788,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7862,
+     "column:employeeid"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.7855,
+     "column:businessentityid"
+    ],
+    [
+     "production.productinventory",
+     0.7832,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7829,
+     "column:businessentityid"
+    ],
+    [
+     "production.product",
+     0.7826,
+     "column:productnumber"
+    ],
+    [
+     "person.contacttype",
+     0.7821,
+     "column:name"
+    ],
+    [
+     "person.stateprovince",
+     0.7812,
+     "column:name"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-015",
+   "gold": [
+    "sales.salesorderheader",
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8599,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8538,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8415,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8397,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.836,
+     "column:territoryid"
+    ],
+    [
+     "person.stateprovince",
+     0.8269,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8238,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8205,
+     "table"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8169,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8164,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8155,
+     "column:subtotal"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8119,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8117,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8107,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8094,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8066,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8057,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.8023,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.7974,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7962,
+     "column:orderqty"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     5
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-016",
+   "gold": [
+    "purchasing.shipmethod",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8598,
+     "column:shipmethodid"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8509,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8493,
+     "column:shipmethodid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8317,
+     "column:carriertrackingnumber"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8199,
+     "column:salesorderid"
+    ],
+    [
+     "sales.store",
+     0.8174,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8141,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8126,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.811,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8087,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8084,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8054,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8026,
+     "column:orderqty"
+    ],
+    [
+     "sales.customer",
+     0.8019,
+     "column:modifieddate"
+    ],
+    [
+     "sales.salesperson",
+     0.8004,
+     "column:businessentityid"
+    ],
+    [
+     "sales.creditcard",
+     0.8002,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8002,
+     "table"
+    ],
+    [
+     "production.product",
+     0.7979,
+     "column:modifieddate"
+    ],
+    [
+     "production.workorderrouting",
+     0.7975,
+     "table"
+    ],
+    [
+     "sales.personcreditcard",
+     0.7972,
+     "column:creditcardid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-017",
+   "gold": [
+    "purchasing.productvendor",
+    "purchasing.vendor"
+   ],
+   "seeds": [
+    [
+     "purchasing.productvendor",
+     0.8575,
+     "table"
+    ],
+    [
+     "purchasing.vendor",
+     0.8431,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8275,
+     "column:vendorid"
+    ],
+    [
+     "sales.store",
+     0.807,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.806,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8059,
+     "column:quantity"
+    ],
+    [
+     "production.product",
+     0.8047,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.8046,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8044,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.804,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8014,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8009,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.7985,
+     "table"
+    ],
+    [
+     "production.location",
+     0.7975,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7957,
+     "column:productid"
+    ],
+    [
+     "production.productproductphoto",
+     0.7949,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7944,
+     "column:quantity"
+    ],
+    [
+     "production.billofmaterials",
+     0.794,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7939,
+     "table"
+    ],
+    [
+     "person.businessentityaddress",
+     0.7925,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     3
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-018",
+   "gold": [
+    "production.product",
+    "production.productreview"
+   ],
+   "seeds": [
+    [
+     "production.productreview",
+     0.8446,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8087,
+     "column:name"
+    ],
+    [
+     "sales.currencyrate",
+     0.8046,
+     "column:averagerate"
+    ],
+    [
+     "purchasing.vendor",
+     0.7997,
+     "column:creditrating"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7971,
+     "column:averageleadtime"
+    ],
+    [
+     "production.productmodel",
+     0.794,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7922,
+     "column:productid"
+    ],
+    [
+     "production.productdescription",
+     0.7918,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7906,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.7885,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.7881,
+     "table"
+    ],
+    [
+     "production.location",
+     0.7866,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7851,
+     "column:productid"
+    ],
+    [
+     "production.workorderrouting",
+     0.785,
+     "column:productid"
+    ],
+    [
+     "production.document",
+     0.7849,
+     "column:status"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.7847,
+     "column:shiprate"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7846,
+     "column:productid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7838,
+     "column:productid"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.783,
+     "column:listprice"
+    ],
+    [
+     "production.transactionhistory",
+     0.7827,
+     "column:productid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.03": [
+     0.5,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.03": [
+     0.5,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     0.5,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=12, gap<=0.03": [
+     0.5,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-019",
+   "gold": [
+    "sales.salesperson",
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8673,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8582,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8522,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8441,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8425,
+     "column:territoryid"
+    ],
+    [
+     "person.stateprovince",
+     0.8393,
+     "column:territoryid"
+    ],
+    [
+     "sales.store",
+     0.8266,
+     "column:salespersonid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8206,
+     "table"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8185,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8088,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8074,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8064,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8059,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.8042,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8038,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.7994,
+     "table"
+    ],
+    [
+     "person.countryregion",
+     0.7992,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7988,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.795,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7949,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     6
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-020",
+   "gold": [
+    "production.product",
+    "production.productinventory"
+   ],
+   "seeds": [
+    [
+     "production.location",
+     0.8296,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8296,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8166,
+     "column:safetystocklevel"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8023,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.8022,
+     "column:quantity"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8004,
+     "column:quantity"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7949,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7936,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.7934,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.7932,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7913,
+     "column:subtotal"
+    ],
+    [
+     "sales.store",
+     0.7907,
+     "table"
+    ],
+    [
+     "production.productphoto",
+     0.7904,
+     "column:largephoto"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.79,
+     "column:quantity"
+    ],
+    [
+     "production.billofmaterials",
+     0.7894,
+     "table"
+    ],
+    [
+     "production.productproductphoto",
+     0.7891,
+     "table"
+    ],
+    [
+     "production.unitmeasure",
+     0.7891,
+     "column:name"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7889,
+     "column:productid"
+    ],
+    [
+     "production.productdescription",
+     0.7887,
+     "table"
+    ],
+    [
+     "production.productcosthistory",
+     0.7862,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     6
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-021",
+   "gold": [
+    "person.countryregion",
+    "person.stateprovince"
+   ],
+   "seeds": [
+    [
+     "person.stateprovince",
+     0.8591,
+     "column:name"
+    ],
+    [
+     "person.address",
+     0.822,
+     "column:stateprovinceid"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8191,
+     "column:stateprovinceid"
+    ],
+    [
+     "person.countryregion",
+     0.8077,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.salesterritory",
+     0.8041,
+     "column:name"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8003,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.currency",
+     0.7957,
+     "column:name"
+    ],
+    [
+     "sales.store",
+     0.7953,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.7924,
+     "column:rowguid"
+    ],
+    [
+     "sales.creditcard",
+     0.7919,
+     "column:cardtype"
+    ],
+    [
+     "production.culture",
+     0.7914,
+     "column:name"
+    ],
+    [
+     "person.addresstype",
+     0.7895,
+     "table"
+    ],
+    [
+     "purchasing.vendor",
+     0.7882,
+     "column:name"
+    ],
+    [
+     "person.person",
+     0.7881,
+     "table"
+    ],
+    [
+     "production.product",
+     0.788,
+     "column:name"
+    ],
+    [
+     "production.productsubcategory",
+     0.787,
+     "column:name"
+    ],
+    [
+     "production.productreview",
+     0.7864,
+     "column:reviewername"
+    ],
+    [
+     "production.location",
+     0.7848,
+     "column:name"
+    ],
+    [
+     "sales.currencyrate",
+     0.7847,
+     "column:tocurrencycode"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.7839,
+     "column:rowguid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.5,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.5,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.5,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.5,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     0.5,
+     3
+    ],
+    "top_k=5, gap<=0.03": [
+     0.5,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     0.5,
+     3
+    ],
+    "top_k=8, gap<=0.03": [
+     0.5,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     9
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=12, gap<=0.05": [
+     0.5,
+     3
+    ],
+    "top_k=12, gap<=0.03": [
+     0.5,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-022",
+   "gold": [
+    "production.product",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderdetail",
+     0.8332,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8319,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8311,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8205,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8195,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8186,
+     "column:status"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.818,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8168,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.815,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8147,
+     "column:name"
+    ],
+    [
+     "production.productinventory",
+     0.813,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8124,
+     "column:name"
+    ],
+    [
+     "purchasing.vendor",
+     0.8121,
+     "column:name"
+    ],
+    [
+     "production.billofmaterials",
+     0.8108,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8104,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.81,
+     "table"
+    ],
+    [
+     "production.productmodel",
+     0.81,
+     "column:name"
+    ],
+    [
+     "sales.salesterritory",
+     0.8086,
+     "column:name"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.807,
+     "table"
+    ],
+    [
+     "production.productphoto",
+     0.8069,
+     "column:largephotofilename"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     13
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-023",
+   "gold": [
+    "production.product",
+    "production.productmodel"
+   ],
+   "seeds": [
+    [
+     "production.productmodel",
+     0.849,
+     "column:name"
+    ],
+    [
+     "production.productmodelillustration",
+     0.8351,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8294,
+     "table"
+    ],
+    [
+     "production.productmodelproductdescriptionculture",
+     0.8287,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8169,
+     "table"
+    ],
+    [
+     "production.productphoto",
+     0.8137,
+     "column:largephotofilename"
+    ],
+    [
+     "production.productdocument",
+     0.813,
+     "table"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8127,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8106,
+     "table"
+    ],
+    [
+     "production.productproductphoto",
+     0.8106,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8105,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8101,
+     "column:name"
+    ],
+    [
+     "production.scrapreason",
+     0.8081,
+     "column:name"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.807,
+     "table"
+    ],
+    [
+     "production.productcosthistory",
+     0.8061,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.8059,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8057,
+     "column:productid"
+    ],
+    [
+     "production.productdescription",
+     0.8053,
+     "column:rowguid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8041,
+     "column:productid"
+    ],
+    [
+     "production.unitmeasure",
+     0.8037,
+     "column:name"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-024",
+   "gold": [
+    "person.person",
+    "sales.salesperson"
+   ],
+   "seeds": [
+    [
+     "sales.salesperson",
+     0.8546,
+     "column:salesytd"
+    ],
+    [
+     "sales.salesterritory",
+     0.8366,
+     "column:salesytd"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8146,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.813,
+     "column:salespersonid"
+    ],
+    [
+     "sales.store",
+     0.811,
+     "column:salespersonid"
+    ],
+    [
+     "sales.customer",
+     0.8057,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8038,
+     "column:startdate"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8029,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8021,
+     "column:firstname"
+    ],
+    [
+     "sales.salestaxrate",
+     0.7976,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.7949,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.7941,
+     "column:cardtype"
+    ],
+    [
+     "sales.specialoffer",
+     0.7932,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.7929,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7928,
+     "table"
+    ],
+    [
+     "purchasing.vendor",
+     0.7919,
+     "column:creditrating"
+    ],
+    [
+     "sales.currency",
+     0.7919,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.7886,
+     "column:loginid"
+    ],
+    [
+     "person.stateprovince",
+     0.7883,
+     "column:name"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.7877,
+     "column:currencycode"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.5,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.5,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.5,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.5,
+     2
+    ],
+    "top_k=5": [
+     0.5,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     0.5,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     0.5,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     0.5,
+     2
+    ],
+    "top_k=8": [
+     0.5,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     0.5,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     0.5,
+     6
+    ],
+    "top_k=8, gap<=0.03": [
+     0.5,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     0.5,
+     6
+    ],
+    "top_k=12, gap<=0.03": [
+     0.5,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-025",
+   "gold": [
+    "sales.creditcard",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8628,
+     "column:creditcardid"
+    ],
+    [
+     "sales.creditcard",
+     0.8584,
+     "column:cardtype"
+    ],
+    [
+     "sales.personcreditcard",
+     0.836,
+     "column:creditcardid"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8211,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8203,
+     "column:orderqty"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8186,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.812,
+     "column:type"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8108,
+     "column:orderqty"
+    ],
+    [
+     "purchasing.vendor",
+     0.81,
+     "column:creditrating"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8079,
+     "column:taxtype"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8072,
+     "column:status"
+    ],
+    [
+     "sales.salesreason",
+     0.807,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.807,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.8067,
+     "column:transactiontype"
+    ],
+    [
+     "sales.salesterritory",
+     0.8055,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8049,
+     "column:transactiontype"
+    ],
+    [
+     "person.addresstype",
+     0.8034,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8022,
+     "table"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.7978,
+     "column:payfrequency"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7953,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     3
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-026",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory",
+    "purchasing.productvendor"
+   ],
+   "seeds": [
+    [
+     "purchasing.vendor",
+     0.8399,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8253,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8131,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8111,
+     "column:vendorid"
+    ],
+    [
+     "production.productcategory",
+     0.8107,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8074,
+     "column:category"
+    ],
+    [
+     "production.productsubcategory",
+     0.806,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8059,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8058,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8011,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8008,
+     "column:productnumber"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8002,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.7995,
+     "table"
+    ],
+    [
+     "person.businessentityaddress",
+     0.7993,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.7983,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7958,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7956,
+     "column:quantity"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.7955,
+     "column:name"
+    ],
+    [
+     "production.productmodel",
+     0.7934,
+     "table"
+    ],
+    [
+     "person.addresstype",
+     0.793,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.25,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     0.25,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     0.25,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     0.25,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     8
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     8
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     8
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-027",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "sales.specialoffer",
+     0.8302,
+     "column:category"
+    ],
+    [
+     "production.productcategory",
+     0.819,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8159,
+     "column:unitpricediscount"
+    ],
+    [
+     "sales.salesreason",
+     0.8073,
+     "column:reasontype"
+    ],
+    [
+     "production.productsubcategory",
+     0.8022,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.801,
+     "column:quantity"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8,
+     "column:subtotal"
+    ],
+    [
+     "sales.store",
+     0.7994,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7991,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.7979,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7978,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.796,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7944,
+     "column:subtotal"
+    ],
+    [
+     "sales.salesterritory",
+     0.7927,
+     "table"
+    ],
+    [
+     "production.productreview",
+     0.7922,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.7916,
+     "column:quantity"
+    ],
+    [
+     "production.product",
+     0.7915,
+     "column:discontinueddate"
+    ],
+    [
+     "sales.currency",
+     0.7862,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.7856,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7854,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=5": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     10
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     10
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-028",
+   "gold": [
+    "person.person",
+    "sales.customer",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8223,
+     "column:totaldue"
+    ],
+    [
+     "person.person",
+     0.8059,
+     "column:firstname"
+    ],
+    [
+     "sales.customer",
+     0.8055,
+     "column:personid"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8035,
+     "column:subtotal"
+    ],
+    [
+     "sales.store",
+     0.7988,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7963,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.793,
+     "column:salesytd"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7925,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.7919,
+     "table"
+    ],
+    [
+     "production.productreview",
+     0.7907,
+     "column:reviewername"
+    ],
+    [
+     "purchasing.vendor",
+     0.7891,
+     "column:creditrating"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7888,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7882,
+     "column:personid"
+    ],
+    [
+     "sales.personcreditcard",
+     0.7874,
+     "column:businessentityid"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7867,
+     "column:lastreceiptcost"
+    ],
+    [
+     "person.businessentity",
+     0.7859,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesterritory",
+     0.7854,
+     "column:saleslastyear"
+    ],
+    [
+     "person.stateprovince",
+     0.7853,
+     "column:name"
+    ],
+    [
+     "production.productcategory",
+     0.7846,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.7831,
+     "column:actualcost"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     11
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     11
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-029",
+   "gold": [
+    "person.countryregion",
+    "sales.salesorderheader",
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8483,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8394,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8382,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8286,
+     "column:territoryid"
+    ],
+    [
+     "person.countryregion",
+     0.8249,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8249,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8196,
+     "column:territoryid"
+    ],
+    [
+     "person.stateprovince",
+     0.8143,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8131,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8104,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8086,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8081,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8071,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.806,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8043,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.7991,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.798,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7951,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7934,
+     "column:subtotal"
+    ],
+    [
+     "sales.creditcard",
+     0.7924,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     7
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     7
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-030",
+   "gold": [
+    "person.person",
+    "sales.salesorderheader",
+    "sales.salesperson"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.843,
+     "column:salespersonid"
+    ],
+    [
+     "sales.salesperson",
+     0.8302,
+     "column:businessentityid"
+    ],
+    [
+     "sales.store",
+     0.827,
+     "column:salespersonid"
+    ],
+    [
+     "person.person",
+     0.8181,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8163,
+     "column:employeeid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8157,
+     "column:orderqty"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8144,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8144,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesterritory",
+     0.8078,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8056,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8055,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8038,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8038,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8036,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.802,
+     "column:orderqty"
+    ],
+    [
+     "humanresources.employee",
+     0.8003,
+     "column:loginid"
+    ],
+    [
+     "production.document",
+     0.797,
+     "column:owner"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.7969,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.795,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.7948,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     7
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     9
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-031",
+   "gold": [
+    "production.product",
+    "sales.salesorderdetail",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderdetail",
+     0.8011,
+     "column:unitprice"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7989,
+     "column:unitmeasurecode"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7961,
+     "column:quantity"
+    ],
+    [
+     "production.product",
+     0.794,
+     "column:sizeunitmeasurecode"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7908,
+     "column:quantity"
+    ],
+    [
+     "production.productinventory",
+     0.788,
+     "column:quantity"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.7877,
+     "column:modifieddate"
+    ],
+    [
+     "production.productcosthistory",
+     0.7869,
+     "column:modifieddate"
+    ],
+    [
+     "production.unitmeasure",
+     0.7862,
+     "column:unitmeasurecode"
+    ],
+    [
+     "production.transactionhistory",
+     0.7859,
+     "column:quantity"
+    ],
+    [
+     "production.productmodel",
+     0.7854,
+     "column:modifieddate"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7843,
+     "column:productid"
+    ],
+    [
+     "production.productcategory",
+     0.784,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.7832,
+     "column:salesytd"
+    ],
+    [
+     "production.location",
+     0.782,
+     "table"
+    ],
+    [
+     "production.document",
+     0.7811,
+     "column:status"
+    ],
+    [
+     "sales.specialoffer",
+     0.7807,
+     "column:maxqty"
+    ],
+    [
+     "production.billofmaterials",
+     0.7805,
+     "column:unitmeasurecode"
+    ],
+    [
+     "production.productreview",
+     0.7804,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.78,
+     "column:productid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=5": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=8": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=12": [
+     0.6666666666666666,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     0.6666666666666666,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     0.6666666666666666,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     0.6666666666666666,
+     13
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-032",
+   "gold": [
+    "humanresources.department",
+    "humanresources.employeedepartmenthistory",
+    "humanresources.employeepayhistory"
+   ],
+   "seeds": [
+    [
+     "humanresources.employeepayhistory",
+     0.8635,
+     "column:rate"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8232,
+     "table"
+    ],
+    [
+     "production.location",
+     0.8215,
+     "column:costrate"
+    ],
+    [
+     "humanresources.employee",
+     0.8178,
+     "table"
+    ],
+    [
+     "production.productcosthistory",
+     0.8124,
+     "column:standardcost"
+    ],
+    [
+     "humanresources.department",
+     0.8085,
+     "column:name"
+    ],
+    [
+     "sales.currencyrate",
+     0.808,
+     "column:averagerate"
+    ],
+    [
+     "production.workorderrouting",
+     0.8041,
+     "column:actualresourcehrs"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8015,
+     "column:lastreceiptcost"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.799,
+     "column:employeeid"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.7981,
+     "column:shiprate"
+    ],
+    [
+     "production.billofmaterials",
+     0.7981,
+     "column:perassemblyqty"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7977,
+     "column:actualcost"
+    ],
+    [
+     "sales.salesorderheader",
+     0.797,
+     "column:currencyrateid"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.7964,
+     "column:listprice"
+    ],
+    [
+     "person.businessentity",
+     0.7963,
+     "column:businessentityid"
+    ],
+    [
+     "production.transactionhistory",
+     0.795,
+     "column:actualcost"
+    ],
+    [
+     "sales.salesperson",
+     0.7949,
+     "table"
+    ],
+    [
+     "production.document",
+     0.7941,
+     "column:changenumber"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.7933,
+     "column:businessentityid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ],
+    "top_k=5": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=5, gap<=0.08": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=5, gap<=0.05": [
+     0.6666666666666666,
+     8
+    ],
+    "top_k=5, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     0.6666666666666666,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     0.6666666666666666,
+     8
+    ],
+    "top_k=12, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-033",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory",
+    "sales.salesorderdetail",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.store",
+     0.839,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8361,
+     "column:customerid"
+    ],
+    [
+     "sales.customer",
+     0.831,
+     "column:personid"
+    ],
+    [
+     "production.productcategory",
+     0.8228,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8194,
+     "column:productnumber"
+    ],
+    [
+     "production.productsubcategory",
+     0.8193,
+     "column:productcategoryid"
+    ],
+    [
+     "sales.specialoffer",
+     0.8177,
+     "column:category"
+    ],
+    [
+     "sales.salesreason",
+     0.8173,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.8167,
+     "table"
+    ],
+    [
+     "production.productreview",
+     0.8165,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8139,
+     "column:businessentityid"
+    ],
+    [
+     "person.person",
+     0.8138,
+     "table"
+    ],
+    [
+     "purchasing.vendor",
+     0.8131,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8118,
+     "column:productid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8099,
+     "column:businessentityid"
+    ],
+    [
+     "sales.personcreditcard",
+     0.8097,
+     "column:businessentityid"
+    ],
+    [
+     "production.illustration",
+     0.8096,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8088,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8088,
+     "column:orderqty"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8083,
+     "column:productid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.2,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.2,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.2,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.2,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     8
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     11
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     15
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-034",
+   "gold": [
+    "sales.salesorderdetail",
+    "sales.salesorderheader",
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8359,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesterritory",
+     0.8336,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8299,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8248,
+     "column:orderqty"
+    ],
+    [
+     "sales.customer",
+     0.822,
+     "column:territoryid"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8209,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesperson",
+     0.8191,
+     "column:territoryid"
+    ],
+    [
+     "production.product",
+     0.8184,
+     "column:productnumber"
+    ],
+    [
+     "person.stateprovince",
+     0.8164,
+     "column:territoryid"
+    ],
+    [
+     "sales.store",
+     0.8145,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8084,
+     "column:quantity"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.807,
+     "column:productid"
+    ],
+    [
+     "sales.specialoffer",
+     0.8054,
+     "column:type"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8034,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8014,
+     "column:stateprovinceid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8005,
+     "column:quantity"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7999,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.7998,
+     "column:transactiontype"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7987,
+     "column:freight"
+    ],
+    [
+     "production.productdocument",
+     0.7979,
+     "column:documentnode"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     13
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-035",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "sales.shoppingcartitem",
+     0.8285,
+     "column:quantity"
+    ],
+    [
+     "production.productcategory",
+     0.8195,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8183,
+     "column:quantity"
+    ],
+    [
+     "production.productinventory",
+     0.8157,
+     "column:quantity"
+    ],
+    [
+     "production.transactionhistory",
+     0.8138,
+     "column:quantity"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8123,
+     "column:orderqty"
+    ],
+    [
+     "sales.specialoffer",
+     0.8061,
+     "column:category"
+    ],
+    [
+     "production.productsubcategory",
+     0.8008,
+     "column:productcategoryid"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8006,
+     "column:orderqty"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7978,
+     "table"
+    ],
+    [
+     "production.product",
+     0.7965,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.794,
+     "column:reasontype"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7928,
+     "column:unitmeasurecode"
+    ],
+    [
+     "production.unitmeasure",
+     0.7912,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.7912,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.7859,
+     "column:group"
+    ],
+    [
+     "production.location",
+     0.7833,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.783,
+     "table"
+    ],
+    [
+     "production.productmodel",
+     0.7814,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.7803,
+     "column:unitmeasurecode"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.75,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     0.75,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     0.75,
+     5
+    ],
+    "top_k=3, gap<=0.03": [
+     0.75,
+     5
+    ],
+    "top_k=5": [
+     0.75,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     0.75,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     0.75,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     0.75,
+     7
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     10
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     11
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-036",
+   "gold": [
+    "humanresources.department",
+    "humanresources.employeedepartmenthistory",
+    "person.person"
+   ],
+   "seeds": [
+    [
+     "sales.salesperson",
+     0.8534,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8364,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8253,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8242,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.8233,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8221,
+     "table"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8195,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8189,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8184,
+     "column:salespersonid"
+    ],
+    [
+     "humanresources.department",
+     0.8184,
+     "column:name"
+    ],
+    [
+     "sales.currency",
+     0.8174,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8146,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8134,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8121,
+     "column:businessentityid"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8103,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8102,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8096,
+     "table"
+    ],
+    [
+     "sales.creditcard",
+     0.8038,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8024,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8018,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.0,
+     3
+    ],
+    "top_k=5": [
+     0.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     0.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     0.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     0.0,
+     4
+    ],
+    "top_k=8": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     0.6666666666666666,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     0.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     0.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-037",
+   "gold": [
+    "person.addresstype",
+    "person.businessentityaddress",
+    "sales.store"
+   ],
+   "seeds": [
+    [
+     "person.addresstype",
+     0.8348,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8341,
+     "table"
+    ],
+    [
+     "person.businessentityaddress",
+     0.8251,
+     "column:addresstypeid"
+    ],
+    [
+     "person.address",
+     0.8235,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8195,
+     "column:persontype"
+    ],
+    [
+     "sales.customer",
+     0.8178,
+     "column:storeid"
+    ],
+    [
+     "production.location",
+     0.8156,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8139,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8109,
+     "column:shiptoaddressid"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8091,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.807,
+     "column:name"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8058,
+     "column:taxtype"
+    ],
+    [
+     "sales.specialoffer",
+     0.8026,
+     "column:type"
+    ],
+    [
+     "person.emailaddress",
+     0.8025,
+     "column:emailaddressid"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8023,
+     "table"
+    ],
+    [
+     "person.contacttype",
+     0.8019,
+     "column:contacttypeid"
+    ],
+    [
+     "sales.salesterritory",
+     0.8015,
+     "column:name"
+    ],
+    [
+     "production.productproductphoto",
+     0.8011,
+     "column:primary"
+    ],
+    [
+     "sales.salesreason",
+     0.7987,
+     "column:reasontype"
+    ],
+    [
+     "person.personphone",
+     0.7985,
+     "column:phonenumbertypeid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     12
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     16
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-038",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory"
+   ],
+   "seeds": [
+    [
+     "production.productcategory",
+     0.8485,
+     "table"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8379,
+     "column:listprice"
+    ],
+    [
+     "production.product",
+     0.8369,
+     "column:listprice"
+    ],
+    [
+     "sales.specialoffer",
+     0.8183,
+     "column:category"
+    ],
+    [
+     "production.productsubcategory",
+     0.8168,
+     "column:productcategoryid"
+    ],
+    [
+     "production.productcosthistory",
+     0.8107,
+     "column:standardcost"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8065,
+     "column:standardprice"
+    ],
+    [
+     "sales.currencyrate",
+     0.8041,
+     "column:averagerate"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.803,
+     "column:unitprice"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8013,
+     "column:unitprice"
+    ],
+    [
+     "production.productphoto",
+     0.7989,
+     "column:largephotofilename"
+    ],
+    [
+     "production.billofmaterials",
+     0.7976,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.7961,
+     "column:group"
+    ],
+    [
+     "production.illustration",
+     0.7951,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7948,
+     "column:actualcost"
+    ],
+    [
+     "sales.store",
+     0.7932,
+     "table"
+    ],
+    [
+     "production.productmodel",
+     0.7928,
+     "table"
+    ],
+    [
+     "production.location",
+     0.7927,
+     "column:costrate"
+    ],
+    [
+     "production.unitmeasure",
+     0.7919,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.7913,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-039",
+   "gold": [
+    "humanresources.department",
+    "humanresources.employeedepartmenthistory",
+    "person.person"
+   ],
+   "seeds": [
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8561,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.8231,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.8156,
+     "table"
+    ],
+    [
+     "person.person",
+     0.814,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.8062,
+     "table"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.8042,
+     "table"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.7997,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.7943,
+     "column:name"
+    ],
+    [
+     "person.businessentity",
+     0.7936,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7885,
+     "column:employeeid"
+    ],
+    [
+     "person.businessentityaddress",
+     0.7878,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.7878,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7863,
+     "column:businessentityid"
+    ],
+    [
+     "production.productdescription",
+     0.7847,
+     "table"
+    ],
+    [
+     "production.document",
+     0.7842,
+     "column:owner"
+    ],
+    [
+     "sales.store",
+     0.7839,
+     "table"
+    ],
+    [
+     "humanresources.shift",
+     0.7835,
+     "table"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.7834,
+     "column:businessentityid"
+    ],
+    [
+     "production.location",
+     0.781,
+     "column:name"
+    ],
+    [
+     "sales.customer",
+     0.7805,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=8, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=12, gap<=0.03": [
+     0.3333333333333333,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-040",
+   "gold": [
+    "sales.salesorderheader",
+    "sales.salesorderheadersalesreason",
+    "sales.salesreason"
+   ],
+   "seeds": [
+    [
+     "sales.salesreason",
+     0.8652,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8564,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.831,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8291,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8179,
+     "column:orderqty"
+    ],
+    [
+     "sales.store",
+     0.8144,
+     "table"
+    ],
+    [
+     "production.scrapreason",
+     0.8132,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8124,
+     "column:storeid"
+    ],
+    [
+     "sales.specialoffer",
+     0.8113,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.808,
+     "column:businessentityid"
+    ],
+    [
+     "production.workorder",
+     0.804,
+     "column:scrapreasonid"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8025,
+     "column:orderqty"
+    ],
+    [
+     "person.person",
+     0.8015,
+     "column:demographics"
+    ],
+    [
+     "sales.salesterritory",
+     0.8006,
+     "column:name"
+    ],
+    [
+     "sales.salestaxrate",
+     0.7994,
+     "column:taxtype"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7976,
+     "column:status"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7971,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.7968,
+     "column:businessentityid"
+    ],
+    [
+     "sales.currencyrate",
+     0.796,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7959,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     7
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=8, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=12, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-041",
+   "gold": [
+    "production.product",
+    "production.productsubcategory",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "production.productsubcategory",
+     0.8198,
+     "column:name"
+    ],
+    [
+     "production.billofmaterials",
+     0.8077,
+     "table"
+    ],
+    [
+     "production.illustration",
+     0.8028,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8015,
+     "column:name"
+    ],
+    [
+     "production.productcategory",
+     0.7992,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.7988,
+     "column:subtotal"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7983,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.7976,
+     "column:name"
+    ],
+    [
+     "production.productdescription",
+     0.7944,
+     "column:description"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7932,
+     "column:productid"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7931,
+     "column:productid"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7921,
+     "column:subtotal"
+    ],
+    [
+     "production.productdocument",
+     0.7893,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.7876,
+     "column:quantity"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7864,
+     "column:productid"
+    ],
+    [
+     "production.transactionhistory",
+     0.7854,
+     "column:productid"
+    ],
+    [
+     "purchasing.vendor",
+     0.7844,
+     "column:name"
+    ],
+    [
+     "production.productphoto",
+     0.7837,
+     "column:largephotofilename"
+    ],
+    [
+     "sales.salesperson",
+     0.7829,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7828,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=5": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     12
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     12
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-042",
+   "gold": [
+    "purchasing.purchaseorderdetail",
+    "purchasing.purchaseorderheader",
+    "purchasing.vendor"
+   ],
+   "seeds": [
+    [
+     "purchasing.purchaseorderheader",
+     0.8435,
+     "column:vendorid"
+    ],
+    [
+     "purchasing.vendor",
+     0.8371,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8326,
+     "column:maxorderqty"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8287,
+     "column:orderqty"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.817,
+     "column:quantity"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8137,
+     "column:orderqty"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8103,
+     "column:quantity"
+    ],
+    [
+     "production.productinventory",
+     0.8091,
+     "column:quantity"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8087,
+     "column:name"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8071,
+     "column:status"
+    ],
+    [
+     "production.transactionhistory",
+     0.8053,
+     "column:quantity"
+    ],
+    [
+     "person.businessentity",
+     0.8047,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8044,
+     "table"
+    ],
+    [
+     "production.workorder",
+     0.7963,
+     "column:orderqty"
+    ],
+    [
+     "sales.store",
+     0.7957,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.7956,
+     "column:perassemblyqty"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7951,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.7945,
+     "column:maxqty"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7937,
+     "column:businessentityid"
+    ],
+    [
+     "production.product",
+     0.7925,
+     "column:size"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=8": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     11
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     8
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     8
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-043",
+   "gold": [
+    "person.person",
+    "sales.salesperson",
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8462,
+     "column:salesytd"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8279,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8279,
+     "column:salesytd"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8254,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8157,
+     "column:territoryid"
+    ],
+    [
+     "person.stateprovince",
+     0.8127,
+     "column:territoryid"
+    ],
+    [
+     "sales.store",
+     0.8105,
+     "column:salespersonid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8057,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8004,
+     "table"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.7981,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.7977,
+     "table"
+    ],
+    [
+     "person.person",
+     0.7968,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.7888,
+     "column:loginid"
+    ],
+    [
+     "sales.specialoffer",
+     0.7885,
+     "table"
+    ],
+    [
+     "person.countryregion",
+     0.788,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.currencyrate",
+     0.7866,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.7847,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.7827,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.7825,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.7822,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=5": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6666666666666666,
+     4
+    ],
+    "top_k=8": [
+     0.6666666666666666,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     0.6666666666666666,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     0.6666666666666666,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     0.6666666666666666,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.03": [
+     0.6666666666666666,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-044",
+   "gold": [
+    "production.product",
+    "production.productsubcategory",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderdetail",
+     0.8439,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8387,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8377,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8301,
+     "column:category"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8263,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8263,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8237,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8211,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8185,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8141,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8125,
+     "column:productcategoryid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8121,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8109,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8096,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.8082,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.8078,
+     "column:transactiontype"
+    ],
+    [
+     "sales.salesperson",
+     0.8069,
+     "column:businessentityid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8053,
+     "column:referenceorderid"
+    ],
+    [
+     "production.product",
+     0.8039,
+     "table"
+    ],
+    [
+     "production.productmodel",
+     0.8035,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     5
+    ],
+    "top_k=5": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=5, gap<=0.08": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=5, gap<=0.05": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6666666666666666,
+     7
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     10
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     13
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-045",
+   "gold": [
+    "production.product",
+    "purchasing.productvendor",
+    "purchasing.vendor"
+   ],
+   "seeds": [
+    [
+     "purchasing.productvendor",
+     0.8537,
+     "column:standardprice"
+    ],
+    [
+     "purchasing.vendor",
+     0.8385,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8207,
+     "column:vendorid"
+    ],
+    [
+     "production.product",
+     0.819,
+     "column:name"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8154,
+     "column:unitprice"
+    ],
+    [
+     "production.productcategory",
+     0.8146,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.81,
+     "column:productid"
+    ],
+    [
+     "production.productdocument",
+     0.8072,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.807,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8069,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8068,
+     "table"
+    ],
+    [
+     "production.productphoto",
+     0.8063,
+     "column:largephotofilename"
+    ],
+    [
+     "production.productcosthistory",
+     0.8055,
+     "column:standardcost"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8054,
+     "table"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8026,
+     "column:name"
+    ],
+    [
+     "production.productinventory",
+     0.8025,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8022,
+     "column:name"
+    ],
+    [
+     "person.person",
+     0.8008,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8006,
+     "table"
+    ],
+    [
+     "production.productmodelillustration",
+     0.8,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     0.6666666666666666,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-046",
+   "gold": [
+    "production.product",
+    "production.productsubcategory",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "production.productsubcategory",
+     0.8307,
+     "column:name"
+    ],
+    [
+     "production.product",
+     0.8147,
+     "column:name"
+    ],
+    [
+     "sales.store",
+     0.8085,
+     "column:name"
+    ],
+    [
+     "production.billofmaterials",
+     0.808,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8047,
+     "column:productid"
+    ],
+    [
+     "production.productcategory",
+     0.8032,
+     "column:name"
+    ],
+    [
+     "production.illustration",
+     0.8,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.7989,
+     "column:productid"
+    ],
+    [
+     "sales.salesorderheader",
+     0.7958,
+     "column:subtotal"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7953,
+     "column:productid"
+    ],
+    [
+     "production.productdescription",
+     0.7952,
+     "column:description"
+    ],
+    [
+     "purchasing.vendor",
+     0.7911,
+     "column:name"
+    ],
+    [
+     "production.productmodel",
+     0.7909,
+     "column:name"
+    ],
+    [
+     "production.workorder",
+     0.7906,
+     "column:productid"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7899,
+     "column:productid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7897,
+     "column:productid"
+    ],
+    [
+     "production.workorderrouting",
+     0.7896,
+     "column:productid"
+    ],
+    [
+     "production.productdocument",
+     0.7886,
+     "column:productid"
+    ],
+    [
+     "production.transactionhistory",
+     0.788,
+     "column:productid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.7874,
+     "column:businessentityid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     6
+    ],
+    "top_k=5": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     8
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     9
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-047",
+   "gold": [
+    "person.person",
+    "sales.customer",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesorderheader",
+     0.8197,
+     "column:customerid"
+    ],
+    [
+     "sales.store",
+     0.8133,
+     "table"
+    ],
+    [
+     "person.person",
+     0.8062,
+     "column:firstname"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.805,
+     "column:employeeid"
+    ],
+    [
+     "sales.customer",
+     0.8046,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8045,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8014,
+     "column:productnumber"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7999,
+     "column:orderqty"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7959,
+     "column:orderqty"
+    ],
+    [
+     "sales.creditcard",
+     0.7952,
+     "column:cardnumber"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7939,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.7913,
+     "column:loginid"
+    ],
+    [
+     "person.businessentity",
+     0.7911,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesperson",
+     0.7907,
+     "column:businessentityid"
+    ],
+    [
+     "purchasing.vendor",
+     0.7905,
+     "table"
+    ],
+    [
+     "person.countryregion",
+     0.7876,
+     "column:countryregioncode"
+    ],
+    [
+     "person.stateprovince",
+     0.7876,
+     "column:name"
+    ],
+    [
+     "sales.personcreditcard",
+     0.7868,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7855,
+     "column:businessentityid"
+    ],
+    [
+     "sales.specialoffer",
+     0.7848,
+     "column:maxqty"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     10
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     12
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-048",
+   "gold": [
+    "humanresources.department",
+    "humanresources.employee",
+    "humanresources.employeedepartmenthistory"
+   ],
+   "seeds": [
+    [
+     "humanresources.employee",
+     0.8299,
+     "column:jobtitle"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.825,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.8094,
+     "column:name"
+    ],
+    [
+     "sales.salesperson",
+     0.7924,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7904,
+     "table"
+    ],
+    [
+     "person.contacttype",
+     0.789,
+     "column:name"
+    ],
+    [
+     "production.document",
+     0.7887,
+     "column:status"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.7871,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.7857,
+     "column:businessentityid"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.7852,
+     "column:businessentityid"
+    ],
+    [
+     "person.person",
+     0.7847,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.78,
+     "column:employeeid"
+    ],
+    [
+     "production.location",
+     0.778,
+     "column:name"
+    ],
+    [
+     "production.product",
+     0.7766,
+     "column:productnumber"
+    ],
+    [
+     "production.productinventory",
+     0.7761,
+     "column:quantity"
+    ],
+    [
+     "humanresources.shift",
+     0.7761,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.776,
+     "column:businessentityid"
+    ],
+    [
+     "production.billofmaterials",
+     0.7749,
+     "table"
+    ],
+    [
+     "person.businessentityaddress",
+     0.7742,
+     "table"
+    ],
+    [
+     "person.stateprovince",
+     0.7726,
+     "column:name"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     3
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-049",
+   "gold": [
+    "person.address",
+    "person.stateprovince",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "person.address",
+     0.834,
+     "column:stateprovinceid"
+    ],
+    [
+     "person.stateprovince",
+     0.8325,
+     "column:name"
+    ],
+    [
+     "sales.salestaxrate",
+     0.831,
+     "column:stateprovinceid"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8254,
+     "column:shiptoaddressid"
+    ],
+    [
+     "sales.salesterritory",
+     0.8222,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8206,
+     "column:orderqty"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8148,
+     "column:shipmethodid"
+    ],
+    [
+     "person.countryregion",
+     0.8133,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.store",
+     0.8124,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8092,
+     "table"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8089,
+     "column:countryregioncode"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8085,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8039,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8036,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesperson",
+     0.8011,
+     "column:territoryid"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7993,
+     "column:unitmeasurecode"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.7985,
+     "column:shipmethodid"
+    ],
+    [
+     "production.location",
+     0.7983,
+     "table"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.7965,
+     "column:salesorderid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.795,
+     "column:businessentityid"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6666666666666666,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     15
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-050",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory"
+   ],
+   "seeds": [
+    [
+     "production.productcategory",
+     0.8383,
+     "table"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8212,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8181,
+     "column:name"
+    ],
+    [
+     "production.productsubcategory",
+     0.815,
+     "column:name"
+    ],
+    [
+     "sales.specialoffer",
+     0.8082,
+     "column:category"
+    ],
+    [
+     "production.productphoto",
+     0.8075,
+     "column:largephotofilename"
+    ],
+    [
+     "production.billofmaterials",
+     0.8048,
+     "table"
+    ],
+    [
+     "production.productcosthistory",
+     0.8027,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8027,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8022,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.8011,
+     "table"
+    ],
+    [
+     "production.productproductphoto",
+     0.7995,
+     "table"
+    ],
+    [
+     "production.productmodelillustration",
+     0.7984,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.7981,
+     "table"
+    ],
+    [
+     "production.productmodel",
+     0.7977,
+     "column:name"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.7975,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.796,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.7925,
+     "column:description"
+    ],
+    [
+     "production.productmodelproductdescriptionculture",
+     0.7918,
+     "table"
+    ],
+    [
+     "production.illustration",
+     0.7911,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-01",
+   "gold": [
+    "production.product"
+   ],
+   "seeds": [
+    [
+     "production.product",
+     0.8666,
+     "column:sellenddate"
+    ],
+    [
+     "production.productcosthistory",
+     0.8357,
+     "column:enddate"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8328,
+     "column:enddate"
+    ],
+    [
+     "production.billofmaterials",
+     0.8283,
+     "column:enddate"
+    ],
+    [
+     "sales.specialoffer",
+     0.8262,
+     "column:enddate"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8219,
+     "column:enddate"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8206,
+     "column:enddate"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8194,
+     "column:productid"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8177,
+     "table"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8173,
+     "column:productid"
+    ],
+    [
+     "production.productinventory",
+     0.8166,
+     "table"
+    ],
+    [
+     "production.workorder",
+     0.8149,
+     "column:enddate"
+    ],
+    [
+     "sales.store",
+     0.8142,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.8141,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8137,
+     "column:modifieddate"
+    ],
+    [
+     "production.culture",
+     0.8129,
+     "column:modifieddate"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8127,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.8127,
+     "column:modifieddate"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8122,
+     "column:productid"
+    ],
+    [
+     "production.productmodel",
+     0.8122,
+     "column:modifieddate"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     1
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     1
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-02",
+   "gold": [
+    "production.product"
+   ],
+   "seeds": [
+    [
+     "production.product",
+     0.8688,
+     "column:listprice"
+    ],
+    [
+     "production.productlistpricehistory",
+     0.8605,
+     "column:listprice"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8385,
+     "column:standardprice"
+    ],
+    [
+     "production.productcosthistory",
+     0.8311,
+     "column:standardcost"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8278,
+     "column:unitprice"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8278,
+     "column:unitprice"
+    ],
+    [
+     "sales.currencyrate",
+     0.8213,
+     "column:averagerate"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8189,
+     "column:subtotal"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8183,
+     "column:productid"
+    ],
+    [
+     "production.productcategory",
+     0.8177,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.816,
+     "column:freight"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8154,
+     "column:actualcost"
+    ],
+    [
+     "production.productphoto",
+     0.8146,
+     "column:largephotofilename"
+    ],
+    [
+     "production.transactionhistory",
+     0.8138,
+     "column:actualcost"
+    ],
+    [
+     "production.location",
+     0.8135,
+     "column:costrate"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8131,
+     "column:shipbase"
+    ],
+    [
+     "sales.specialoffer",
+     0.8103,
+     "column:discountpct"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.8084,
+     "column:rate"
+    ],
+    [
+     "production.billofmaterials",
+     0.8081,
+     "column:productassemblyid"
+    ],
+    [
+     "production.productdescription",
+     0.8067,
+     "column:description"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-03",
+   "gold": [
+    "humanresources.department"
+   ],
+   "seeds": [
+    [
+     "humanresources.department",
+     0.8564,
+     "column:groupname"
+    ],
+    [
+     "production.workorder",
+     0.8442,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8345,
+     "table"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8333,
+     "table"
+    ],
+    [
+     "production.location",
+     0.8326,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.8325,
+     "table"
+    ],
+    [
+     "production.illustration",
+     0.8314,
+     "table"
+    ],
+    [
+     "production.workorderrouting",
+     0.8283,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8237,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.8224,
+     "column:name"
+    ],
+    [
+     "production.document",
+     0.8201,
+     "table"
+    ],
+    [
+     "production.scrapreason",
+     0.8196,
+     "table"
+    ],
+    [
+     "sales.salesterritory",
+     0.8193,
+     "column:group"
+    ],
+    [
+     "production.culture",
+     0.8188,
+     "column:name"
+    ],
+    [
+     "production.productmodel",
+     0.8183,
+     "table"
+    ],
+    [
+     "purchasing.vendor",
+     0.8173,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.8167,
+     "table"
+    ],
+    [
+     "production.transactionhistory",
+     0.8165,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.814,
+     "table"
+    ],
+    [
+     "humanresources.employee",
+     0.8103,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     7
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     7
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     7
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     7
+    ],
+    "top_k=5": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     10
+    ]
+   },
+   "error": "KeyError: 'adventureworks:production.workorder'"
+  },
+  {
+   "id": "aw-dev-04",
+   "gold": [
+    "production.product",
+    "production.productsubcategory"
+   ],
+   "seeds": [
+    [
+     "production.productsubcategory",
+     0.8756,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8548,
+     "column:productsubcategoryid"
+    ],
+    [
+     "production.productcategory",
+     0.8333,
+     "table"
+    ],
+    [
+     "production.productdocument",
+     0.821,
+     "table"
+    ],
+    [
+     "production.productinventory",
+     0.8187,
+     "column:quantity"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8186,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8183,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8161,
+     "column:subtotal"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8155,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8129,
+     "column:subtotal"
+    ],
+    [
+     "production.productproductphoto",
+     0.8128,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8127,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.8127,
+     "table"
+    ],
+    [
+     "production.productphoto",
+     0.8122,
+     "column:thumbnailphotofilename"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.8106,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8081,
+     "column:productid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.8061,
+     "column:productid"
+    ],
+    [
+     "production.productmodel",
+     0.805,
+     "table"
+    ],
+    [
+     "production.productmodelillustration",
+     0.8049,
+     "table"
+    ],
+    [
+     "production.productcosthistory",
+     0.8045,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=8": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     2
+    ],
+    "top_k=12": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     14
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     2
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-05",
+   "gold": [
+    "sales.salesorderheader",
+    "sales.salesterritory"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8561,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8547,
+     "column:territoryid"
+    ],
+    [
+     "sales.customer",
+     0.8381,
+     "column:territoryid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8346,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.8307,
+     "column:territoryid"
+    ],
+    [
+     "person.stateprovince",
+     0.8259,
+     "column:territoryid"
+    ],
+    [
+     "sales.store",
+     0.8195,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8189,
+     "column:orderqty"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8132,
+     "column:orderqty"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8124,
+     "table"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8082,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8062,
+     "table"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8041,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.8015,
+     "table"
+    ],
+    [
+     "sales.salesreason",
+     0.801,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8001,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.7989,
+     "table"
+    ],
+    [
+     "person.countryregion",
+     0.7987,
+     "column:countryregioncode"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.7958,
+     "table"
+    ],
+    [
+     "sales.currency",
+     0.7945,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=8": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     5
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     5
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-06",
+   "gold": [
+    "humanresources.employee",
+    "person.person"
+   ],
+   "seeds": [
+    [
+     "humanresources.employee",
+     0.8325,
+     "column:hiredate"
+    ],
+    [
+     "humanresources.employeedepartmenthistory",
+     0.8135,
+     "column:startdate"
+    ],
+    [
+     "person.person",
+     0.8039,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8034,
+     "column:employeeid"
+    ],
+    [
+     "humanresources.jobcandidate",
+     0.795,
+     "column:businessentityid"
+    ],
+    [
+     "humanresources.employeepayhistory",
+     0.7949,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.792,
+     "column:personid"
+    ],
+    [
+     "production.illustration",
+     0.7911,
+     "column:modifieddate"
+    ],
+    [
+     "person.businessentity",
+     0.7907,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salesperson",
+     0.7907,
+     "column:businessentityid"
+    ],
+    [
+     "person.emailaddress",
+     0.7896,
+     "column:modifieddate"
+    ],
+    [
+     "person.password",
+     0.7879,
+     "column:modifieddate"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.7875,
+     "column:startdate"
+    ],
+    [
+     "humanresources.department",
+     0.7846,
+     "column:name"
+    ],
+    [
+     "person.personphone",
+     0.7842,
+     "column:modifieddate"
+    ],
+    [
+     "humanresources.shift",
+     0.7841,
+     "table"
+    ],
+    [
+     "production.product",
+     0.7838,
+     "column:modifieddate"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7832,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.7831,
+     "column:salespersonid"
+    ],
+    [
+     "production.transactionhistoryarchive",
+     0.7819,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     3
+    ],
+    "top_k=5": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-07",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory",
+    "purchasing.productvendor",
+    "purchasing.vendor"
+   ],
+   "seeds": [
+    [
+     "purchasing.vendor",
+     0.8559,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8346,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.8286,
+     "column:componentid"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8157,
+     "column:vendorid"
+    ],
+    [
+     "person.businessentity",
+     0.8148,
+     "table"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8117,
+     "column:name"
+    ],
+    [
+     "person.person",
+     0.8105,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8087,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.8041,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.8041,
+     "table"
+    ],
+    [
+     "production.illustration",
+     0.8026,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8019,
+     "table"
+    ],
+    [
+     "production.location",
+     0.8003,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7992,
+     "table"
+    ],
+    [
+     "production.productdescription",
+     0.7957,
+     "column:description"
+    ],
+    [
+     "production.productdocument",
+     0.7941,
+     "table"
+    ],
+    [
+     "person.businessentityaddress",
+     0.7939,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.7929,
+     "column:category"
+    ],
+    [
+     "production.productinventory",
+     0.7926,
+     "table"
+    ],
+    [
+     "humanresources.department",
+     0.7922,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.6,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     0.6,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     0.6,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     0.6,
+     4
+    ],
+    "top_k=5": [
+     0.6,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     0.6,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     0.6,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     0.6,
+     4
+    ],
+    "top_k=8": [
+     0.6,
+     8
+    ],
+    "top_k=8, gap<=0.08": [
+     0.6,
+     8
+    ],
+    "top_k=8, gap<=0.05": [
+     0.6,
+     8
+    ],
+    "top_k=8, gap<=0.03": [
+     0.6,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     15
+    ],
+    "top_k=12, gap<=0.05": [
+     0.6,
+     8
+    ],
+    "top_k=12, gap<=0.03": [
+     0.6,
+     4
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-08",
+   "gold": [
+    "production.product",
+    "production.productcategory",
+    "production.productsubcategory",
+    "sales.salesorderdetail"
+   ],
+   "seeds": [
+    [
+     "production.productcategory",
+     0.8412,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.8406,
+     "column:category"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8182,
+     "column:unitpricediscount"
+    ],
+    [
+     "sales.salesreason",
+     0.8179,
+     "column:reasontype"
+    ],
+    [
+     "production.productsubcategory",
+     0.8126,
+     "column:name"
+    ],
+    [
+     "sales.salesterritory",
+     0.8113,
+     "column:name"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8097,
+     "column:quantity"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8071,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8056,
+     "column:subtotal"
+    ],
+    [
+     "sales.store",
+     0.8054,
+     "table"
+    ],
+    [
+     "production.product",
+     0.8024,
+     "column:discontinueddate"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.8016,
+     "column:subtotal"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.7997,
+     "table"
+    ],
+    [
+     "production.productreview",
+     0.7995,
+     "table"
+    ],
+    [
+     "production.location",
+     0.7983,
+     "column:name"
+    ],
+    [
+     "production.productinventory",
+     0.7976,
+     "table"
+    ],
+    [
+     "purchasing.productvendor",
+     0.7973,
+     "column:unitmeasurecode"
+    ],
+    [
+     "humanresources.department",
+     0.7972,
+     "column:name"
+    ],
+    [
+     "sales.currencyrate",
+     0.7971,
+     "table"
+    ],
+    [
+     "sales.specialofferproduct",
+     0.7957,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     6
+    ],
+    "top_k=5": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     9
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     9
+    ],
+    "top_k=8": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     12
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     10
+    ],
+    "top_k=12": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     10
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-09",
+   "gold": [
+    "person.address",
+    "person.countryregion",
+    "person.stateprovince",
+    "sales.salesorderheader"
+   ],
+   "seeds": [
+    [
+     "sales.salesterritory",
+     0.8432,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.countryregioncurrency",
+     0.8421,
+     "column:countryregioncode"
+    ],
+    [
+     "person.countryregion",
+     0.8399,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8299,
+     "column:status"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.8256,
+     "column:orderqty"
+    ],
+    [
+     "person.stateprovince",
+     0.8239,
+     "column:countryregioncode"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.8187,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8181,
+     "column:orderqty"
+    ],
+    [
+     "sales.store",
+     0.8143,
+     "table"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8137,
+     "table"
+    ],
+    [
+     "sales.salestaxrate",
+     0.811,
+     "column:stateprovinceid"
+    ],
+    [
+     "sales.salesreason",
+     0.8095,
+     "table"
+    ],
+    [
+     "sales.customer",
+     0.8094,
+     "column:territoryid"
+    ],
+    [
+     "purchasing.purchaseorderheader",
+     0.808,
+     "column:shipmethodid"
+    ],
+    [
+     "sales.salesterritoryhistory",
+     0.8063,
+     "table"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.806,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.803,
+     "column:businessentityid"
+    ],
+    [
+     "sales.salespersonquotahistory",
+     0.8013,
+     "table"
+    ],
+    [
+     "sales.currencyrate",
+     0.8007,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.796,
+     "table"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     0.25,
+     3
+    ],
+    "top_k=3, gap<=0.08": [
+     0.25,
+     3
+    ],
+    "top_k=3, gap<=0.05": [
+     0.25,
+     3
+    ],
+    "top_k=3, gap<=0.03": [
+     0.25,
+     3
+    ],
+    "top_k=5": [
+     0.5,
+     5
+    ],
+    "top_k=5, gap<=0.08": [
+     0.5,
+     5
+    ],
+    "top_k=5, gap<=0.05": [
+     0.5,
+     5
+    ],
+    "top_k=5, gap<=0.03": [
+     0.5,
+     5
+    ],
+    "top_k=8": [
+     0.75,
+     10
+    ],
+    "top_k=8, gap<=0.08": [
+     0.75,
+     10
+    ],
+    "top_k=8, gap<=0.05": [
+     0.75,
+     10
+    ],
+    "top_k=8, gap<=0.03": [
+     0.75,
+     10
+    ],
+    "top_k=12": [
+     0.75,
+     16
+    ],
+    "top_k=12, gap<=0.08": [
+     0.75,
+     16
+    ],
+    "top_k=12, gap<=0.05": [
+     0.75,
+     16
+    ],
+    "top_k=12, gap<=0.03": [
+     0.75,
+     14
+    ]
+   },
+   "error": null
+  },
+  {
+   "id": "aw-dev-10",
+   "gold": [
+    "purchasing.purchaseorderheader",
+    "purchasing.vendor"
+   ],
+   "seeds": [
+    [
+     "purchasing.purchaseorderheader",
+     0.8698,
+     "column:subtotal"
+    ],
+    [
+     "purchasing.vendor",
+     0.8466,
+     "table"
+    ],
+    [
+     "sales.salesorderheader",
+     0.8448,
+     "column:subtotal"
+    ],
+    [
+     "purchasing.productvendor",
+     0.8357,
+     "table"
+    ],
+    [
+     "purchasing.purchaseorderdetail",
+     0.8343,
+     "table"
+    ],
+    [
+     "purchasing.shipmethod",
+     0.8077,
+     "column:name"
+    ],
+    [
+     "sales.shoppingcartitem",
+     0.8029,
+     "table"
+    ],
+    [
+     "person.businessentity",
+     0.8004,
+     "table"
+    ],
+    [
+     "sales.salesorderdetail",
+     0.7998,
+     "table"
+    ],
+    [
+     "sales.store",
+     0.7991,
+     "table"
+    ],
+    [
+     "person.person",
+     0.7988,
+     "table"
+    ],
+    [
+     "production.productsubcategory",
+     0.7972,
+     "column:name"
+    ],
+    [
+     "production.transactionhistory",
+     0.7964,
+     "table"
+    ],
+    [
+     "person.businessentitycontact",
+     0.7927,
+     "table"
+    ],
+    [
+     "sales.salesperson",
+     0.7889,
+     "column:salesytd"
+    ],
+    [
+     "production.product",
+     0.7883,
+     "column:productsubcategoryid"
+    ],
+    [
+     "sales.salesorderheadersalesreason",
+     0.7881,
+     "table"
+    ],
+    [
+     "production.billofmaterials",
+     0.7869,
+     "table"
+    ],
+    [
+     "sales.specialoffer",
+     0.7868,
+     "table"
+    ],
+    [
+     "production.productcategory",
+     0.7867,
+     "column:name"
+    ]
+   ],
+   "graph": {
+    "top_k=3": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.08": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.05": [
+     1.0,
+     4
+    ],
+    "top_k=3, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=5": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.08": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=5, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=8": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.08": [
+     1.0,
+     9
+    ],
+    "top_k=8, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=8, gap<=0.03": [
+     1.0,
+     4
+    ],
+    "top_k=12": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.08": [
+     1.0,
+     13
+    ],
+    "top_k=12, gap<=0.05": [
+     1.0,
+     6
+    ],
+    "top_k=12, gap<=0.03": [
+     1.0,
+     4
+    ]
+   },
+   "error": null
+  }
+ ]
+}

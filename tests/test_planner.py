@@ -438,3 +438,22 @@ def test_join_plan_sample_file_matches_what_the_planner_produces(sample_edges):
     produced = pl.plan_from_edges("adventureworks", seeds, sample_edges)
     stored = JoinPlan.model_validate_json((SAMPLE.parent / "join_plan.sample.json").read_text())
     assert stored == produced  # regenerate the file if the planner's output changes on purpose
+
+
+def test_networkx_reports_no_route_when_banning_a_bridge_splits_the_seeds():
+    """Two clusters of seeds joined only through `bridge`: without it there is no tree. This used to raise
+    KeyError in _tidy (a forest was treated as a tree) whenever the alternatives loop banned the bridge."""
+    left = [f"l{i}" for i in range(4)]
+    right = [f"r{i}" for i in range(4)]
+    edges = [E(a, b) for a, b in zip(left, left[1:], strict=False)] + [E(a, b) for a, b in zip(right, right[1:], strict=False)]
+    edges += [E("l0", "bridge"), E("r0", "bridge")]
+    seeds = [seed(n, 0.9 - i / 100) for i, n in enumerate(left + right)]
+    assert len(seeds) > pl.MAX_EXACT_SEEDS
+
+    arcs = pl.build_arcs(pl.build_links(edges, True), True)
+    nodes = {n for src, dsts in arcs.items() for n in (src, *dsts)}
+    without = pl._restrict(arcs, nodes, frozenset({t("bridge")}))
+    assert pl.solve_networkx([s.uid for s in seeds], without) is None
+
+    p = plan(seeds, edges)  # the whole plan, including its alternatives, must not raise
+    assert p.status == "full" and p.bridge_tables == [t("bridge")] and p.alternatives == []

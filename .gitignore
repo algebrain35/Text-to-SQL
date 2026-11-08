@@ -6,3 +6,5 @@ pytest_cache/
 __pycache__/
 .vscode/
 *.diff
+# retrieval_eval / run_eval outputs
+runs/

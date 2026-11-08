@@ -57,12 +57,45 @@ class EmbedReport:
         return self.stopped is None
 
 
-def embedding_inputs(details: list, include_generated: bool = True) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
-    """(uid, text) pairs for tables and for columns. Pure."""
+def related_tables(details: list) -> tuple[dict[str, set[str]], dict[str, set[str]]]:
+    """For each table uid: the display names of the tables it references and of those that reference it.
+
+    Self-references and weak inferred links are left out. Pure.
+    """
+    from schemagraph.models import display_name, table_uid_of_column
+
+    known = {d.table.uid for d in details}
+    out: dict[str, set[str]] = {uid: set() for uid in known}
+    into: dict[str, set[str]] = {uid: set() for uid in known}
+    for d in details:
+        for rel in d.references:
+            if rel.confidence < vector.RELATED_MIN_CONFIDENCE:
+                continue
+            target = table_uid_of_column(rel.to_column)
+            if target == d.table.uid or target not in known:
+                continue
+            out[d.table.uid].add(display_name(target))
+            into[target].add(display_name(d.table.uid))
+    return out, into
+
+
+def embedding_inputs(
+    details: list, include_generated: bool = True, include_relationships: bool = False
+) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    """(uid, text) pairs for tables and for columns. Pure.
+
+    `include_relationships` adds each table's neighbours to its text (vector.table_text).
+    """
+    out, into = related_tables(details) if include_relationships else ({}, {})
     tables: list[tuple[str, str]] = []
     columns: list[tuple[str, str]] = []
     for d in details:
-        tables.append((d.table.uid, vector.table_text(d.table, include_generated)))
+        uid = d.table.uid
+        text = vector.table_text(
+            d.table, include_generated,
+            references=sorted(out.get(uid, ())) or None, referenced_by=sorted(into.get(uid, ())) or None,
+        )
+        tables.append((uid, text))
         for c in d.columns:
             columns.append((c.uid, vector.column_text(d.table, c, include_generated)))
     return tables, columns
@@ -102,11 +135,13 @@ def embed_nodes(
     name: str | None = None,
     reembed: bool = False,
     chunk_size: int | None = None,
+    include_relationships: bool | None = None,
 ) -> EmbedReport:
     """Embed the tables and columns of `db_id` that need it and store the vectors on the nodes.
 
     Only nodes without an up-to-date vector are embedded (see the module doc); `reembed=True`
-    embeds every node. include_generated=False leaves LLM-written descriptions out of the text,
+    embeds every node. include_relationships (default: the embedding config's setting) adds each table's
+    foreign-key neighbours to its text. include_generated=False leaves LLM-written descriptions out of the text,
     to measure what they add to retrieval. Vectors are stored under the embedder's `name`
     (or the `name` given here), so several models can be embedded into one graph.
 
@@ -117,10 +152,12 @@ def embed_nodes(
     embedder = embedder or vector.get_embedder()
     names = vector.names_for(embedder, name)
     hash_prop = f"{names.prop}_hash"
+    if include_relationships is None:
+        include_relationships = bool(getattr(getattr(embedder, "config", None), "include_relationships", False))
     size = chunk_size or getattr(getattr(embedder, "config", None), "batch_size", None) or DEFAULT_CHUNK
     with use_session(session) as s:
         details = queries.get_all_tables(db_id, s)
-        inputs = dict(zip(("Table", "Column"), embedding_inputs(details, include_generated), strict=True))
+        inputs = dict(zip(("Table", "Column"), embedding_inputs(details, include_generated, include_relationships), strict=True))
         todo: dict[str, list[tuple[str, str, str]]] = {}
         current: dict[str, int] = {}
         for label, items in inputs.items():

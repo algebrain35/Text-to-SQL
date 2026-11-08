@@ -90,6 +90,13 @@ def render_joins(plan: JoinPlan) -> str:
     return "\n".join(lines)
 
 
+def expand_options(pipeline_config: Any) -> dict[str, int] | None:
+    """The `expand` argument of `build_context` for a pipeline config, or None when expansion is off."""
+    if pipeline_config is None or not getattr(pipeline_config, "expand_seeds", 0):
+        return None
+    return {"max_added": pipeline_config.expand_seeds, "hops": pipeline_config.expand_hops}
+
+
 def build_context(
     db_id: str,
     question: str,
@@ -97,6 +104,7 @@ def build_context(
     top_k: int,
     *,
     planner_options: dict[str, Any] | None = None,
+    expand: dict[str, int] | None = None,
     timings: dict[str, int] | None = None,
 ) -> tuple[SchemaContext, list[SeedTable]]:
     """Build schema context and the retrieval seeds used to explain the answer.
@@ -118,6 +126,11 @@ def build_context(
         elapsed["retrieval"] = round((perf_counter() - started) * 1000)
         if mode == "graph" and seeds:
             started = perf_counter()
+            if expand and expand.get("max_added", 0) > 0:  # add the tables the seeds reference, which the question may not name (retrieve.expand_seeds)
+                edges = queries.get_reference_edges(
+                    db_id, include_inferred=(planner_options or {}).get("include_inferred", True)
+                )
+                seeds = retrieve.expand_seeds(seeds, edges, **expand)
             join_plan = planner.plan_joins(db_id, seeds, **(planner_options or {}))
             elapsed["planning"] = round((perf_counter() - started) * 1000)
             selected = join_plan.tables if join_plan.status != "none" else [s.uid for s in seeds]

@@ -184,3 +184,41 @@ def test_answer_question_retries_database_execution_errors(monkeypatch, ask_requ
 
     assert response.status == "success"
     assert [attempt.error is not None for attempt in response.attempts] == [True, False]
+
+
+def _stub_pipeline(monkeypatch, ask_request, config):
+    """Everything but build_context is faked; returns the keyword arguments each build_context call received."""
+    seen = []
+    monkeypatch.setattr(pipeline, "get_config", lambda: config)
+
+    def build_context(*args, **kwargs):
+        seen.append(kwargs)
+        return context_for(ask_request), []
+
+    monkeypatch.setattr(pipeline, "build_context", build_context)
+    monkeypatch.setattr(pipeline, "retrieve_examples", lambda *args: [])
+    monkeypatch.setattr(pipeline, "generate_sql", lambda *a: GenerationResult(sql="SELECT 1", raw_output="", input_tokens=1))
+    monkeypatch.setattr(pipeline, "validate", lambda *a: ExplainResult(ok=True))
+    monkeypatch.setattr(pipeline.db, "run_readonly_query", lambda *a: QueryResult(columns=["x"], rows=[["1"]], row_count=1))
+    return seen
+
+
+def test_expansion_comes_from_the_config_unless_the_call_overrides_it(monkeypatch, ask_request):
+    config = SimpleNamespace(pipeline=SimpleNamespace(top_k=5, max_attempts=2, row_limit=10, examples_k=0,
+                                                      expand_seeds=3, expand_hops=2))
+    seen = _stub_pipeline(monkeypatch, ask_request, config)
+
+    pipeline.answer_question(ask_request, explain=False)
+    assert seen[-1]["expand"] == {"max_added": 3, "hops": 2}
+
+    pipeline.answer_question(ask_request, explain=False, expand={"max_added": 1, "hops": 1})
+    assert seen[-1]["expand"] == {"max_added": 1, "hops": 1}
+
+    pipeline.answer_question(ask_request, explain=False, expand={"max_added": 0, "hops": 1})  # explicitly off
+    assert seen[-1]["expand"] == {"max_added": 0, "hops": 1}
+
+
+def test_no_expansion_argument_is_passed_when_it_is_off_everywhere(monkeypatch, ask_request, fake_config):
+    seen = _stub_pipeline(monkeypatch, ask_request, fake_config)
+    pipeline.answer_question(ask_request, explain=False)
+    assert "expand" not in seen[-1]

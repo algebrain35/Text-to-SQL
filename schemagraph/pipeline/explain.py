@@ -28,7 +28,10 @@ def explain_context(context: SchemaContext, seeds: list[SeedTable]) -> Explanati
         seed = seed_by_uid.get(uid)
         if seed is not None:
             role = "seed"
-            reason = f"Matched the question via {seed.matched_on} (score {seed.score:.4f})."
+            if seed.matched_on.startswith("reference_of:"):
+                reason = f"Added because {seed.matched_on.split(':', 1)[1]} has a foreign key to it."
+            else:
+                reason = f"Matched the question via {seed.matched_on} (score {seed.score:.4f})."
         elif uid in bridge_uids:
             role = "bridge"
             reason = "Needed to connect the retrieved tables."

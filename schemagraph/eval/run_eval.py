@@ -245,6 +245,8 @@ def run_eval(
     split: str = "test",
     use_evidence: bool = True,
     skip_bad_gold: bool = False,
+    top_k: int | None = None,
+    expand: dict[str, int] | None = None,
     answer: AnswerFn | None = None,
     run_query: QueryFn | None = None,
     now: Callable[[], datetime] | None = None,
@@ -254,7 +256,8 @@ def run_eval(
     planner_options (for the ablations, e.g. {"include_inferred": False, "weighted": False})
     is passed to `answer_question` as the keyword `planner_options` when it is not empty;
     the pipeline must accept it. With use_evidence, a BIRD question's hint is appended to
-    the question text. Raises GoldError, before any model call, if a gold query is
+    the question text. `top_k` and `expand` ({"max_added": N, "hops": H}) override the config's retrieval
+    settings for the whole run (None keeps the config); `run_sweep` varies them. Raises GoldError, before any model call, if a gold query is
     unusable and skip_bad_gold is False.
     """
     for mode in modes:
@@ -285,10 +288,13 @@ def run_eval(
                     report.already_done += 1
                     continue
                 request = AskRequest(
-                    question=text, db_id=q.db_id, mode=mode, options=AskOptions(row_limit=GOLD_ROW_LIMIT)
+                    question=text, db_id=q.db_id, mode=mode,
+                    options=AskOptions(row_limit=GOLD_ROW_LIMIT, top_k=top_k),
                 )
                 try:
                     kwargs = {"planner_options": planner_options} if planner_options else {}
+                    if expand is not None:
+                        kwargs["expand"] = expand
                     response = answer(request, explain=False, **kwargs)
                     row = score(q, response, gold.results[q.id], run_id=run_id, llm_model=llm_model, timestamp=now())
                 except Exception as exc:  # noqa: BLE001 - one bad call must not end a long run
@@ -357,6 +363,88 @@ def format_summary(rows: list[dict[str, Any]]) -> str:
 
 
 # ---------------------------------------------------------------------------
+# Sweeps: the same questions under several retrieval settings
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class Variant:
+    """One retrieval setting: the `top_k` seeds, plus up to `added` tables they reference, `hops` links away."""
+
+    top_k: int
+    added: int = 0
+    hops: int = 1
+
+    @property
+    def label(self) -> str:
+        return f"k{self.top_k}" + (f"+{self.added}h{self.hops}" if self.added else "")
+
+    @property
+    def expand(self) -> dict[str, int]:
+        return {"max_added": self.added, "hops": self.hops}  # added = 0 switches expansion off
+
+
+def parse_variant(spec: str) -> Variant:
+    """'5' -> top_k 5; '8+4' -> top_k 8, add up to 4 tables one link away; '8+4:2' -> two links away."""
+    head, plus, rest = spec.partition("+")
+    added_text, colon, hops_text = rest.partition(":")
+    try:
+        if (plus and not added_text) or (colon and not hops_text):
+            raise ValueError(spec)
+        variant = Variant(int(head), int(added_text) if added_text else 0, int(hops_text) if hops_text else 1)
+    except ValueError:
+        raise ValueError(f"bad variant {spec!r}; use K, K+N or K+N:H (for example 5, 8+4, 8+4:2)") from None
+    if variant.top_k < 1 or variant.added < 0 or variant.hops < 1:
+        raise ValueError(f"bad variant {spec!r}: top_k and hops must be at least 1, added at least 0")
+    return variant
+
+
+def run_sweep(
+    variants: list[Variant], question_files: list[Path], modes: list[Mode], out_path: Path, run_id: str, **kwargs: Any
+) -> list[tuple[Variant, RunReport]]:
+    """`run_eval` once per variant, each under the run id '<run_id>-<label>', all into one results file.
+
+    Finished rows are skipped on a rerun, so an interrupted sweep resumes. Gold queries are checked each time
+    (cheap); a model call is made only for rows not yet written.
+    """
+    return [
+        (v, run_eval(question_files, modes, out_path, f"{run_id}-{v.label}", top_k=v.top_k, expand=v.expand, **kwargs))
+        for v in variants
+    ]
+
+
+def aggregate_runs(results: list[EvalResult]) -> list[dict[str, Any]]:
+    """One row per run id and mode: accuracy, recall and how big the context was. Pure."""
+    groups: dict[tuple[str, str], list[EvalResult]] = defaultdict(list)
+    for r in results:
+        groups[(r.run_id, r.mode)].append(r)
+    rows = []
+    for (run, mode), rs in sorted(groups.items()):
+        n = len(rs)
+        rows.append({
+            "run_id": run, "mode": mode, "n": n,
+            "accuracy": sum(r.correct for r in rs) / n,
+            "schema_recall": sum(r.schema_recall for r in rs) / n,
+            "context_tables": sum(len(r.context_tables) for r in rs) / n,
+            "attempts": sum(r.attempt_count for r in rs) / n,
+            "input_tokens": sum(r.input_tokens for r in rs) / n,
+            "latency_ms": sum(r.latency_ms for r in rs) / n,
+        })
+    return rows
+
+
+def format_runs(rows: list[dict[str, Any]]) -> str:
+    width = max([8, *(len(r["run_id"]) + 2 for r in rows)])
+    lines = [f"{'run':<{width}}{'mode':<10}{'n':>5}{'accuracy':>10}{'recall':>8}{'tables':>8}{'tries':>7}{'tokens':>9}{'ms':>8}"]
+    for r in rows:
+        lines.append(
+            f"{r['run_id']:<{width}}{r['mode']:<10}{r['n']:>5}{r['accuracy']:>10.1%}{r['schema_recall']:>8.0%}"
+            f"{r['context_tables']:>8.1f}{r['attempts']:>7.2f}{r['input_tokens']:>9.0f}{r['latency_ms']:>8.0f}"
+        )
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
 # Command line
 # ---------------------------------------------------------------------------
 
@@ -375,11 +463,19 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--unweighted", action="store_true", help="ablation: planner treats every edge as cost 1")
     parser.add_argument("--check-gold", action="store_true", help="only run the gold SQL and report problems")
     parser.add_argument("--summarize", type=Path, help="print the summary of a results file and exit")
+    parser.add_argument("--compare-runs", type=Path, metavar="RESULTS", help="print one row per run id and mode of a results file and exit")
+    parser.add_argument("--top-k", type=int, help="override pipeline.top_k for this run")
+    parser.add_argument("--expand", help="override pipeline.expand_seeds / expand_hops for this run: N or N:H (0 = off)")
+    parser.add_argument("--sweep", nargs="+", metavar="VARIANT", help="run the questions once per variant K, K+N or K+N:H "
+                        "(top_k, tables to add, links to look), under run ids '<run-id>-k<K>+<N>h<H>', and compare them")
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
     if args.summarize:
         print(format_summary(aggregate(load_results(args.summarize))))
+        return 0
+    if args.compare_runs:
+        print(format_runs(aggregate_runs(load_results(args.compare_runs))))
         return 0
     if not args.questions:
         parser.error("--questions is required")
@@ -401,13 +497,34 @@ def main(argv: list[str] | None = None) -> int:
         options["include_inferred"] = False
     if args.unweighted:
         options["weighted"] = False
+    common: dict[str, Any] = {
+        "llm_model": args.llm_model, "split": args.split, "use_evidence": not args.no_evidence,
+        "skip_bad_gold": args.skip_bad_gold,
+    }
     try:
+        if args.sweep:
+            variants = [parse_variant(spec) for spec in args.sweep]
+            n = len(load_question_files(args.questions, args.split))
+            print(f"{n} questions x {len(args.modes)} modes x {len(variants)} variants: up to "
+                  f"{n * len(args.modes) * len(variants)} model calls (rows already in {args.out} are skipped)")
+            reports = run_sweep(variants, args.questions, args.modes, args.out, args.run_id,
+                                planner_options=options or None, **common)
+            errors = [e for _, rep in reports for e in rep.errors]
+            for v, rep in reports:
+                print(f"{v.label}: wrote {rep.written}, already done {rep.already_done}, errors {len(rep.errors)}")
+            prefix = f"{args.run_id}-"
+            rows = [r for r in aggregate_runs(load_results(args.out)) if r["run_id"].startswith(prefix)]
+            print(format_runs(rows))
+            return 1 if errors else 0
+        expand = None
+        if args.expand is not None:
+            added, _, hops = args.expand.partition(":")
+            expand = {"max_added": int(added), "hops": int(hops) if hops else 1}
         report = run_eval(
             args.questions, args.modes, args.out, args.run_id, options or None,
-            llm_model=args.llm_model, split=args.split, use_evidence=not args.no_evidence,
-            skip_bad_gold=args.skip_bad_gold,
+            top_k=args.top_k, expand=expand, **common,
         )
-    except GoldError as exc:
+    except (GoldError, ValueError) as exc:
         print(exc, file=sys.stderr)
         return 1
     print(f"run {report.run_id}: wrote {report.written}, already done {report.already_done}, "

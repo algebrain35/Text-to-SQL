@@ -348,3 +348,68 @@ def test_cli_summarize_and_check_gold(tmp_path, monkeypatch, capsys):
     monkeypatch.setattr(ev, "_default_query", broken)
     assert ev.main(["--questions", str(qfile), "--check-gold"]) == 1
     assert "ERROR aw-001" in capsys.readouterr().out
+
+
+# ----------------------------------------------------------------- sweeps
+
+
+def test_parse_variant_forms_and_errors():
+    assert ev.parse_variant("5") == ev.Variant(5, 0, 1)
+    assert ev.parse_variant("8+4") == ev.Variant(8, 4, 1)
+    assert ev.parse_variant("8+4:2") == ev.Variant(8, 4, 2)
+    assert [ev.parse_variant(s).label for s in ("5", "8+4", "8+4:2")] == ["k5", "k8+4h1", "k8+4h2"]
+    assert ev.Variant(5).expand == {"max_added": 0, "hops": 1}
+    for bad in ("", "x", "0", "5+", "5+2:0", "5+-1", "5+a"):
+        with pytest.raises(ValueError, match="bad variant"):
+            ev.parse_variant(bad)
+
+
+def test_run_eval_passes_top_k_and_expansion_to_the_pipeline_only_when_given(tmp_path):
+    seen = []
+
+    def answer(request, explain=False, **kw):
+        seen.append((request.options.top_k, kw))
+        return graph_response()
+
+    run(tmp_path, answer)
+    assert seen[-1] == (None, {})
+    run(tmp_path, answer, top_k=8, expand={"max_added": 4, "hops": 2}, rows=[question(id="aw-002")])
+    assert seen[-1] == (8, {"expand": {"max_added": 4, "hops": 2}})
+
+
+def test_sweep_runs_every_variant_under_its_own_run_id_and_resumes(tmp_path):
+    calls = []
+
+    def answer(request, explain=False, **kw):
+        calls.append((request.options.top_k, kw.get("expand")))
+        # a bigger context for the bigger variant, and a wrong answer for the smallest
+        tables = (HEADER, CUSTOMER, PERSON) if request.options.top_k > 3 else (HEADER,)
+        wrong = qr(["x"], [["0"]])
+        return graph_response(tables=tables, seeds=tables[:1], result=GOLD if request.options.top_k > 3 else wrong)
+
+    qfile = write_questions(tmp_path / "q.jsonl", [question()])
+    out = tmp_path / "sweep.jsonl"
+    variants = [ev.parse_variant(s) for s in ("3", "5", "5+2:2")]
+    kw = {"llm_model": "m", "answer": answer, "run_query": lambda db, sql, n: GOLD, "now": lambda: NOW}
+
+    reports = ev.run_sweep(variants, [qfile], ["graph"], out, "sw", **kw)
+    assert [r.written for _, r in reports] == [1, 1, 1]
+    assert calls == [(3, {"max_added": 0, "hops": 1}), (5, {"max_added": 0, "hops": 1}), (5, {"max_added": 2, "hops": 2})]
+    assert {r["run_id"] for r in read(out)} == {"sw-k3", "sw-k5", "sw-k5+2h2"}
+
+    calls.clear()
+    again = ev.run_sweep(variants, [qfile], ["graph"], out, "sw", **kw)
+    assert calls == [] and [r.already_done for _, r in again] == [1, 1, 1]  # nothing is asked twice
+
+    rows = {r["run_id"]: r for r in ev.aggregate_runs(ev.load_results(out))}
+    assert rows["sw-k3"]["accuracy"] == 0.0 and rows["sw-k5"]["accuracy"] == 1.0
+    assert rows["sw-k3"]["context_tables"] == 1 and rows["sw-k5"]["context_tables"] == 3
+    text = ev.format_runs(list(rows.values()))
+    assert "sw-k5+2h2" in text and "accuracy" in text and "100.0%" in text
+
+
+def test_cli_compare_runs_prints_one_row_per_run(tmp_path, capsys):
+    _, out = run(tmp_path, lambda request, explain=False, **kw: graph_response())
+    assert ev.main(["--compare-runs", str(out)]) == 0
+    printed = capsys.readouterr().out
+    assert "run-a" in printed and "graph" in printed

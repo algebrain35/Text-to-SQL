@@ -1,0 +1,1204 @@
+{
+  "db_id": "financial",
+  "extracted_at": "2026-11-08T01:40:10.531924Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "financial:public.account",
+      "schema": "public",
+      "name": "account",
+      "description": null,
+      "description_source": null,
+      "row_count": 4500,
+      "primary_key": [
+        "account_id"
+      ]
+    },
+    {
+      "uid": "financial:public.card",
+      "schema": "public",
+      "name": "card",
+      "description": null,
+      "description_source": null,
+      "row_count": 892,
+      "primary_key": [
+        "card_id"
+      ]
+    },
+    {
+      "uid": "financial:public.client",
+      "schema": "public",
+      "name": "client",
+      "description": null,
+      "description_source": null,
+      "row_count": 5369,
+      "primary_key": [
+        "client_id"
+      ]
+    },
+    {
+      "uid": "financial:public.disp",
+      "schema": "public",
+      "name": "disp",
+      "description": null,
+      "description_source": null,
+      "row_count": 5369,
+      "primary_key": [
+        "disp_id"
+      ]
+    },
+    {
+      "uid": "financial:public.district",
+      "schema": "public",
+      "name": "district",
+      "description": null,
+      "description_source": null,
+      "row_count": 77,
+      "primary_key": [
+        "district_id"
+      ]
+    },
+    {
+      "uid": "financial:public.loan",
+      "schema": "public",
+      "name": "loan",
+      "description": null,
+      "description_source": null,
+      "row_count": 682,
+      "primary_key": [
+        "loan_id"
+      ]
+    },
+    {
+      "uid": "financial:public.order",
+      "schema": "public",
+      "name": "order",
+      "description": null,
+      "description_source": null,
+      "row_count": 6471,
+      "primary_key": [
+        "order_id"
+      ]
+    },
+    {
+      "uid": "financial:public.trans",
+      "schema": "public",
+      "name": "trans",
+      "description": null,
+      "description_source": null,
+      "row_count": 1056320,
+      "primary_key": [
+        "trans_id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "financial:public.account.account_id",
+      "table_uid": "financial:public.account",
+      "name": "account_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.account.district_id",
+      "table_uid": "financial:public.account",
+      "name": "district_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "18",
+        "1",
+        "5",
+        "12",
+        "15"
+      ]
+    },
+    {
+      "uid": "financial:public.account.frequency",
+      "table_uid": "financial:public.account",
+      "name": "frequency",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "POPLATEK MESICNE",
+        "POPLATEK TYDNE",
+        "POPLATEK PO OBRATU"
+      ]
+    },
+    {
+      "uid": "financial:public.account.date",
+      "table_uid": "financial:public.account",
+      "name": "date",
+      "data_type": "date",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1995-03-24",
+        "1993-02-26",
+        "1997-07-07",
+        "1996-02-21",
+        "1997-05-30"
+      ]
+    },
+    {
+      "uid": "financial:public.card.card_id",
+      "table_uid": "financial:public.card",
+      "name": "card_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.card.disp_id",
+      "table_uid": "financial:public.card",
+      "name": "disp_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9",
+        "19",
+        "41",
+        "42",
+        "51"
+      ]
+    },
+    {
+      "uid": "financial:public.card.type",
+      "table_uid": "financial:public.card",
+      "name": "type",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "gold",
+        "classic",
+        "junior"
+      ]
+    },
+    {
+      "uid": "financial:public.card.issued",
+      "table_uid": "financial:public.card",
+      "name": "issued",
+      "data_type": "date",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1998-10-16",
+        "1998-03-13",
+        "1995-09-03",
+        "1998-11-26",
+        "1995-04-24"
+      ]
+    },
+    {
+      "uid": "financial:public.client.client_id",
+      "table_uid": "financial:public.client",
+      "name": "client_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.client.gender",
+      "table_uid": "financial:public.client",
+      "name": "gender",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "F",
+        "M"
+      ]
+    },
+    {
+      "uid": "financial:public.client.birth_date",
+      "table_uid": "financial:public.client",
+      "name": "birth_date",
+      "data_type": "date",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1970-12-13",
+        "1945-02-04",
+        "1940-10-09",
+        "1956-12-01",
+        "1960-07-03"
+      ]
+    },
+    {
+      "uid": "financial:public.client.district_id",
+      "table_uid": "financial:public.client",
+      "name": "district_id",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "18",
+        "1",
+        "5",
+        "12",
+        "15"
+      ]
+    },
+    {
+      "uid": "financial:public.disp.disp_id",
+      "table_uid": "financial:public.disp",
+      "name": "disp_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.disp.client_id",
+      "table_uid": "financial:public.disp",
+      "name": "client_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.disp.account_id",
+      "table_uid": "financial:public.disp",
+      "name": "account_id",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.disp.type",
+      "table_uid": "financial:public.disp",
+      "name": "type",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "OWNER",
+        "DISPONENT"
+      ]
+    },
+    {
+      "uid": "financial:public.district.district_id",
+      "table_uid": "financial:public.district",
+      "name": "district_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a2",
+      "table_uid": "financial:public.district",
+      "name": "a2",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Hl.m. Praha",
+        "Benesov",
+        "Beroun",
+        "Kladno",
+        "Kolin"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a3",
+      "table_uid": "financial:public.district",
+      "name": "a3",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Prague",
+        "central Bohemia",
+        "south Bohemia",
+        "west Bohemia",
+        "north Bohemia"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a4",
+      "table_uid": "financial:public.district",
+      "name": "a4",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1204953",
+        "88884",
+        "75232",
+        "149893",
+        "95616"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a5",
+      "table_uid": "financial:public.district",
+      "name": "a5",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "80",
+        "55",
+        "63",
+        "65"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a6",
+      "table_uid": "financial:public.district",
+      "name": "a6",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "26",
+        "29",
+        "30",
+        "23"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a7",
+      "table_uid": "financial:public.district",
+      "name": "a7",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "6",
+        "4",
+        "1",
+        "7"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a8",
+      "table_uid": "financial:public.district",
+      "name": "a8",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "0",
+        "4"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a9",
+      "table_uid": "financial:public.district",
+      "name": "a9",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "5",
+        "6",
+        "4",
+        "8"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a10",
+      "table_uid": "financial:public.district",
+      "name": "a10",
+      "data_type": "real",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "100",
+        "46.7",
+        "41.7",
+        "67.4",
+        "51.4"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a11",
+      "table_uid": "financial:public.district",
+      "name": "a11",
+      "data_type": "bigint",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "12541",
+        "8507",
+        "8980",
+        "9753",
+        "9307"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a12",
+      "table_uid": "financial:public.district",
+      "name": "a12",
+      "data_type": "real",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.2",
+        "1.6",
+        "1.9",
+        "4.6",
+        "3.8"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a13",
+      "table_uid": "financial:public.district",
+      "name": "a13",
+      "data_type": "real",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0.43",
+        "1.85",
+        "2.21",
+        "5.05",
+        "4.43"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a14",
+      "table_uid": "financial:public.district",
+      "name": "a14",
+      "data_type": "bigint",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "167",
+        "132",
+        "111",
+        "109",
+        "118"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a15",
+      "table_uid": "financial:public.district",
+      "name": "a15",
+      "data_type": "bigint",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "85677",
+        "2159",
+        "2824",
+        "5244",
+        "2616"
+      ]
+    },
+    {
+      "uid": "financial:public.district.a16",
+      "table_uid": "financial:public.district",
+      "name": "a16",
+      "data_type": "bigint",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "99107",
+        "2674",
+        "2813",
+        "5892",
+        "3040"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.loan_id",
+      "table_uid": "financial:public.loan",
+      "name": "loan_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4959",
+        "4961",
+        "4962",
+        "4967",
+        "4968"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.account_id",
+      "table_uid": "financial:public.loan",
+      "name": "account_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "19",
+        "25",
+        "37",
+        "38"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.date",
+      "table_uid": "financial:public.loan",
+      "name": "date",
+      "data_type": "date",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1994-01-05",
+        "1996-04-29",
+        "1997-12-08",
+        "1998-10-14",
+        "1998-04-19"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.amount",
+      "table_uid": "financial:public.loan",
+      "name": "amount",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "80952",
+        "30276",
+        "318480",
+        "110736",
+        "165960"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.duration",
+      "table_uid": "financial:public.loan",
+      "name": "duration",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "24",
+        "12",
+        "60",
+        "48",
+        "36"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.payments",
+      "table_uid": "financial:public.loan",
+      "name": "payments",
+      "data_type": "real",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3373",
+        "2523",
+        "5308",
+        "2307",
+        "6915"
+      ]
+    },
+    {
+      "uid": "financial:public.loan.status",
+      "table_uid": "financial:public.loan",
+      "name": "status",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "A",
+        "B",
+        "D",
+        "C"
+      ]
+    },
+    {
+      "uid": "financial:public.order.order_id",
+      "table_uid": "financial:public.order",
+      "name": "order_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "29401",
+        "29402",
+        "29403",
+        "29404",
+        "29405"
+      ]
+    },
+    {
+      "uid": "financial:public.order.account_id",
+      "table_uid": "financial:public.order",
+      "name": "account_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "financial:public.order.bank_to",
+      "table_uid": "financial:public.order",
+      "name": "bank_to",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "YZ",
+        "ST",
+        "QR",
+        "WX",
+        "CD"
+      ]
+    },
+    {
+      "uid": "financial:public.order.account_to",
+      "table_uid": "financial:public.order",
+      "name": "account_to",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "87144583",
+        "89597016",
+        "13943797",
+        "83084338",
+        "24485939"
+      ]
+    },
+    {
+      "uid": "financial:public.order.amount",
+      "table_uid": "financial:public.order",
+      "name": "amount",
+      "data_type": "real",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2452",
+        "3372.7",
+        "7266",
+        "1135",
+        "327"
+      ]
+    },
+    {
+      "uid": "financial:public.order.k_symbol",
+      "table_uid": "financial:public.order",
+      "name": "k_symbol",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "SIPO",
+        "UVER",
+        "POJISTNE",
+        "LEASING"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.trans_id",
+      "table_uid": "financial:public.trans",
+      "name": "trans_id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "5",
+        "6",
+        "7",
+        "8"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.account_id",
+      "table_uid": "financial:public.trans",
+      "name": "account_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.date",
+      "table_uid": "financial:public.trans",
+      "name": "date",
+      "data_type": "date",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1997-08-05",
+        "1997-09-05",
+        "1997-10-05",
+        "1997-11-05",
+        "1997-12-05"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.type",
+      "table_uid": "financial:public.trans",
+      "name": "type",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "VYDAJ",
+        "PRIJEM"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.operation",
+      "table_uid": "financial:public.trans",
+      "name": "operation",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "PREVOD NA UCET",
+        "VYBER",
+        "VKLAD",
+        "PREVOD Z UCTU",
+        "VYBER KARTOU"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.amount",
+      "table_uid": "financial:public.trans",
+      "name": "amount",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6712",
+        "7200",
+        "11520",
+        "40800",
+        "6560"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.balance",
+      "table_uid": "financial:public.trans",
+      "name": "balance",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "36240",
+        "38366",
+        "37994",
+        "37418",
+        "36939"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.k_symbol",
+      "table_uid": "financial:public.trans",
+      "name": "k_symbol",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "SLUZBY",
+        "SIPO",
+        "DUCHOD",
+        "UVER"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.bank",
+      "table_uid": "financial:public.trans",
+      "name": "bank",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "GH",
+        "EF",
+        "CD",
+        "ST",
+        "MN"
+      ]
+    },
+    {
+      "uid": "financial:public.trans.account",
+      "table_uid": "financial:public.trans",
+      "name": "account",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "89718746",
+        "0",
+        "4120284",
+        "11344862",
+        "45187926"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "financial:public.account.district_id",
+      "to_column": "financial:public.district.district_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "account_district_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.card.disp_id",
+      "to_column": "financial:public.disp.disp_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "card_disp_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.client.district_id",
+      "to_column": "financial:public.district.district_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "client_district_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.disp.account_id",
+      "to_column": "financial:public.account.account_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "disp_account_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.disp.client_id",
+      "to_column": "financial:public.client.client_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "disp_client_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.loan.account_id",
+      "to_column": "financial:public.account.account_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "loan_account_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.order.account_id",
+      "to_column": "financial:public.account.account_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "order_account_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "financial:public.trans.account_id",
+      "to_column": "financial:public.account.account_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "trans_account_id_fkey",
+      "evidence": null
+    }
+  ]
+}

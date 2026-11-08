@@ -1,0 +1,4067 @@
+{
+  "db_id": "european_football_2",
+  "extracted_at": "2026-11-08T01:40:08.881922Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "european_football_2:public.country",
+      "schema": "public",
+      "name": "country",
+      "description": null,
+      "description_source": null,
+      "row_count": 11,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.league",
+      "schema": "public",
+      "name": "league",
+      "description": null,
+      "description_source": null,
+      "row_count": 11,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match",
+      "schema": "public",
+      "name": "match",
+      "description": null,
+      "description_source": null,
+      "row_count": 25979,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player",
+      "schema": "public",
+      "name": "player",
+      "description": null,
+      "description_source": null,
+      "row_count": 11060,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes",
+      "schema": "public",
+      "name": "player_attributes",
+      "description": null,
+      "description_source": null,
+      "row_count": 183978,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team",
+      "schema": "public",
+      "name": "team",
+      "description": null,
+      "description_source": null,
+      "row_count": 299,
+      "primary_key": [
+        "id"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes",
+      "schema": "public",
+      "name": "team_attributes",
+      "description": null,
+      "description_source": null,
+      "row_count": 1458,
+      "primary_key": [
+        "id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "european_football_2:public.country.id",
+      "table_uid": "european_football_2:public.country",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "1729",
+        "4769",
+        "7809",
+        "10257"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.country.name",
+      "table_uid": "european_football_2:public.country",
+      "name": "name",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Belgium",
+        "England",
+        "France",
+        "Germany",
+        "Italy"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.league.id",
+      "table_uid": "european_football_2:public.league",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "1729",
+        "4769",
+        "7809",
+        "10257"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.league.country_id",
+      "table_uid": "european_football_2:public.league",
+      "name": "country_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "1729",
+        "4769",
+        "7809",
+        "10257"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.league.name",
+      "table_uid": "european_football_2:public.league",
+      "name": "name",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Belgium Jupiler League",
+        "England Premier League",
+        "France Ligue 1",
+        "Germany 1. Bundesliga",
+        "Italy Serie A"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.id",
+      "table_uid": "european_football_2:public.match",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.country_id",
+      "table_uid": "european_football_2:public.match",
+      "name": "country_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.league_id",
+      "table_uid": "european_football_2:public.match",
+      "name": "league_id",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "1729",
+        "4769",
+        "15722",
+        "13274"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.season",
+      "table_uid": "european_football_2:public.match",
+      "name": "season",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2008/2009",
+        "2013/2014",
+        "2014/2015",
+        "2009/2010",
+        "2010/2011"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.stage",
+      "table_uid": "european_football_2:public.match",
+      "name": "stage",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "17",
+        "21",
+        "7",
+        "18",
+        "19"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.date",
+      "table_uid": "european_football_2:public.match",
+      "name": "date",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2014-03-26 00:00:00",
+        "2013-09-01 00:00:00",
+        "2013-08-31 00:00:00",
+        "2013-08-21 00:00:00",
+        "2014-10-18 00:00:00"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.match_api_id",
+      "table_uid": "european_football_2:public.match",
+      "name": "match_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "483129",
+        "483130",
+        "483131",
+        "483132",
+        "483133"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_team_api_id",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_team_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8654",
+        "9825",
+        "10252",
+        "8678",
+        "9851"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_team_api_id",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_team_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9831",
+        "9851",
+        "8592",
+        "8521",
+        "9748"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_team_goal",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_team_goal",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1",
+        "2",
+        "5",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_team_goal",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_team_goal",
+      "data_type": "bigint",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "0",
+        "1",
+        "3",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x1",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x1",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x2",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x2",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "3",
+        "4",
+        "1",
+        "8"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x3",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x3",
+      "data_type": "bigint",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "8",
+        "2",
+        "6",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x4",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x4",
+      "data_type": "bigint",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "6",
+        "5",
+        "8",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x5",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x5",
+      "data_type": "bigint",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "2",
+        "1",
+        "7",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x6",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x6",
+      "data_type": "bigint",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "4",
+        "5",
+        "2",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x7",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x7",
+      "data_type": "bigint",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5",
+        "4",
+        "6",
+        "3",
+        "7"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x8",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x8",
+      "data_type": "bigint",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "3",
+        "6",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x9",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x9",
+      "data_type": "bigint",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "3",
+        "5",
+        "7",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x10",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x10",
+      "data_type": "bigint",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "5",
+        "6",
+        "9",
+        "8"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_x11",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_x11",
+      "data_type": "bigint",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "5",
+        "7",
+        "4",
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x1",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x1",
+      "data_type": "bigint",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x2",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x2",
+      "data_type": "bigint",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "3",
+        "1",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x3",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x3",
+      "data_type": "bigint",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "6",
+        "5",
+        "8",
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x4",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x4",
+      "data_type": "bigint",
+      "ordinal_position": 26,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "8",
+        "7",
+        "5",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x5",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x5",
+      "data_type": "bigint",
+      "ordinal_position": 27,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "4",
+        "6",
+        "2",
+        "7"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x6",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x6",
+      "data_type": "bigint",
+      "ordinal_position": 28,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "9",
+        "3",
+        "4",
+        "7"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x7",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x7",
+      "data_type": "bigint",
+      "ordinal_position": 29,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "3",
+        "5",
+        "4",
+        "2"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x8",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x8",
+      "data_type": "bigint",
+      "ordinal_position": 30,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "6",
+        "7",
+        "5",
+        "8"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x9",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x9",
+      "data_type": "bigint",
+      "ordinal_position": 31,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5",
+        "8",
+        "3",
+        "6",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x10",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x10",
+      "data_type": "bigint",
+      "ordinal_position": 32,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "8",
+        "6",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_x11",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_x11",
+      "data_type": "bigint",
+      "ordinal_position": 33,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "5",
+        "7",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y1",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y1",
+      "data_type": "bigint",
+      "ordinal_position": 34,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y2",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y2",
+      "data_type": "bigint",
+      "ordinal_position": 35,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y3",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y3",
+      "data_type": "bigint",
+      "ordinal_position": 36,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y4",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y4",
+      "data_type": "bigint",
+      "ordinal_position": 37,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y5",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y5",
+      "data_type": "bigint",
+      "ordinal_position": 38,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "3",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y6",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y6",
+      "data_type": "bigint",
+      "ordinal_position": 39,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "5",
+        "6",
+        "3",
+        "8"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y7",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y7",
+      "data_type": "bigint",
+      "ordinal_position": 40,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "6",
+        "8",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y8",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y8",
+      "data_type": "bigint",
+      "ordinal_position": 41,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "8",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y9",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y9",
+      "data_type": "bigint",
+      "ordinal_position": 42,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "8",
+        "10",
+        "9",
+        "1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y10",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y10",
+      "data_type": "bigint",
+      "ordinal_position": 43,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10",
+        "8",
+        "6",
+        "7",
+        "9"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_y11",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_y11",
+      "data_type": "bigint",
+      "ordinal_position": 44,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10",
+        "11"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y1",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y1",
+      "data_type": "bigint",
+      "ordinal_position": 45,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y2",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y2",
+      "data_type": "bigint",
+      "ordinal_position": 46,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y3",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y3",
+      "data_type": "bigint",
+      "ordinal_position": 47,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y4",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y4",
+      "data_type": "bigint",
+      "ordinal_position": 48,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y5",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y5",
+      "data_type": "bigint",
+      "ordinal_position": 49,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3",
+        "7"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y6",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y6",
+      "data_type": "bigint",
+      "ordinal_position": 50,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "3",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y7",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y7",
+      "data_type": "bigint",
+      "ordinal_position": 51,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "7",
+        "8",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y8",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y8",
+      "data_type": "bigint",
+      "ordinal_position": 52,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "8",
+        "6",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y9",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y9",
+      "data_type": "bigint",
+      "ordinal_position": 53,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "7",
+        "10",
+        "9",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y10",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y10",
+      "data_type": "bigint",
+      "ordinal_position": 54,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "10",
+        "9",
+        "11",
+        "7"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_y11",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_y11",
+      "data_type": "bigint",
+      "ordinal_position": 55,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10",
+        "11"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_1",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_1",
+      "data_type": "bigint",
+      "ordinal_position": 56,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "30900",
+        "11319",
+        "41097",
+        "26335",
+        "37206"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_2",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_2",
+      "data_type": "bigint",
+      "ordinal_position": 57,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "26256",
+        "35112",
+        "473852",
+        "359188",
+        "229855"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_3",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_3",
+      "data_type": "bigint",
+      "ordinal_position": 58,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "12288",
+        "26588",
+        "71399",
+        "35606",
+        "41005"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_4",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_4",
+      "data_type": "bigint",
+      "ordinal_position": 59,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "38432",
+        "36841",
+        "109615",
+        "171698",
+        "93064"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_5",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_5",
+      "data_type": "bigint",
+      "ordinal_position": 60,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "229759",
+        "278823",
+        "155534",
+        "355358",
+        "275726"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_6",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_6",
+      "data_type": "bigint",
+      "ordinal_position": 61,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "38060",
+        "42433",
+        "39222",
+        "56992",
+        "27684"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_7",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_7",
+      "data_type": "bigint",
+      "ordinal_position": 62,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "74305",
+        "25595",
+        "27671",
+        "40428",
+        "42119"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_8",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_8",
+      "data_type": "bigint",
+      "ordinal_position": 63,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "39719",
+        "49940",
+        "41841",
+        "41433",
+        "199833"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_9",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_9",
+      "data_type": "bigint",
+      "ordinal_position": 64,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "46104",
+        "142994",
+        "95434",
+        "25640",
+        "78409"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_10",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_10",
+      "data_type": "bigint",
+      "ordinal_position": 65,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "467022",
+        "351999",
+        "562267",
+        "467488",
+        "143512"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.home_player_11",
+      "table_uid": "european_football_2:public.match",
+      "name": "home_player_11",
+      "data_type": "bigint",
+      "ordinal_position": 66,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "112424",
+        "25419",
+        "37576",
+        "163998",
+        "20276"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_1",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_1",
+      "data_type": "bigint",
+      "ordinal_position": 67,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "361717",
+        "19344",
+        "163887",
+        "280969",
+        "363364"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_2",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_2",
+      "data_type": "bigint",
+      "ordinal_position": 68,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4939",
+        "160568",
+        "32969",
+        "32670",
+        "38761"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_3",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_3",
+      "data_type": "bigint",
+      "ordinal_position": 69,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "159663",
+        "261332",
+        "241424",
+        "211849",
+        "166471"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_4",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_4",
+      "data_type": "bigint",
+      "ordinal_position": 70,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "74989",
+        "41707",
+        "37879",
+        "33849",
+        "114789"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_5",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_5",
+      "data_type": "bigint",
+      "ordinal_position": 71,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "37484",
+        "213695",
+        "202553",
+        "74721",
+        "42294"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_6",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_6",
+      "data_type": "bigint",
+      "ordinal_position": 72,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "26336",
+        "434325",
+        "72623",
+        "31097",
+        "171229"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_7",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_7",
+      "data_type": "bigint",
+      "ordinal_position": 73,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "42527",
+        "245161",
+        "42237",
+        "25840",
+        "49692"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_8",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_8",
+      "data_type": "bigint",
+      "ordinal_position": 74,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "26771",
+        "38439",
+        "166670",
+        "36863",
+        "38969"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_9",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_9",
+      "data_type": "bigint",
+      "ordinal_position": 75,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "38711",
+        "41877",
+        "30892",
+        "26181",
+        "31906"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_10",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_10",
+      "data_type": "bigint",
+      "ordinal_position": 76,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "23933",
+        "41008",
+        "26169",
+        "34543",
+        "23782"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.away_player_11",
+      "table_uid": "european_football_2:public.match",
+      "name": "away_player_11",
+      "data_type": "bigint",
+      "ordinal_position": 77,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "39225",
+        "213489",
+        "35443",
+        "113836",
+        "46660"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.goal",
+      "table_uid": "european_football_2:public.match",
+      "name": "goal",
+      "data_type": "text",
+      "ordinal_position": 78,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<goal><value><comment>n</comment><stats><goals>1</goals><shoton>1</shoton></stats><event_incident_ty",
+        "<goal><value><comment>dg</comment><event_incident_typefk>300</event_incident_typefk><coordinates><va",
+        "<goal><value><comment>p</comment><stats><penalties>1</penalties><goals>1</goals></stats><event_incid",
+        "<goal />",
+        "<goal><value><comment>o</comment><stats><owngoals>1</owngoals></stats><event_incident_typefk>115</ev"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.shoton",
+      "table_uid": "european_football_2:public.match",
+      "name": "shoton",
+      "data_type": "text",
+      "ordinal_position": 79,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<shoton />",
+        "<shoton><value><stats><shoton>1</shoton></stats><event_incident_typefk>137</event_incident_typefk><c",
+        "<shoton><value><stats><blocked>1</blocked></stats><event_incident_typefk>61</event_incident_typefk><",
+        "<shoton><value><stats><shoton>1</shoton></stats><event_incident_typefk>136</event_incident_typefk><c",
+        "<shoton><value><stats><shoton>1</shoton></stats><event_incident_typefk>153</event_incident_typefk><c"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.shotoff",
+      "table_uid": "european_football_2:public.match",
+      "name": "shotoff",
+      "data_type": "text",
+      "ordinal_position": 80,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<shotoff><value><stats><shotoff>1</shotoff></stats><event_incident_typefk>9</event_incident_typefk><",
+        "<shotoff><value><stats><shotoff>1</shotoff></stats><event_incident_typefk>47</event_incident_typefk>",
+        "<shotoff><value><stats><shotoff>1</shotoff></stats><event_incident_typefk>81</event_incident_typefk>",
+        "<shotoff><value><stats><shotoff>1</shotoff></stats><event_incident_typefk>587</event_incident_typefk",
+        "<shotoff><value><stats><shotoff>1</shotoff></stats><event_incident_typefk>46</event_incident_typefk>"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.foulcommit",
+      "table_uid": "european_football_2:public.match",
+      "name": "foulcommit",
+      "data_type": "text",
+      "ordinal_position": 81,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<foulcommit><value><stats><foulscommitted>1</foulscommitted></stats><event_incident_typefk>43</event",
+        "<foulcommit><value><stats><foulscommitted>1</foulscommitted></stats><event_incident_typefk>42</event",
+        "<foulcommit><value><stats><foulscommitted>1</foulscommitted></stats><event_incident_typefk>37</event",
+        "<foulcommit />",
+        "<foulcommit><value><stats><foulscommitted>1</foulscommitted></stats><event_incident_typefk>19</event"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.card",
+      "table_uid": "european_football_2:public.match",
+      "name": "card",
+      "data_type": "text",
+      "ordinal_position": 82,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<card><value><comment>y</comment><stats><ycards>1</ycards></stats><event_incident_typefk>70</event_i",
+        "<card />",
+        "<card><value><comment>y</comment><event_incident_typefk>70</event_incident_typefk><elapsed>43</elaps",
+        "<card><value><comment>r</comment><stats><rcards>1</rcards></stats><event_incident_typefk>270</event_",
+        "<card><value><comment>y</comment><event_incident_typefk>70</event_incident_typefk><elapsed>84</elaps"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.cross",
+      "table_uid": "european_football_2:public.match",
+      "name": "cross",
+      "data_type": "text",
+      "ordinal_position": 83,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<cross><value><stats><crosses>1</crosses></stats><event_incident_typefk>7</event_incident_typefk><el",
+        "<cross><value><stats><corners>1</corners></stats><event_incident_typefk>329</event_incident_typefk><",
+        "<cross />",
+        "<cross><value><stats><crosses>1</crosses></stats><event_incident_typefk>35</event_incident_typefk><e",
+        "<cross><value><event_incident_typefk>123</event_incident_typefk><elapsed>4</elapsed><subtype>cross</"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.corner",
+      "table_uid": "european_football_2:public.match",
+      "name": "corner",
+      "data_type": "text",
+      "ordinal_position": 84,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<corner><value><stats><corners>1</corners></stats><event_incident_typefk>329</event_incident_typefk>",
+        "<corner><value><stats><corners>1</corners></stats><event_incident_typefk>330</event_incident_typefk>",
+        "<corner />",
+        "<corner><value><stats><corners>1</corners></stats><event_incident_typefk>328</event_incident_typefk>",
+        "<corner><value><stats><corners>1</corners></stats><event_incident_typefk>327</event_incident_typefk>"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.possession",
+      "table_uid": "european_football_2:public.match",
+      "name": "possession",
+      "data_type": "text",
+      "ordinal_position": 85,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "<possession />",
+        "<possession><value><comment>45</comment><event_incident_typefk>352</event_incident_typefk><elapsed>2",
+        "<possession><value><comment>56</comment><event_incident_typefk>352</event_incident_typefk><elapsed>2",
+        "<possession><value><comment>32</comment><event_incident_typefk>352</event_incident_typefk><elapsed>2",
+        "<possession><value><comment>41</comment><event_incident_typefk>352</event_incident_typefk><elapsed>2"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.b365h",
+      "table_uid": "european_football_2:public.match",
+      "name": "b365h",
+      "data_type": "real",
+      "ordinal_position": 86,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.55",
+        "1.85",
+        "2.15",
+        "5.5",
+        "1.44"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.b365d",
+      "table_uid": "european_football_2:public.match",
+      "name": "b365d",
+      "data_type": "real",
+      "ordinal_position": 87,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7.5",
+        "3.6",
+        "3.25",
+        "3.5",
+        "3.1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.b365a",
+      "table_uid": "european_football_2:public.match",
+      "name": "b365a",
+      "data_type": "real",
+      "ordinal_position": 88,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "5.75",
+        "1.33",
+        "5",
+        "19",
+        "2.4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.bwh",
+      "table_uid": "european_football_2:public.match",
+      "name": "bwh",
+      "data_type": "real",
+      "ordinal_position": 89,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.7",
+        "6.75",
+        "2.7",
+        "1.22",
+        "2.45"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.bwd",
+      "table_uid": "european_football_2:public.match",
+      "name": "bwd",
+      "data_type": "real",
+      "ordinal_position": 90,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.25",
+        "3.3",
+        "4.1",
+        "5",
+        "3.4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.bwa",
+      "table_uid": "european_football_2:public.match",
+      "name": "bwa",
+      "data_type": "real",
+      "ordinal_position": 91,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "2.65",
+        "1.2",
+        "2.35",
+        "3.5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.iwh",
+      "table_uid": "european_football_2:public.match",
+      "name": "iwh",
+      "data_type": "real",
+      "ordinal_position": 92,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.5",
+        "1.9",
+        "2.5",
+        "2.4",
+        "2"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.iwd",
+      "table_uid": "european_football_2:public.match",
+      "name": "iwd",
+      "data_type": "real",
+      "ordinal_position": 93,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "3.2",
+        "3.1",
+        "5.5",
+        "3.4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.iwa",
+      "table_uid": "european_football_2:public.match",
+      "name": "iwa",
+      "data_type": "real",
+      "ordinal_position": 94,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8",
+        "2.4",
+        "3.4",
+        "2.5",
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.lbh",
+      "table_uid": "european_football_2:public.match",
+      "name": "lbh",
+      "data_type": "real",
+      "ordinal_position": 95,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2",
+        "1.44",
+        "1.55",
+        "2.4",
+        "2.05"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.lbd",
+      "table_uid": "european_football_2:public.match",
+      "name": "lbd",
+      "data_type": "real",
+      "ordinal_position": 96,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.3",
+        "3.5",
+        "4",
+        "6.5",
+        "6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.lba",
+      "table_uid": "european_football_2:public.match",
+      "name": "lba",
+      "data_type": "real",
+      "ordinal_position": 97,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "8.5",
+        "10",
+        "4.2",
+        "2.1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.psh",
+      "table_uid": "european_football_2:public.match",
+      "name": "psh",
+      "data_type": "real",
+      "ordinal_position": 98,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4.54",
+        "1.2",
+        "1.74",
+        "2.43",
+        "1.88"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.psd",
+      "table_uid": "european_football_2:public.match",
+      "name": "psd",
+      "data_type": "real",
+      "ordinal_position": 99,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.29",
+        "3.27",
+        "3.04",
+        "3.31",
+        "3.25"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.psa",
+      "table_uid": "european_football_2:public.match",
+      "name": "psa",
+      "data_type": "real",
+      "ordinal_position": 100,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.92",
+        "2.98",
+        "2.48",
+        "4.33",
+        "2.93"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.whh",
+      "table_uid": "european_football_2:public.match",
+      "name": "whh",
+      "data_type": "real",
+      "ordinal_position": 101,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.08",
+        "2.2",
+        "3.3",
+        "1.95",
+        "2.38"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.whd",
+      "table_uid": "european_football_2:public.match",
+      "name": "whd",
+      "data_type": "real",
+      "ordinal_position": 102,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.2",
+        "3.4",
+        "3.3",
+        "5",
+        "2.9"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.wha",
+      "table_uid": "european_football_2:public.match",
+      "name": "wha",
+      "data_type": "real",
+      "ordinal_position": 103,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6",
+        "3.8",
+        "2.62",
+        "3.6",
+        "1.8"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.sjh",
+      "table_uid": "european_football_2:public.match",
+      "name": "sjh",
+      "data_type": "real",
+      "ordinal_position": 104,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.62",
+        "3.25",
+        "1.17",
+        "3",
+        "1.91"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.sjd",
+      "table_uid": "european_football_2:public.match",
+      "name": "sjd",
+      "data_type": "real",
+      "ordinal_position": 105,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4.5",
+        "5",
+        "3.2",
+        "3",
+        "3.5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.sja",
+      "table_uid": "european_football_2:public.match",
+      "name": "sja",
+      "data_type": "real",
+      "ordinal_position": 106,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.75",
+        "3",
+        "4",
+        "3.25",
+        "3.1"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.vch",
+      "table_uid": "european_football_2:public.match",
+      "name": "vch",
+      "data_type": "real",
+      "ordinal_position": 107,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.73",
+        "8.5",
+        "3.25",
+        "1.22",
+        "2.88"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.vcd",
+      "table_uid": "european_football_2:public.match",
+      "name": "vcd",
+      "data_type": "real",
+      "ordinal_position": 108,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.3",
+        "3.5",
+        "4.33",
+        "4.5",
+        "3.4"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.vca",
+      "table_uid": "european_football_2:public.match",
+      "name": "vca",
+      "data_type": "real",
+      "ordinal_position": 109,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1.83",
+        "4",
+        "2.75",
+        "9",
+        "3.6"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.gbh",
+      "table_uid": "european_football_2:public.match",
+      "name": "gbh",
+      "data_type": "real",
+      "ordinal_position": 110,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2.1",
+        "1.9",
+        "10.5",
+        "3",
+        "1.91"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.gbd",
+      "table_uid": "european_football_2:public.match",
+      "name": "gbd",
+      "data_type": "real",
+      "ordinal_position": 111,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4.75",
+        "3.3",
+        "3.2",
+        "3.25",
+        "5.75"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.gba",
+      "table_uid": "european_football_2:public.match",
+      "name": "gba",
+      "data_type": "real",
+      "ordinal_position": 112,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2.9",
+        "3.6",
+        "2.2",
+        "12",
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.bsh",
+      "table_uid": "european_football_2:public.match",
+      "name": "bsh",
+      "data_type": "real",
+      "ordinal_position": 113,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "6.5",
+        "2.1",
+        "4.75",
+        "2.15",
+        "1.57"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.bsd",
+      "table_uid": "european_football_2:public.match",
+      "name": "bsd",
+      "data_type": "real",
+      "ordinal_position": 114,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3.4",
+        "3.1",
+        "3.3",
+        "2.88",
+        "3.2"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.match.bsa",
+      "table_uid": "european_football_2:public.match",
+      "name": "bsa",
+      "data_type": "real",
+      "ordinal_position": 115,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "8.5",
+        "4.5",
+        "2.5",
+        "5.5",
+        "3"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.id",
+      "table_uid": "european_football_2:public.player",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.player_api_id",
+      "table_uid": "european_football_2:public.player",
+      "name": "player_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "505942",
+        "155782",
+        "162549",
+        "30572",
+        "23780"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.player_name",
+      "table_uid": "european_football_2:public.player",
+      "name": "player_name",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Aaron Appindangoye",
+        "Aaron Cresswell",
+        "Aaron Doran",
+        "Aaron Galindo",
+        "Aaron Hughes"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.player_fifa_api_id",
+      "table_uid": "european_football_2:public.player",
+      "name": "player_fifa_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "218353",
+        "189615",
+        "186170",
+        "140161",
+        "17725"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.birthday",
+      "table_uid": "european_football_2:public.player",
+      "name": "birthday",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1992-02-29 00:00:00",
+        "1989-12-15 00:00:00",
+        "1991-05-13 00:00:00",
+        "1982-05-08 00:00:00",
+        "1979-11-08 00:00:00"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.height",
+      "table_uid": "european_football_2:public.player",
+      "name": "height",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "182",
+        "170",
+        "172",
+        "165",
+        "190"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player.weight",
+      "table_uid": "european_football_2:public.player",
+      "name": "weight",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "187",
+        "146",
+        "163",
+        "198",
+        "154"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.id",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.player_fifa_api_id",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "player_fifa_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "218353",
+        "189615",
+        "186170",
+        "140161",
+        "17725"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.player_api_id",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "player_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "172875",
+        "302985",
+        "240556",
+        "40938",
+        "37422"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.date",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "date",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2007-02-22 00:00:00",
+        "2016-04-28 00:00:00",
+        "2016-04-21 00:00:00",
+        "2016-02-25 00:00:00",
+        "2016-01-07 00:00:00"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.overall_rating",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "overall_rating",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "70",
+        "72",
+        "73",
+        "74",
+        "69"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.potential",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "potential",
+      "data_type": "bigint",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "66",
+        "69",
+        "67",
+        "82",
+        "64"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.preferred_foot",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "preferred_foot",
+      "data_type": "text",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "right",
+        "left"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.attacking_work_rate",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "attacking_work_rate",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "medium",
+        "high",
+        "norm",
+        "low",
+        "None"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.defensive_work_rate",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "defensive_work_rate",
+      "data_type": "text",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "medium",
+        "high",
+        "low",
+        "8",
+        "o"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.crossing",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "crossing",
+      "data_type": "bigint",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "59",
+        "58",
+        "63",
+        "43",
+        "44"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.finishing",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "finishing",
+      "data_type": "bigint",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "52",
+        "60",
+        "29",
+        "28",
+        "42"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.heading_accuracy",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "heading_accuracy",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "56",
+        "74",
+        "72",
+        "69",
+        "68"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.short_passing",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "short_passing",
+      "data_type": "bigint",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "52",
+        "43",
+        "39",
+        "54",
+        "55"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.volleys",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "volleys",
+      "data_type": "bigint",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "39",
+        "48",
+        "58",
+        "38",
+        "65"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.dribbling",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "dribbling",
+      "data_type": "bigint",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "52",
+        "45",
+        "56",
+        "57",
+        "72"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.curve",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "curve",
+      "data_type": "bigint",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "46",
+        "59",
+        "58",
+        "42",
+        "41"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.free_kick_accuracy",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "free_kick_accuracy",
+      "data_type": "bigint",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "49",
+        "24",
+        "23",
+        "44",
+        "67"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.long_passing",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "long_passing",
+      "data_type": "bigint",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "33",
+        "32",
+        "41",
+        "52",
+        "76"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.ball_control",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "ball_control",
+      "data_type": "bigint",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "63",
+        "61",
+        "58",
+        "59",
+        "46"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.acceleration",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "acceleration",
+      "data_type": "bigint",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "87",
+        "88",
+        "80",
+        "73",
+        "64"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.sprint_speed",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "sprint_speed",
+      "data_type": "bigint",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "37",
+        "42",
+        "40",
+        "43",
+        "49"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.agility",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "agility",
+      "data_type": "bigint",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "63",
+        "57",
+        "65",
+        "68",
+        "74"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.reactions",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "reactions",
+      "data_type": "bigint",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "71",
+        "70",
+        "77",
+        "75",
+        "72"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.balance",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "balance",
+      "data_type": "bigint",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "42",
+        "58",
+        "47",
+        "39",
+        "40"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.shot_power",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "shot_power",
+      "data_type": "bigint",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "61",
+        "60",
+        "64",
+        "57",
+        "71"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.jumping",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "jumping",
+      "data_type": "bigint",
+      "ordinal_position": 26,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "70",
+        "67",
+        "62",
+        "56",
+        "63"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.stamina",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "stamina",
+      "data_type": "bigint",
+      "ordinal_position": 27,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "75",
+        "74",
+        "76",
+        "70",
+        "69"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.strength",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "strength",
+      "data_type": "bigint",
+      "ordinal_position": 28,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "61",
+        "63",
+        "60",
+        "49",
+        "72"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.long_shots",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "long_shots",
+      "data_type": "bigint",
+      "ordinal_position": 29,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "39",
+        "55",
+        "54",
+        "48",
+        "35"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.aggression",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "aggression",
+      "data_type": "bigint",
+      "ordinal_position": 30,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "29",
+        "60",
+        "62",
+        "77",
+        "75"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.interceptions",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "interceptions",
+      "data_type": "bigint",
+      "ordinal_position": 31,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "53",
+        "52",
+        "54",
+        "34",
+        "33"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.positioning",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "positioning",
+      "data_type": "bigint",
+      "ordinal_position": 32,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "68",
+        "72",
+        "57",
+        "71",
+        "64"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.vision",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "vision",
+      "data_type": "bigint",
+      "ordinal_position": 33,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "66",
+        "56",
+        "50",
+        "47",
+        "57"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.penalties",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "penalties",
+      "data_type": "bigint",
+      "ordinal_position": 34,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "55",
+        "60",
+        "45",
+        "49",
+        "54"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.marking",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "marking",
+      "data_type": "bigint",
+      "ordinal_position": 35,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "72",
+        "73",
+        "75",
+        "71",
+        "69"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.standing_tackle",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "standing_tackle",
+      "data_type": "bigint",
+      "ordinal_position": 36,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "61",
+        "66",
+        "42",
+        "69",
+        "63"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.sliding_tackle",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "sliding_tackle",
+      "data_type": "bigint",
+      "ordinal_position": 37,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "68",
+        "78",
+        "69",
+        "63",
+        "13"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.gk_diving",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "gk_diving",
+      "data_type": "bigint",
+      "ordinal_position": 38,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10",
+        "15",
+        "14",
+        "4",
+        "9"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.gk_handling",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "gk_handling",
+      "data_type": "bigint",
+      "ordinal_position": 39,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "24",
+        "10",
+        "8",
+        "22",
+        "12"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.gk_kicking",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "gk_kicking",
+      "data_type": "bigint",
+      "ordinal_position": 40,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "10",
+        "9",
+        "52",
+        "5",
+        "57"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.gk_positioning",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "gk_positioning",
+      "data_type": "bigint",
+      "ordinal_position": 41,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "4",
+        "11",
+        "10",
+        "20",
+        "21"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.player_attributes.gk_reflexes",
+      "table_uid": "european_football_2:public.player_attributes",
+      "name": "gk_reflexes",
+      "data_type": "bigint",
+      "ordinal_position": 42,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "7",
+        "23",
+        "15",
+        "14",
+        "24"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team.id",
+      "table_uid": "european_football_2:public.team",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team.team_api_id",
+      "table_uid": "european_football_2:public.team",
+      "name": "team_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9987",
+        "9993",
+        "10000",
+        "9994",
+        "9984"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team.team_fifa_api_id",
+      "table_uid": "european_football_2:public.team",
+      "name": "team_fifa_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "673",
+        "675",
+        "15005",
+        "2007",
+        "1750"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team.team_long_name",
+      "table_uid": "european_football_2:public.team",
+      "name": "team_long_name",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "KRC Genk",
+        "Beerschot AC",
+        "SV Zulte-Waregem",
+        "Sporting Lokeren",
+        "KSV Cercle Brugge"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team.team_short_name",
+      "table_uid": "european_football_2:public.team",
+      "name": "team_short_name",
+      "data_type": "text",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "GEN",
+        "BAC",
+        "ZUL",
+        "LOK",
+        "CEB"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.id",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "id",
+      "data_type": "bigint",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.team_fifa_api_id",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "team_fifa_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "434",
+        "77",
+        "614",
+        "47",
+        "1901"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.team_api_id",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "team_api_id",
+      "data_type": "bigint",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "9930",
+        "8485",
+        "8576",
+        "8564",
+        "10215"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.date",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "date",
+      "data_type": "text",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2010-02-22 00:00:00",
+        "2014-09-19 00:00:00",
+        "2015-09-10 00:00:00",
+        "2011-02-22 00:00:00",
+        "2012-02-22 00:00:00"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplayspeed",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplayspeed",
+      "data_type": "bigint",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "60",
+        "52",
+        "47",
+        "70",
+        "58"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplayspeedclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplayspeedclass",
+      "data_type": "text",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Balanced",
+        "Fast",
+        "Slow"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplaydribbling",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplaydribbling",
+      "data_type": "bigint",
+      "ordinal_position": 7,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "48",
+        "41",
+        "64",
+        "57",
+        "70"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplaydribblingclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplaydribblingclass",
+      "data_type": "text",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Little",
+        "Normal",
+        "Lots"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplaypassing",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplaypassing",
+      "data_type": "bigint",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "50",
+        "56",
+        "54",
+        "70",
+        "52"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplaypassingclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplaypassingclass",
+      "data_type": "text",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Mixed",
+        "Long",
+        "Short"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.buildupplaypositioningclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "buildupplaypositioningclass",
+      "data_type": "text",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Organised",
+        "Free Form"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationpassing",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationpassing",
+      "data_type": "bigint",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "60",
+        "54",
+        "70",
+        "53",
+        "45"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationpassingclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationpassingclass",
+      "data_type": "text",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Normal",
+        "Risky",
+        "Safe"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationcrossing",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationcrossing",
+      "data_type": "bigint",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "65",
+        "63",
+        "70",
+        "48",
+        "50"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationcrossingclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationcrossingclass",
+      "data_type": "text",
+      "ordinal_position": 15,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Normal",
+        "Lots",
+        "Little"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationshooting",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationshooting",
+      "data_type": "bigint",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "55",
+        "64",
+        "70",
+        "52",
+        "57"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationshootingclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationshootingclass",
+      "data_type": "text",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Normal",
+        "Lots",
+        "Little"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.chancecreationpositioningclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "chancecreationpositioningclass",
+      "data_type": "text",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Organised",
+        "Free Form"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defencepressure",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defencepressure",
+      "data_type": "bigint",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "50",
+        "47",
+        "60",
+        "40",
+        "42"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defencepressureclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defencepressureclass",
+      "data_type": "text",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Medium",
+        "Deep",
+        "High"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defenceaggression",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defenceaggression",
+      "data_type": "bigint",
+      "ordinal_position": 21,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "55",
+        "44",
+        "70",
+        "47",
+        "40"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defenceaggressionclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defenceaggressionclass",
+      "data_type": "text",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Press",
+        "Double",
+        "Contain"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defenceteamwidth",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defenceteamwidth",
+      "data_type": "bigint",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "45",
+        "54",
+        "70",
+        "52",
+        "60"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defenceteamwidthclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defenceteamwidthclass",
+      "data_type": "text",
+      "ordinal_position": 24,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Normal",
+        "Wide",
+        "Narrow"
+      ]
+    },
+    {
+      "uid": "european_football_2:public.team_attributes.defencedefenderlineclass",
+      "table_uid": "european_football_2:public.team_attributes",
+      "name": "defencedefenderlineclass",
+      "data_type": "text",
+      "ordinal_position": 25,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "Cover",
+        "Offside Trap"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "european_football_2:public.league.country_id",
+      "to_column": "european_football_2:public.country.id",
+      "source": "inferred",
+      "confidence": 0.88,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "table_name",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_1",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_1_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_10",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_10_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_11",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_11_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_2",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_2_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_3",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_3_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_4",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_4_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_5",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_5_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_6",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_6_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_7",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_7_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_8",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_8_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_player_9",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_player_9_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.away_team_api_id",
+      "to_column": "european_football_2:public.team.team_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_away_team_api_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.country_id",
+      "to_column": "european_football_2:public.country.id",
+      "source": "inferred",
+      "confidence": 0.88,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "table_name",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_1",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_1_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_10",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_10_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_11",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_11_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_2",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_2_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_3",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_3_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_4",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_4_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_5",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_5_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_6",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_6_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_7",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_7_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_8",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_8_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_player_9",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_player_9_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.home_team_api_id",
+      "to_column": "european_football_2:public.team.team_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "match_home_team_api_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.match.league_id",
+      "to_column": "european_football_2:public.league.id",
+      "source": "inferred",
+      "confidence": 0.88,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "table_name",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "european_football_2:public.player_attributes.player_api_id",
+      "to_column": "european_football_2:public.player.player_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "player_attributes_player_api_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "european_football_2:public.player_attributes.player_fifa_api_id",
+      "to_column": "european_football_2:public.player.player_fifa_api_id",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 0.9997
+      }
+    },
+    {
+      "from_column": "european_football_2:public.team_attributes.team_api_id",
+      "to_column": "european_football_2:public.team.team_api_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "team_attributes_team_api_id_fkey",
+      "evidence": null
+    }
+  ]
+}

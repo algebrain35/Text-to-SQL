@@ -49,7 +49,51 @@ embedding:
   # Free tier? Any provider accepts these two:
   max_wait_s: 120                # longest total wait on one rate-limited request (default 120), then it stops and keeps what is saved
   requests_per_minute: 15        # spaces requests out so the limit is not reached (default: no pacing)
+  # include_relationships: true  # embed each table with its foreign-key neighbours ("References: ... Referenced by: ...").
+  #                              # Use a new `name` with it, so the plain vectors stay for comparison.
 
 # To keep two models in one graph (for example to compare them), give each its own `name`
 # and switch between configs with SCHEMAGRAPH_CONFIG. Vectors and indexes are stored per name.
 #   name: voyage
+
+# Chat model that writes the SQL and the one-line explanation (pipeline/llm.py). Any OpenAI-compatible
+# /chat/completions endpoint works; the key itself only ever lives in the environment.
+#
+# Google Gemini through its OpenAI-compatible endpoint (same GEMINI_API_KEY as the embeddings):
+llm:
+  provider: openai_compatible
+  base_url: https://generativelanguage.googleapis.com/v1beta/openai
+  model: gemini-3.5-flash          # any chat model your key can use
+  api_key_env: GEMINI_API_KEY
+  timeout_s: 60
+  temperature: 0
+  max_tokens: 4096                 # Gemini 2.5 models count their hidden "thinking" tokens against this
+  max_retries: 3                   # HTTP 429/5xx, timeouts and dropped connections are retried (2, 4, 8 s, or Retry-After)
+  max_wait_s: 30                   # longest single wait; a service asking for more fails at once with its message
+#
+# OpenAI:
+# llm:
+#   provider: openai_compatible
+#   base_url: https://api.openai.com/v1
+#   model: gpt-4o-mini
+#   # For reasoning models (o-series, gpt-5): they reject max_tokens and temperature (HTTP 400), so
+#   #   temperature: null                          leave temperature out of the request
+#   #   max_tokens_param: max_completion_tokens    send the limit under the name they accept
+#   api_key_env: OPENAI_API_KEY
+#
+# A local server (Ollama, vLLM, LM Studio), no key:
+# llm:
+#   provider: openai_compatible
+#   base_url: http://localhost:11434/v1
+#   model: qwen2.5-coder:14b
+#   api_key_env: null
+
+# Defaults for answer_question; a request's `options` override them.
+pipeline:
+  top_k: 5                         # tables retrieval returns
+  max_attempts: 3                  # SQL generation tries, feeding each error back to the model
+  row_limit: 100                   # rows returned to the caller
+  examples_k: 3                    # few-shot examples (dev split only); none if the file is missing
+  fewshot_path: schemagraph/eval/questions/fewshot_examples.jsonl
+  # expand_seeds: 2                # graph mode: add up to this many tables the retrieved tables have foreign keys to
+  # expand_hops: 1                 # ...looking this many links away (0 tables = off, the default)

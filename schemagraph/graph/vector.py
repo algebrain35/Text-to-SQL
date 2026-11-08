@@ -124,13 +124,33 @@ def _description(description: str | None, source: str | None, include_generated:
     return " ".join(description.split())
 
 
-def table_text(table: TableMeta, include_generated: bool = True) -> str:
-    """'sales.salesorderheader: General sales order information.'"""
+MAX_RELATED = 12  # neighbours listed per direction; a hub table would otherwise bury its own description
+RELATED_MIN_CONFIDENCE = 0.8  # declared keys are 1.0; weak inferred links would add noise
+
+
+def table_text(
+    table: TableMeta,
+    include_generated: bool = True,
+    references: list[str] | None = None,
+    referenced_by: list[str] | None = None,
+) -> str:
+    """'sales.salesorderheader: General sales order information.'
+
+    With `references` / `referenced_by` (display names of the tables this one has foreign keys to, and of those
+    with keys to it) the text continues 'References: ... Referenced by: ...', so a table that links other tables
+    can be found from questions about the things it links.
+    """
     text = f"{table.schema_}.{table.name}"
     if humanize(table.name) != table.name:
         text += f" ({humanize(table.name)})"
     desc = _description(table.description, table.description_source, include_generated)
-    return f"{text}: {desc}" if desc else text
+    text = f"{text}: {desc}" if desc else text
+    for label, names in (("References", references), ("Referenced by", referenced_by)):
+        if names:
+            shown = sorted(names)[:MAX_RELATED]
+            more = f", and {len(names) - MAX_RELATED} more" if len(names) > MAX_RELATED else ""
+            text += f" {label}: {', '.join(shown)}{more}."
+    return text
 
 
 def column_text(table: TableMeta, column: ColumnMeta, include_generated: bool = True) -> str:

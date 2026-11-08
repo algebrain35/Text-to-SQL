@@ -70,7 +70,7 @@ weights, 7 for the two Postgres roles) refer to it.
   an optional field on `AppConfig`, secrets by environment variable name. Never put a key in `config.yml`.
 - **Chat model:** `llm` uses an OpenAI-compatible `/chat/completions` endpoint. Set the model and `api_key_env` in
   `config.yml`; the key itself belongs only in the environment. Local compatible servers can set `api_key_env: null`.
-- **Pipeline defaults:** `pipeline` supports `top_k`, `max_attempts`, `row_limit`, `examples_k`, and `fewshot_path`.
+- **Pipeline defaults:** `pipeline` supports `top_k`, `max_attempts`, `row_limit`, `examples_k`, `fewshot_path`, and (off by default) `expand_seeds` / `expand_hops`.
   Few-shot files must contain development examples only.
 
 Example additions to `config.yml`:
@@ -226,6 +226,50 @@ Vectors written before fingerprints existed are replaced once. In `config.yml` u
 `requests_per_minute` (spaces requests out so the limit is not hit). Gemini sends 100 texts per request unless `batch_size` says
 otherwise, which matters on tiers limited by requests per minute. Retrieval skips nodes without a vector, so do not rely on a
 partial graph for answers; the coverage numbers in the summary say how far it got.
+
+### Smoke test the whole path
+
+After building a graph, push a few questions through the real services before any long run:
+
+```bash
+python scripts/smoke_test.py --db adventureworks                       # five built-in questions, all three modes
+python scripts/smoke_test.py --db adventureworks --question "How many employees are there?" --mode graph
+python scripts/smoke_test.py --db card_games --questions-file schemagraph/eval/questions/bird_subset.jsonl --n 5
+python scripts/smoke_test.py --db adventureworks --no-llm              # retrieval and join planning only
+```
+
+For each question and mode it prints what retrieval found (with scores), the join plan, the tables the model was given,
+and, with an `llm:` section in `config.yml`, the SQL, whether it ran, and its cost. With a questions file it also says
+whether the result matches the gold result and what share of the gold tables the model was given. It stores nothing.
+Exit code 1 means some question hit an error (shown on its line), 2 means it could not start.
+
+### Score retrieval on its own
+
+The smoke test shows a few questions in detail; this scores all of them, with no LLM and no Postgres:
+
+```bash
+python scripts/retrieval_eval.py --db adventureworks --questions-file schemagraph/eval/questions/adventureworks.jsonl \
+    --label gemini-1536 --out runs/gemini.json
+python scripts/retrieval_eval.py --compare runs/openai.json runs/gemini.json     # side by side
+```
+
+It embeds each question once and reports (1) recall@k: how many of the tables the gold SQL reads are among the k
+best-scoring tables, (2) the mean score at ranks 1, 5 and 20, which shows whether scores separate relevant tables from
+noise, and (3) for each seed strategy (`top_k`, with or without adding up to N tables the seeds have foreign keys to),
+the planner's context as the model would see it: recall and the average number of tables. Use it to choose `top_k`
+and to compare embedding models and embedding texts: build one graph (or one named vector set, `embedding.name`)
+per variant, run once per variant with `SCHEMAGRAPH_CONFIG=<config>` and `--out`, then `--compare`. Runs are
+comparable only on the same question file and split.
+`--no-graph` skips the planning part.
+
+Two ways to bring in tables a question never names (the person behind a salesperson, the product under a category):
+
+- `embedding.include_relationships: true` embeds each table with its foreign-key neighbours, so a link table matches
+  questions about what it links. It changes the embedded text; give the config a new `embedding.name` and run
+  `python scripts/build_graph.py --db <db> --skip-extraction` to embed under it (the plain vectors are kept).
+- `pipeline.expand_seeds: N` (graph mode) adds up to N tables that the retrieved tables reference, `expand_hops` links
+  away, before join planning. The retrieval script's `+N (H-hop)` rows measure it before you turn it on; the
+  explanation marks an added table "Added because X has a foreign key to it".
 
 ## API reference
 
@@ -407,6 +451,23 @@ python -m schemagraph.eval.run_eval --questions schemagraph/eval/questions/adven
 python -m schemagraph.eval.run_eval --summarize results/RUN.jsonl
 ```
 
+### Compare retrieval settings end to end
+
+Retrieval recall says whether the right tables arrive; only a model run says whether more tables help or hurt the SQL.
+`--sweep` runs the same questions once per variant, `K` (top_k), `K+N` (also add up to N tables the seeds reference) or
+`K+N:H` (looking H links away), and prints one row per variant with accuracy, schema recall, tables in the context,
+tries, tokens and latency:
+
+```bash
+python -m schemagraph.eval.run_eval --questions schemagraph/eval/questions/adventureworks.jsonl \
+    --modes graph --sweep 5 8 12 5+4:2 8+4:2 --out results/sweep.jsonl --run-id sweep --llm-model <model>
+python -m schemagraph.eval.run_eval --compare-runs results/sweep.jsonl      # the table again, any time
+```
+
+Each variant is its own run id (`sweep-k8+4h2`), so an interrupted sweep resumes and finished rows are never asked
+twice. It prints how many model calls it may make first (questions x modes x variants). `--top-k` and `--expand N[:H]`
+override the config for a single ordinary run. Use the test split for the final choice and the dev split while exploring.
+
 ### Building the question files
 
 `bird_subset.jsonl` is generated from BIRD's own questions (the `mini_dev_postgresql.json` that `scripts/load_bird.sh` copies
@@ -415,7 +476,10 @@ to `data/bird/`), not written by hand:
 ```bash
 python -m schemagraph.eval.bird_questions --input data/bird/mini_dev_postgresql.json \
     --out schemagraph/eval/questions/bird_subset.jsonl --verify      # --verify needs the BIRD databases loaded
-python -m schemagraph.eval.question_set schemagraph/eval/questions/*.jsonl      # checks any question files
+# check the question files (list them; fewshot_examples.jsonl is not a question file) and the few-shot examples:
+python -m schemagraph.eval.question_set schemagraph/eval/questions/adventureworks.jsonl \
+    schemagraph/eval/questions/bird_subset.jsonl --fewshot schemagraph/eval/questions/fewshot_examples.jsonl
+# add --verify to also run every gold query against the loaded databases
 ```
 
 With `--verify`, failed gold queries are printed grouped by message. If at least half of all questions fail for one
@@ -429,6 +493,17 @@ scorer, which ignores row order); those questions say so in `notes`. `--verify` 
 that fail, time out, or return no rows. `question_set.py` also catches duplicate ids and questions, gold SQL that is not
 a single safe SELECT, and any overlap with `fewshot_examples.jsonl` (`--fewshot`). The questions not chosen are a pool for
 few-shot examples.
+
+`adventureworks.jsonl` is hand-written: 50 `test` questions (10 / 15 / 25 at tiers 1 / 2 / 3) and 10 `dev` questions, each with
+gold SQL that was run against a real AdventureWorks and checked to run, return rows and have one clear answer (ranking
+questions have no ties at the cut-off). The tier is again the number of distinct tables in the gold query, the same rule as
+for BIRD, so tier 3 here means three or more tables, not "crosses schemas". Date-dependent questions fit this sample's dates
+(orders 2022-05 to 2025-06, hire dates 2006 to 2013); the `notes` field says where a question depends on a reading such as
+"currently". They are drafts: read them and edit any whose wording or gold SQL you would not defend.
+
+`fewshot_examples.jsonl` holds every `dev` question of both files, the only questions the model may see as examples
+(`retrieve_examples` filters by database and refuses any example that is not `dev`). The checker flags a few-shot
+example that is not a `dev` question, and any `test` question that also appears there.
 
 `--check-gold` runs every gold query first and reports failures and queries that return no rows; a real run does the
 same check before any model call. A run is resumable: repeat the command with the same `--run-id` and finished rows are

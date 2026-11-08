@@ -1,0 +1,309 @@
+{
+  "db_id": "toxicology",
+  "extracted_at": "2026-11-08T01:40:17.111408Z",
+  "schemas": [
+    {
+      "name": "public"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "toxicology:public.atom",
+      "schema": "public",
+      "name": "atom",
+      "description": null,
+      "description_source": null,
+      "row_count": 9111,
+      "primary_key": [
+        "atom_id"
+      ]
+    },
+    {
+      "uid": "toxicology:public.bond",
+      "schema": "public",
+      "name": "bond",
+      "description": null,
+      "description_source": null,
+      "row_count": 9156,
+      "primary_key": [
+        "bond_id"
+      ]
+    },
+    {
+      "uid": "toxicology:public.connected",
+      "schema": "public",
+      "name": "connected",
+      "description": null,
+      "description_source": null,
+      "row_count": 18312,
+      "primary_key": [
+        "atom_id",
+        "atom_id2"
+      ]
+    },
+    {
+      "uid": "toxicology:public.molecule",
+      "schema": "public",
+      "name": "molecule",
+      "description": null,
+      "description_source": null,
+      "row_count": 343,
+      "primary_key": [
+        "molecule_id"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "toxicology:public.atom.atom_id",
+      "table_uid": "toxicology:public.atom",
+      "name": "atom_id",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000_1",
+        "TR000_2",
+        "TR000_3",
+        "TR000_4",
+        "TR000_5"
+      ]
+    },
+    {
+      "uid": "toxicology:public.atom.molecule_id",
+      "table_uid": "toxicology:public.atom",
+      "name": "molecule_id",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000",
+        "TR001",
+        "TR002",
+        "TR004",
+        "TR006"
+      ]
+    },
+    {
+      "uid": "toxicology:public.atom.element",
+      "table_uid": "toxicology:public.atom",
+      "name": "element",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "cl",
+        "c",
+        "h",
+        "o",
+        "s"
+      ]
+    },
+    {
+      "uid": "toxicology:public.bond.bond_id",
+      "table_uid": "toxicology:public.bond",
+      "name": "bond_id",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000_1_2",
+        "TR000_2_3",
+        "TR000_2_4",
+        "TR000_2_5",
+        "TR001_10_11"
+      ]
+    },
+    {
+      "uid": "toxicology:public.bond.molecule_id",
+      "table_uid": "toxicology:public.bond",
+      "name": "molecule_id",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000",
+        "TR001",
+        "TR002",
+        "TR004",
+        "TR006"
+      ]
+    },
+    {
+      "uid": "toxicology:public.bond.bond_type",
+      "table_uid": "toxicology:public.bond",
+      "name": "bond_type",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "-",
+        "=",
+        "#"
+      ]
+    },
+    {
+      "uid": "toxicology:public.connected.atom_id",
+      "table_uid": "toxicology:public.connected",
+      "name": "atom_id",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000_1",
+        "TR000_2",
+        "TR000_3",
+        "TR000_4",
+        "TR000_5"
+      ]
+    },
+    {
+      "uid": "toxicology:public.connected.atom_id2",
+      "table_uid": "toxicology:public.connected",
+      "name": "atom_id2",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000_2",
+        "TR000_1",
+        "TR000_3",
+        "TR000_4",
+        "TR000_5"
+      ]
+    },
+    {
+      "uid": "toxicology:public.connected.bond_id",
+      "table_uid": "toxicology:public.connected",
+      "name": "bond_id",
+      "data_type": "text",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000_1_2",
+        "TR000_2_3",
+        "TR000_2_4",
+        "TR000_2_5",
+        "TR001_10_11"
+      ]
+    },
+    {
+      "uid": "toxicology:public.molecule.molecule_id",
+      "table_uid": "toxicology:public.molecule",
+      "name": "molecule_id",
+      "data_type": "text",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "TR000",
+        "TR001",
+        "TR002",
+        "TR004",
+        "TR006"
+      ]
+    },
+    {
+      "uid": "toxicology:public.molecule.label",
+      "table_uid": "toxicology:public.molecule",
+      "name": "label",
+      "data_type": "text",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "+",
+        "-"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "toxicology:public.atom.molecule_id",
+      "to_column": "toxicology:public.molecule.molecule_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "atom_molecule_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "toxicology:public.bond.molecule_id",
+      "to_column": "toxicology:public.molecule.molecule_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "bond_molecule_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "toxicology:public.connected.atom_id",
+      "to_column": "toxicology:public.atom.atom_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "connected_atom_id_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "toxicology:public.connected.atom_id2",
+      "to_column": "toxicology:public.atom.atom_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "connected_atom_id2_fkey",
+      "evidence": null
+    },
+    {
+      "from_column": "toxicology:public.connected.bond_id",
+      "to_column": "toxicology:public.bond.bond_id",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "connected_bond_id_fkey",
+      "evidence": null
+    }
+  ]
+}
