@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 import time
 import uuid
 from collections.abc import Collection
@@ -21,10 +22,14 @@ from schemagraph.pipeline.context import build_context, expand_options
 from schemagraph.pipeline.examples import retrieve_examples
 from schemagraph.pipeline.explain import build_explanation, explain_context
 from schemagraph.pipeline.generate import generate_sql
+from schemagraph.pipeline.llm import LLMError
 from schemagraph.pipeline.validate import validate
 from schemagraph.sql_validation import check_select
 
+log = logging.getLogger(__name__)
+
 _MAX_ROW_LIMIT = 100_000
+SUMMARY_UNAVAILABLE = "The one-sentence summary could not be written because the language model did not respond."
 
 
 def _elapsed_ms(started: float) -> int:
@@ -141,7 +146,15 @@ def answer_question(
     if explain and status == "success" and final_sql is not None:
         explanation_started = time.perf_counter()
         usage: dict[str, int] = {}
-        explanation = build_explanation(request.question, final_sql, context, seeds, usage=usage)
+        try:
+            explanation = build_explanation(request.question, final_sql, context, seeds, usage=usage)
+        except LLMError as exc:
+            # The query already ran: a failed one-line summary must not turn the answer into an error.
+            log.warning("explanation summary failed; returning the answer without it: %s", exc)
+            if explanation is not None:
+                explanation = explanation.model_copy(
+                    update={"warnings": [*explanation.warnings, SUMMARY_UNAVAILABLE]}
+                )
         explanation_ms = _elapsed_ms(explanation_started)
         input_tokens += usage.get("input_tokens", 0)
         output_tokens += usage.get("output_tokens", 0)

@@ -231,3 +231,20 @@ def test_the_example_exclusion_reaches_the_few_shot_lookup(monkeypatch, ask_requ
     pipeline.answer_question(ask_request, explain=False, exclude_example_ids={"aw-dev-03"})
     pipeline.answer_question(ask_request, explain=False)
     assert got[0][3] == {"aw-dev-03"} and got[1][3] == ()
+
+
+def test_a_failed_summary_keeps_the_successful_answer(monkeypatch, ask_request, fake_config):
+    _stub_pipeline(monkeypatch, ask_request, fake_config)
+
+    def no_summary(*args, **kwargs):
+        raise pipeline.LLMError("chat service returned HTTP 429")
+
+    monkeypatch.setattr(pipeline, "build_explanation", no_summary)
+
+    response = pipeline.answer_question(ask_request, explain=True)
+
+    assert response.status == "success"
+    assert response.result is not None and response.result.rows == [["1"]]
+    assert response.explanation is not None
+    assert response.explanation.summary == ""
+    assert pipeline.SUMMARY_UNAVAILABLE in response.explanation.warnings
