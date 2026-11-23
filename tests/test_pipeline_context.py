@@ -70,3 +70,45 @@ def test_render_joins_discloses_inferred_relationship_confidence():
     )
 
     assert "inferred, confidence 0.80" in render_joins(plan)
+
+
+def _parent_and_child(source):
+    parent_uid, child_uid = "demo:public.parent", "demo:public.child"
+    parent = TableDetail(
+        table=TableMeta(uid=parent_uid, schema="public", name="parent", primary_key=["id"]),
+        columns=[_column(f"{parent_uid}.id", parent_uid, "id", nullable=False, primary=True)],
+        references=[],
+    )
+    child = TableDetail(
+        table=TableMeta(uid=child_uid, schema="public", name="child"),
+        columns=[_column(f"{child_uid}.parent_id", child_uid, "parent_id")],
+        references=[
+            RelationshipMeta(
+                from_column=f"{child_uid}.parent_id",
+                to_column=f"{parent_uid}.id",
+                source=source,
+                confidence=0.85 if source == "inferred" else 1.0,
+                cardinality="N:1",
+                constraint_name=None if source == "inferred" else "child_parent_fk",
+            )
+        ],
+    )
+    return [parent, child]
+
+
+def test_render_ddl_marks_an_inferred_relationship_as_a_guess():
+    ddl = render_ddl(_parent_and_child("inferred"))
+
+    assert "FOREIGN KEY" not in ddl
+    assert (
+        '-- Inferred relationship, not a declared foreign key (confidence 0.85): '
+        '"public"."child"."parent_id" -> "public"."parent"."id"'
+    ) in ddl
+    assert ddl.rstrip().endswith('"public"."parent"."id"')  # after the statement, not inside it
+
+
+def test_render_ddl_leaves_inferred_relationships_out_when_they_are_turned_off():
+    ddl = render_ddl(_parent_and_child("inferred"), include_inferred=False)
+    assert "Inferred" not in ddl and "FOREIGN KEY" not in ddl
+    # declared keys are unaffected
+    assert "FOREIGN KEY" in render_ddl(_parent_and_child("declared"), include_inferred=False)

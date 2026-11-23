@@ -59,6 +59,29 @@ def _to_str(value: object) -> str | None:
     return str(value)
 
 
+# SQLSTATE classes that mean the server or the connection failed, whatever the query was: 08 connection
+# exception, 53 insufficient resources (too many connections, out of memory, disk full), 58 system error.
+_SERVICE_FAILURE_CLASSES = ("08", "53", "58")
+# 57P01-57P03: the server is shutting down or not accepting connections. 57014 (query_canceled, which the
+# statement timeout raises) is deliberately not here: a query that runs too long is the query's fault.
+_SERVICE_FAILURE_STATES = frozenset({"57P01", "57P02", "57P03"})
+
+
+def is_service_failure(exc: BaseException) -> bool:
+    """True when a psycopg error means PostgreSQL could not be used, not that the SQL was wrong.
+
+    The pipeline feeds query errors back to the model for another attempt; these are raised instead, so the
+    API answers 503 rather than having the model rewrite SQL that was fine. A connection that fails before
+    the server answers carries no SQLSTATE and is an OperationalError.
+    """
+    if not isinstance(exc, psycopg.Error):
+        return False
+    state = exc.sqlstate
+    if state is None:
+        return isinstance(exc, psycopg.OperationalError)
+    return state[:2] in _SERVICE_FAILURE_CLASSES or state in _SERVICE_FAILURE_STATES
+
+
 def _error_message(exc: psycopg.Error) -> str:
     """Database error text suited to feeding back into the LLM retry prompt."""
     diag = exc.diag
@@ -135,6 +158,8 @@ def explain(db_id: str, sql: str) -> ExplainResult:
         try:
             conn.execute("EXPLAIN " + _strip_trailing_semicolon(sql))
         except psycopg.Error as exc:
+            if is_service_failure(exc):
+                raise
             conn.rollback()
             return ExplainResult(ok=False, error=_error_message(exc))
     return ExplainResult(ok=True)

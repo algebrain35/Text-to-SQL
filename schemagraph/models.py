@@ -217,10 +217,17 @@ class SchemaContext(Contract):
 # ---------------------------------------------------------------------------
 
 
+MAX_TOP_K = 50
+MAX_ATTEMPTS = 5          # each attempt is a paid model call
+MAX_ROW_LIMIT = 100_000   # the evaluation compares results of up to this many rows
+
+
 class AskOptions(Contract):
-    top_k: int | None = None
-    max_attempts: int | None = None
-    row_limit: int | None = None
+    """Per-request overrides of the config's pipeline defaults, bounded so one request cannot run up cost."""
+
+    top_k: int | None = Field(default=None, ge=1, le=MAX_TOP_K)
+    max_attempts: int | None = Field(default=None, ge=1, le=MAX_ATTEMPTS)
+    row_limit: int | None = Field(default=None, ge=1, le=MAX_ROW_LIMIT)
 
 
 class AskRequest(Contract):

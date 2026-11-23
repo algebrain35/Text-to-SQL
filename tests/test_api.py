@@ -85,6 +85,10 @@ def test_a_failed_run_is_still_a_200_so_the_page_can_show_the_attempts(api, monk
     ({**BODY, "db_id": "nope"}, "Unknown db_id"),
     ({**BODY, "db_id": "x'; DROP TABLE y;--"}, "Unknown db_id"),
     ({**BODY, "options": {"top_k": "many"}}, "options"),
+    ({**BODY, "options": {"top_k": 0}}, "top_k"),
+    ({**BODY, "options": {"top_k": 51}}, "top_k"),
+    ({**BODY, "options": {"max_attempts": 500}}, "max_attempts"),
+    ({**BODY, "options": {"row_limit": 100_001}}, "row_limit"),
     ({**BODY, "surprise": 1}, "surprise"),
 ])
 def test_bad_input_is_a_400_with_a_detail_never_a_422(api, body, fragment):
@@ -98,7 +102,7 @@ def test_the_pipelines_own_option_checks_are_400s(api, monkeypatch):
         raise ValueError("top_k must be at least 1")
 
     monkeypatch.setattr(main, "answer_question", refuse)
-    r = api.post("/api/ask", json={**BODY, "options": {"top_k": 0}})
+    r = api.post("/api/ask", json={**BODY, "options": {"top_k": 3}})  # valid for the API; the pipeline refuses
     assert r.status_code == 400 and r.json() == {"detail": "top_k must be at least 1"}
 
 

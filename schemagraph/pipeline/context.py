@@ -20,8 +20,13 @@ def _quote_identifier(name: str) -> str:
     return '"' + name.replace('"', '""') + '"'
 
 
-def render_ddl(tables: list[TableDetail]) -> str:
-    """Render table definitions and column constraints as prompt context."""
+def render_ddl(tables: list[TableDetail], *, include_inferred: bool = True) -> str:
+    """Render table definitions and column constraints as prompt context.
+
+    Only declared foreign keys are written as FOREIGN KEY clauses. An inferred relationship is a guess, so it
+    follows the CREATE TABLE as a comment that says so and gives its confidence; with
+    `include_inferred=False` (the planner ablation) it is left out, so the model cannot join on it either.
+    """
     identifiers = {
         column.uid: (detail.table.uid, detail.table.schema_, detail.table.name, column.name)
         for detail in tables
@@ -47,10 +52,20 @@ def render_ddl(tables: list[TableDetail]) -> str:
         relationships: dict[
             tuple[str, str], list[tuple[str, tuple[str, str, str, str]]]
         ] = {}
+        inferred_lines = []
         for relationship in detail.references:
             target = identifiers.get(relationship.to_column)
             source = identifiers.get(relationship.from_column)
             if target is None or source is None:
+                continue
+            if relationship.source == "inferred":
+                if include_inferred:
+                    _, target_schema, target_table, target_column = target
+                    inferred_lines.append(
+                        f"-- Inferred relationship, not a declared foreign key (confidence {relationship.confidence:.2f}): "
+                        f"{_quote_identifier(table.schema_)}.{_quote_identifier(table.name)}.{_quote_identifier(source[3])}"
+                        f" -> {_quote_identifier(target_schema)}.{_quote_identifier(target_table)}.{_quote_identifier(target_column)}"
+                    )
                 continue
             key = (
                 ("constraint", relationship.constraint_name)
@@ -73,6 +88,8 @@ def render_ddl(tables: list[TableDetail]) -> str:
         )
         if table.description:
             statement = f"-- {table.description}\n" + statement
+        if inferred_lines:
+            statement += "\n" + "\n".join(inferred_lines)
         statements.append(statement)
     return "\n\n".join(statements)
 
@@ -146,7 +163,7 @@ def build_context(
         db_id=db_id,
         mode=mode,
         tables=[detail.table.uid for detail in details],
-        ddl=render_ddl(details),
+        ddl=render_ddl(details, include_inferred=(planner_options or {}).get("include_inferred", True)),
         join_text=render_joins(join_plan) if join_plan is not None else "",
         join_plan=join_plan,
         notes=notes,
