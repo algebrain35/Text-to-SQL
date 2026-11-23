@@ -464,3 +464,89 @@ def test_networkx_reports_no_route_when_banning_a_bridge_splits_the_seeds():
 
     p = plan(seeds, edges)  # the whole plan, including its alternatives, must not raise
     assert p.status == "full" and p.bridge_tables == [t("bridge")] and p.alternatives == []
+
+
+# --- selection="prize": connect only the seeds worth their joins ----------------------------
+
+
+def test_prize_keeps_a_near_seed_and_drops_a_distant_one():
+    edges = [E("a", "b"), E("b", "c"), E("c", "d"), E("d", "e"), E("e", "f")]
+    p = plan([seed("a", 0.9), seed("b", 0.85), seed("f", 0.5)], edges, selection="prize")
+    # b is one join away (cost 1, prize 2.83); f is five joins away (cost 5, prize 1.67)
+    assert names(p.tables) == ["a", "b"] and p.dropped_seeds == [t("f")]
+    assert p.status == "partial" and p.unreachable_seeds == [] and p.algorithm == "shortest_path"
+
+
+def test_prize_keeps_every_seed_when_all_are_close():
+    p = plan([seed("a", 0.9), seed("b", 0.5)], [E("a", "b")], selection="prize")
+    assert names(p.tables) == ["a", "b"] and p.status == "full" and p.dropped_seeds == []
+
+
+def test_prize_adds_a_bridge_when_the_seed_pays_for_it():
+    edges = [E("a", "m"), E("c", "m")]    # a and c both reference m; reaching c from m fans out (cost 2)
+    p = plan([seed("a", 0.9), seed("c", 0.9)], edges, selection="prize", prize_scale=4.0)
+    assert names(p.tables) == ["a", "c", "m"] and names(p.bridge_tables) == ["m"] and p.status == "full"
+    q = plan([seed("a", 0.9), seed("c", 0.9)], edges, selection="prize", prize_scale=2.0)
+    assert names(q.tables) == ["a"] and q.dropped_seeds == [t("c")]
+
+
+def test_prize_picks_the_more_valuable_group_and_reports_the_other_as_unreachable():
+    edges = [E("a", "b"), E("x", "y")]
+    p = plan([seed("x", 0.9), seed("a", 0.85), seed("b", 0.85), seed("y", 0.3)], edges, selection="prize")
+    # a+b: 2.83 + 2.83 - 1 = 4.67; x+y: 3 + 1 - 1 = 3
+    assert names(p.tables) == ["a", "b"]
+    assert p.unreachable_seeds == [t("x"), t("y")] and p.status == "partial"
+
+
+def test_prize_with_no_connections_plans_the_best_seed_alone():
+    p = plan([seed("a", 0.9), seed("x", 0.8)], [E("a", "b"), E("x", "y")], selection="prize")
+    assert p.tables == [t("a")] and p.joins == [] and p.algorithm == "none"
+    assert p.status == "partial" and p.unreachable_seeds == [t("x")]
+
+
+def test_prize_considers_at_most_seven_seeds():
+    seeds = [seed(f"n{i}", 0.9 - i * 0.01) for i in range(9)]
+    p = plan(seeds, [E(f"n{i}", "hub") for i in range(9)], selection="prize", prize_scale=10.0)
+    assert len([s for s in p.tables if s != t("hub")]) == 7
+    assert p.dropped_seeds == [t("n7"), t("n8")]
+
+
+def test_prize_settings_are_checked():
+    with pytest.raises(ValueError, match="selection"):
+        plan(["a", "b"], [E("a", "b")], selection="some")
+    with pytest.raises(ValueError, match="prize_scale"):
+        plan(["a", "b"], [E("a", "b")], selection="prize", prize_scale=0)
+
+
+def test_seed_prizes_are_relative_to_the_best_seed():
+    assert pl.seed_prizes([0.8, 0.4, 0.0], 3.0) == [3.0, 1.5, 0.0]
+    assert pl.seed_prizes([0.0, 0.0], 2.0) == [2.0, 2.0]
+
+
+@pytest.mark.parametrize("seed_value", range(12))
+def test_prize_solver_matches_brute_force(seed_value):
+    rng = random.Random(200 + seed_value)
+    n = rng.randint(4, 6)
+    arcs = pl.build_arcs(pl.build_links(random_graph(rng, n, extra=rng.randint(1, 4))))
+    nodes = sorted({x for s, d in arcs.items() for x in (s, *d)})
+    terminals = [t(f"t{i}") for i in rng.sample(range(n), rng.randint(2, min(4, n)))]
+    prizes = [rng.uniform(0.5, 4.0) for _ in terminals]
+
+    best = max(
+        sum(prizes[i] for i in subset) - (brute_force([terminals[i] for i in subset], arcs, nodes) if len(subset) > 1 else 0)
+        for size in range(1, len(terminals) + 1)
+        for subset in itertools.combinations(range(len(terminals)), size)
+    )
+    root, tree, chosen = pl.solve_prize(terminals, arcs, prizes)
+    value = sum(prizes[terminals.index(c)] for c in chosen) - pl.tree_cost(tree)
+    assert value == pytest.approx(best, abs=1e-6)
+    assert set(chosen) <= {root} | {a.dst for a in tree}
+
+
+def test_prize_with_large_prizes_connects_everything_like_the_exact_solver():
+    rng = random.Random(7)
+    arcs = pl.build_arcs(pl.build_links(random_graph(rng, 7, extra=3)))
+    terminals = [t("t1"), t("t4"), t("t6")]
+    _, tree, chosen = pl.solve_prize(terminals, arcs, [1e6] * 3)
+    assert sorted(chosen) == sorted(terminals)
+    assert pl.tree_cost(tree) == pl.tree_cost(pl.solve_exact(terminals, arcs)[1])

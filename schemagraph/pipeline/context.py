@@ -114,6 +114,14 @@ def expand_options(pipeline_config: Any) -> dict[str, int] | None:
     return {"max_added": pipeline_config.expand_seeds, "hops": pipeline_config.expand_hops}
 
 
+def planner_defaults(pipeline_config: Any) -> dict[str, Any]:
+    """The planner's seed-selection settings from a pipeline config ({} when it uses the defaults)."""
+    selection = getattr(pipeline_config, "planner_selection", "all")
+    if pipeline_config is None or selection == "all":
+        return {}
+    return {"selection": selection, "prize_scale": getattr(pipeline_config, "prize_scale", 3.0)}
+
+
 def build_context(
     db_id: str,
     question: str,

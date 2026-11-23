@@ -553,3 +553,26 @@ def test_context_tables_count_unreachable_seeds_the_prompt_kept():
     ]
     # without an explanation, the plan's tables are the fallback
     assert ev.context_tables(graph_response()) == ["person.person", "sales.customer", "sales.salesorderheader"]
+
+
+def test_cli_passes_the_seed_selection_to_the_planner(tmp_path, monkeypatch, capsys):
+    from types import SimpleNamespace
+
+    qfile = write_questions(tmp_path / "q.jsonl", [question()])
+    seen = {}
+
+    def fake_run_eval(questions, modes, out, run_id, options=None, **kw):
+        seen["options"] = options
+        return SimpleNamespace(run_id=run_id, written=0, already_done=0, skipped_bad_gold=[], errors=[], stopped=None)
+
+    monkeypatch.setattr(ev, "run_eval", fake_run_eval)
+    monkeypatch.setattr(ev, "warm_query_cache", lambda *a, **k: 0)
+    monkeypatch.setattr(ev, "load_results", lambda *a, **k: [])
+    out = str(tmp_path / "r.jsonl")
+
+    assert ev.main(["--questions", str(qfile), "--out", out, "--modes", "graph",
+                    "--selection", "prize", "--prize-scale", "4"]) == 0
+    assert seen["options"] == {"selection": "prize", "prize_scale": 4.0}
+
+    with pytest.raises(SystemExit):
+        ev.main(["--questions", str(qfile), "--out", out, "--prize-scale", "0"])

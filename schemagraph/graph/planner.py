@@ -22,6 +22,9 @@ How it works
        re-costs the chosen tree in the walking direction).
 4. If the tree needs more than `max_bridge_tables` bridges it is judged
    implausible: the lowest-scoring seed is dropped and the plan redone.
+   With selection="prize", steps 2 and 4 are replaced: each seed has a prize,
+   and the plan connects the subset of seeds whose prizes most exceed the cost
+   of joining them (a prize-collecting Steiner tree, `solve_prize`).
 5. The tree's arcs are mapped back to column pairs (a composite foreign key is
    one link with several column pairs), and runner-up trees are found by
    banning each bridge table in turn.
@@ -52,8 +55,10 @@ INF = float("inf")
 MAX_BRIDGE_TABLES = 4        # more bridges than this and the plan is treated as implausible
 MAX_EXACT_SEEDS = 7          # the exact solver costs about 3^k * (tables); beyond this use NetworkX
 MAX_ALTERNATIVES = 2
+DEFAULT_PRIZE_SCALE = 3.0    # selection="prize": about two default-weight joins for the best-matching table
 
 Algorithm = Literal["auto", "exact", "networkx"]
+Selection = Literal["all", "prize"]
 
 
 # ---------------------------------------------------------------------------
@@ -221,18 +226,16 @@ def _tidy(root: str, terminals: list[str], chosen: list[Arc]) -> list[Arc]:
     return [parent[n] for n in sorted(needed)]
 
 
-def solve_exact(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tuple[str, list[Arc]] | None:
-    """Cheapest directed Steiner tree over `terminals`, trying every terminal as the root.
+def _steiner_table(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tuple[dict, dict]:
+    """Dreyfus-Wagner over every subset of `terminals`.
 
-    Dreyfus-Wagner: dp[S][v] is the cheapest tree rooted at table v that reaches
-    every terminal in S, with arcs oriented away from v. One table over all
-    subsets of the terminals answers every choice of root at once:
-    the tree for root r is dp[all terminals but r][r].
+    dp[S][v] is the cheapest tree rooted at table v that reaches every terminal in the
+    subset S (a bit mask over `terminals`), with arcs oriented away from v. `how`
+    records each entry's last step so the tree can be rebuilt with `_rebuild`.
     """
-    k = len(terminals)
     nodes = sorted({n for s, d in arcs.items() for n in (s, *d)} | set(terminals))
     incoming = _in_arcs(arcs)
-    full = (1 << k) - 1
+    full = (1 << len(terminals)) - 1
     dp: dict[int, dict[str, float]] = {}
     how: dict[tuple[int, str], tuple] = {}
 
@@ -270,9 +273,38 @@ def solve_exact(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tuple[
                     how[(mask, arc.src)] = ("arc", arc)
                     heapq.heappush(heap, (nc, arc.src))
         dp[mask] = cost
+    return dp, how
 
+
+def _rebuild(how: dict, mask: int, root: str, terminals: list[str]) -> list[Arc]:
+    """The tree behind dp[mask][root], tidied: `mask` is every chosen terminal except the root."""
+    chosen: list[Arc] = []
+
+    def build(m: int, v: str) -> None:
+        step = how[(m, v)]
+        if step[0] == "arc":
+            chosen.append(step[1])
+            build(m, step[1].dst)
+        elif step[0] == "split":
+            build(step[1], v)
+            build(m ^ step[1], v)
+
+    build(mask, root)
+    reached = [terminals[i] for i in range(len(terminals)) if mask >> i & 1]
+    return _tidy(root, reached, chosen)
+
+
+def solve_exact(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tuple[str, list[Arc]] | None:
+    """Cheapest directed Steiner tree over `terminals`, trying every terminal as the root.
+
+    One Dreyfus-Wagner table answers every choice of root at once: the tree for
+    root r is dp[all terminals but r][r].
+    """
+    k = len(terminals)
     if k == 1:
         return terminals[0], []
+    dp, how = _steiner_table(terminals, arcs)
+    full = (1 << k) - 1
     best_root, best_cost = None, INF
     for i, r in enumerate(terminals):                   # ties keep the earlier (higher-scoring) seed
         c = dp[full ^ (1 << i)].get(r, INF)
@@ -280,20 +312,64 @@ def solve_exact(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tuple[
             best_root, best_cost = r, c
     if best_root is None:
         return None
+    return best_root, _rebuild(how, full ^ (1 << terminals.index(best_root)), best_root, terminals)
 
-    chosen: list[Arc] = []
 
-    def build(mask: int, v: str) -> None:
-        step = how[(mask, v)]
-        if step[0] == "arc":
-            chosen.append(step[1])
-            build(mask, step[1].dst)
-        elif step[0] == "split":
-            build(step[1], v)
-            build(mask ^ step[1], v)
+def solve_prize(
+    terminals: list[str], arcs: dict[str, dict[str, Arc]], prizes: list[float]
+) -> tuple[str, list[Arc], list[str]] | None:
+    """Prize-collecting Steiner tree: the subset of terminals worth connecting, and its tree.
 
-    build(full ^ (1 << terminals.index(best_root)), best_root)
-    return best_root, _tidy(best_root, [t for t in terminals if t != best_root], chosen)
+    Each terminal has a prize; the chosen subset maximises (sum of its prizes) minus
+    (cost of the cheapest tree connecting it). The Dreyfus-Wagner table already holds
+    the cheapest tree for every subset and root, so this is one more pass over it.
+    A terminal is therefore included only when its prize pays for the joins it needs,
+    and terminals no path reaches are never included (their tree costs infinity).
+
+    Ties go to the larger subset, then to the subset of better-ranked terminals.
+    Returns (root, arcs, chosen terminals in rank order), or None for no terminals.
+    """
+    k = len(terminals)
+    if k == 0:
+        return None
+    dp, how = _steiner_table(terminals, arcs) if k > 1 else ({}, {})
+    best: tuple | None = None   # (value, size, -mask, mask, root_index)
+    for mask in range(1, (1 << k)):
+        members = [i for i in range(k) if mask >> i & 1]
+        if len(members) == 1:
+            cost, root = 0.0, members[0]
+        else:
+            cost, root = INF, None
+            for i in members:                           # ties keep the earlier (higher-scoring) root
+                c = dp[mask ^ (1 << i)].get(terminals[i], INF)
+                if c < cost - 1e-12:
+                    cost, root = c, i
+            if root is None:
+                continue                                # these terminals cannot all be connected
+        value = round(sum(prizes[i] for i in members) - cost, 9)
+        key = (value, len(members), -mask, mask, root)
+        if best is None or key > best:
+            best = key
+    assert best is not None
+    _, _, _, mask, root = best
+    root_uid = terminals[root]
+    chosen = [terminals[i] for i in range(k) if mask >> i & 1]
+    if len(chosen) == 1:
+        return root_uid, [], chosen
+    return root_uid, _rebuild(how, mask ^ (1 << root), root_uid, terminals), chosen
+
+
+def seed_prizes(scores: list[float], prize_scale: float) -> list[float]:
+    """Prize of each seed: `prize_scale` times its score relative to the best seed's.
+
+    `prize_scale` is roughly the join cost the best-matching table is worth: with the
+    default edge weights a declared join followed towards the referenced table costs
+    1.0 and the reverse 2.0, so 3.0 pays for about two joins.
+    """
+    top = max(scores, default=0.0)
+    if top <= 0:
+        return [float(prize_scale)] * len(scores)
+    return [round(prize_scale * max(sc, 0.0) / top, 6) for sc in scores]  # rounded like the edge weights
 
 
 def solve_networkx(terminals: list[str], arcs: dict[str, dict[str, Arc]]) -> tuple[str, list[Arc]] | None:
@@ -406,8 +482,25 @@ def plan_from_edges(
     max_bridge_tables: int = MAX_BRIDGE_TABLES,
     algorithm: Algorithm = "auto",
     max_alternatives: int = MAX_ALTERNATIVES,
+    selection: Selection = "all",
+    prize_scale: float = DEFAULT_PRIZE_SCALE,
 ) -> JoinPlan:
-    """The whole planner on in-memory edges. `plan_joins` is this plus reading the edges from Neo4j."""
+    """The whole planner on in-memory edges. `plan_joins` is this plus reading the edges from Neo4j.
+
+    `selection` decides which seeds the plan connects:
+      - "all": every seed in the best-scoring connected group; if that needs more than
+        `max_bridge_tables` bridges, the lowest-scoring seed is dropped and the plan redone.
+      - "prize": only the seeds worth their joins (`solve_prize`), each worth `prize_scale`
+        times its score relative to the best seed. No bridge limit: a distant seed costs too
+        much to be chosen. At most MAX_EXACT_SEEDS seeds are considered, best first; the rest
+        are reported as dropped.
+    Either way, seeds no relationship reaches are reported in `unreachable_seeds` and seeds
+    left out for cost in `dropped_seeds`.
+    """
+    if selection not in ("all", "prize"):
+        raise ValueError(f"selection must be 'all' or 'prize', got {selection!r}")
+    if not prize_scale > 0:
+        raise ValueError(f"prize_scale must be positive, got {prize_scale!r}")
     by_uid: dict[str, SeedTable] = {}
     for s in seeds:  # duplicates: keep the best score
         if s.uid not in by_uid or s.score > by_uid[s.uid].score:
@@ -427,32 +520,49 @@ def plan_from_edges(
     comps = [(c, [u for u in by_uid if u in c]) for c in _components(nodes, arcs)]
     comps = [(c, members) for c, members in comps if members]
     comps.sort(key=lambda cm: (-round(sum(score[u] for u in cm[1]), 6), -len(cm[1]), min(cm[1])))
-    component, members = comps[0]
     ranked = lambda uids: sorted(uids, key=lambda u: (-score[u], u))  # noqa: E731
-    unreachable = ranked(u for u in by_uid if u not in component)
-    if len(members) < 2:
-        return _empty(db_id, seeds, "none", unreachable_seeds=ranked(by_uid))
-
-    terminals = ranked(members)
-    dropped: list[str] = []
-    local = _restrict(arcs, component, frozenset())
-    while True:
-        solved = _solve(terminals, local, algorithm)
-        if solved is None:  # cannot happen inside one component, but never raise
+    if selection == "prize":
+        pool = ranked(by_uid)[:MAX_EXACT_SEEDS]
+        reach = set().union(*(c for c, m in comps if any(u in pool for u in m)))
+        solved_prize = solve_prize(
+            pool, _restrict(arcs, reach, frozenset()), seed_prizes([score[u] for u in pool], prize_scale)
+        )
+        assert solved_prize is not None  # there are at least two candidates
+        root, tree, terminals = solved_prize
+        terminals = ranked(terminals)
+        component = next(c for c, _ in comps if terminals[0] in c)
+        in_tree = {n for a in tree for n in (a.src, a.dst)} | set(terminals)
+        unreachable = ranked(u for u in by_uid if u not in component)
+        dropped = [u for u in ranked(by_uid) if u in component and u not in in_tree]
+        name = {1: "none", 2: "shortest_path"}.get(len(terminals), "exact_steiner")
+        if dropped or unreachable:
+            log.info("prize plan for %s left out %d seeds, %d unreachable", db_id, len(dropped), len(unreachable))
+    else:
+        component, members = comps[0]
+        unreachable = ranked(u for u in by_uid if u not in component)
+        if len(members) < 2:
             return _empty(db_id, seeds, "none", unreachable_seeds=ranked(by_uid))
-        root, tree, name = solved
-        bridges = {n for a in tree for n in (a.src, a.dst)} - set(terminals)
-        if len(bridges) <= max_bridge_tables:
-            break
-        if len(terminals) <= 2:  # nothing left to drop: even two seeds are too far apart
-            return _empty(db_id, seeds, "none", dropped_seeds=ranked(terminals), unreachable_seeds=unreachable)
-        victim = min(terminals, key=lambda u: (score[u], u))
-        terminals.remove(victim)
-        dropped.append(victim)
-        log.info("plan for %s needed %d bridges; dropping seed %s", db_id, len(bridges), victim)
 
-    if len(terminals) < 2:  # unreachable in practice: the loop above stops at two seeds
-        return _empty(db_id, seeds, "none", dropped_seeds=dropped, unreachable_seeds=unreachable)
+        terminals = ranked(members)
+        dropped: list[str] = []
+        local = _restrict(arcs, component, frozenset())
+        while True:
+            solved = _solve(terminals, local, algorithm)
+            if solved is None:  # cannot happen inside one component, but never raise
+                return _empty(db_id, seeds, "none", unreachable_seeds=ranked(by_uid))
+            root, tree, name = solved
+            bridges = {n for a in tree for n in (a.src, a.dst)} - set(terminals)
+            if len(bridges) <= max_bridge_tables:
+                break
+            if len(terminals) <= 2:  # nothing left to drop: even two seeds are too far apart
+                return _empty(db_id, seeds, "none", dropped_seeds=ranked(terminals), unreachable_seeds=unreachable)
+            victim = min(terminals, key=lambda u: (score[u], u))
+            terminals.remove(victim)
+            dropped.append(victim)
+            log.info("plan for %s needed %d bridges; dropping seed %s", db_id, len(bridges), victim)
+
+        if len(terminals) < 2:  # unreachable in practice: the loop above stops at two seeds
+            return _empty(db_id, seeds, "none", dropped_seeds=dropped, unreachable_seeds=unreachable)
 
     tables_in_tree = {n for a in tree for n in (a.src, a.dst)} | set(terminals)
     bridge_tables = sorted(tables_in_tree - set(terminals))
@@ -496,6 +606,8 @@ def plan_joins(
     *,
     max_bridge_tables: int = MAX_BRIDGE_TABLES,
     algorithm: Algorithm = "auto",
+    selection: Selection = "all",
+    prize_scale: float = DEFAULT_PRIZE_SCALE,
     session: Any | None = None,
 ) -> JoinPlan:
     """SPEC 5.10. Reads the relationships from Neo4j, then plans.
@@ -507,4 +619,5 @@ def plan_joins(
         db_id, seeds, edges,
         include_inferred=include_inferred, weighted=weighted,
         max_bridge_tables=max_bridge_tables, algorithm=algorithm,
+        selection=selection, prize_scale=prize_scale,
     )

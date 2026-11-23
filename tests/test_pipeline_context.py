@@ -167,3 +167,13 @@ def test_build_context_passes_include_inferred_to_the_ddl(monkeypatch):
 
     assert "Inferred relationship" in with_inferred.ddl
     assert "Inferred relationship" not in without.ddl
+
+
+def test_planner_defaults_follow_the_pipeline_config():
+    from types import SimpleNamespace
+
+    assert context_mod.planner_defaults(None) == {}
+    assert context_mod.planner_defaults(SimpleNamespace(planner_selection="all", prize_scale=3.0)) == {}
+    assert context_mod.planner_defaults(SimpleNamespace(planner_selection="prize", prize_scale=4.5)) == {
+        "selection": "prize", "prize_scale": 4.5,
+    }

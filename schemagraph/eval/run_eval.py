@@ -500,6 +500,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-evidence", action="store_true", help="do not append BIRD hints to the question")
     parser.add_argument("--no-inferred", action="store_true", help="ablation: planner ignores inferred edges")
     parser.add_argument("--unweighted", action="store_true", help="ablation: planner treats every edge as cost 1")
+    parser.add_argument("--selection", choices=["all", "prize"],
+                        help="override pipeline.planner_selection: connect every seed, or only those worth their joins")
+    parser.add_argument("--prize-scale", type=float, help="override pipeline.prize_scale (with --selection prize)")
     parser.add_argument("--check-gold", action="store_true", help="only run the gold SQL and report problems")
     parser.add_argument("--summarize", type=Path, help="print the summary of a results file and exit")
     parser.add_argument("--compare-runs", type=Path, metavar="RESULTS", help="print one row per run id and mode of a results file and exit")
@@ -536,6 +539,12 @@ def main(argv: list[str] | None = None) -> int:
         options["include_inferred"] = False
     if args.unweighted:
         options["weighted"] = False
+    if args.selection:
+        options["selection"] = args.selection
+    if args.prize_scale is not None:
+        if args.prize_scale <= 0:
+            parser.error("--prize-scale must be positive")
+        options["prize_scale"] = args.prize_scale
     common: dict[str, Any] = {
         "llm_model": args.llm_model, "split": args.split, "use_evidence": not args.no_evidence,
         "skip_bad_gold": args.skip_bad_gold,
