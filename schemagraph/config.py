@@ -21,6 +21,9 @@ from pydantic import BaseModel, ConfigDict, Field, SecretStr, field_validator, m
 
 DEFAULT_CONFIG_PATH = "config.yml"
 CONFIG_PATH_ENV = "SCHEMAGRAPH_CONFIG"
+ENV_FILE_ENV = "SCHEMAGRAPH_ENV_FILE"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_ENV_FILE = str(REPO_ROOT / ".env")
 
 # db_id doubles as the PostgreSQL database name; keep it boring and safe.
 DB_ID_RE = re.compile(r"^[a-z0-9_]+$")
@@ -261,8 +264,59 @@ def load_config(path: str | Path = DEFAULT_CONFIG_PATH) -> AppConfig:
     return AppConfig.model_validate(raw)
 
 
+def _parse_env_line(line: str) -> tuple[str, str] | None:
+    """One `KEY=value` line of a .env file, as docker compose reads it, or None for blanks and comments.
+
+    Accepts an `export ` prefix and single or double quotes. An unquoted value ends at ` #`, so the
+    inline comments in .env.example are not part of the value.
+    """
+    line = line.strip()
+    if not line or line.startswith("#"):
+        return None
+    if line.startswith("export "):
+        line = line[len("export "):].lstrip()
+    key, sep, value = line.partition("=")
+    key, value = key.strip(), value.strip()
+    if not sep or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key):
+        return None
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in "'\"":
+        value = value[1:-1]
+    else:
+        value = re.split(r"\s+#", value, maxsplit=1)[0]
+    return key, value
+
+
+def load_env_file(path: str | Path | None = None) -> list[str]:
+    """Put the variables of a .env file into os.environ, so passwords and keys need no `export`.
+
+    A variable that is already set (in the shell, or by docker compose) is never overwritten. The file is
+    `SCHEMAGRAPH_ENV_FILE` if that is set (an empty value turns loading off, which the tests use), else
+    `.env` at the repository root. A missing file is not an error. Returns the names that were set.
+    """
+    if path is None:
+        path = os.environ.get(ENV_FILE_ENV, DEFAULT_ENV_FILE)
+    if not path or not Path(path).is_file():
+        return []
+    added = []
+    for line in Path(path).read_text(encoding="utf-8").splitlines():
+        parsed = _parse_env_line(line)
+        if parsed and parsed[0] not in os.environ:
+            os.environ[parsed[0]] = parsed[1]
+            added.append(parsed[0])
+    return added
+
+
 @lru_cache(maxsize=1)
 def get_config() -> AppConfig:
     """Cached config for normal use. Tests can call load_config() directly,
-    or get_config.cache_clear() after changing SCHEMAGRAPH_CONFIG."""
-    return load_config(os.environ.get(CONFIG_PATH_ENV, DEFAULT_CONFIG_PATH))
+    or get_config.cache_clear() after changing SCHEMAGRAPH_CONFIG.
+
+    Loads the repository's .env first (see load_env_file), so SCHEMAGRAPH_CONFIG and the
+    passwords it names can live there."""
+    load_env_file()
+    path = Path(os.environ.get(CONFIG_PATH_ENV, DEFAULT_CONFIG_PATH))
+    # A relative path is tried from the current folder first, then from the repository root, so commands
+    # work from any folder with `SCHEMAGRAPH_CONFIG=config.yml` in .env.
+    if not path.is_absolute() and not path.exists() and (REPO_ROOT / path).exists():
+        path = REPO_ROOT / path
+    return load_config(path)

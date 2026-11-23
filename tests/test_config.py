@@ -121,3 +121,45 @@ def test_missing_and_empty_files(tmp_path):
     empty.write_text("")
     with pytest.raises(ValueError, match="empty"):
         load_config(empty)
+
+
+def test_env_file_fills_only_unset_variables(tmp_path, monkeypatch):
+    from schemagraph.config import load_env_file
+
+    env = tmp_path / ".env"
+    env.write_text(
+        "# a comment\n"
+        "\n"
+        "SG_T_PLAIN=abc   # inline comment\n"
+        "export SG_T_EXPORTED=1\n"
+        "SG_T_QUOTED=\"has # hash\"\n"
+        "SG_T_SINGLE='x y'\n"
+        "SG_T_EQUALS=a=b\n"
+        "SG_T_SHELL=from-file\n"
+        "not a variable\n"
+    )
+    names = ["SG_T_PLAIN", "SG_T_EXPORTED", "SG_T_QUOTED", "SG_T_SINGLE", "SG_T_EQUALS", "SG_T_SHELL"]
+    for name in names:
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv("SG_T_SHELL", "from-shell")
+
+    added = load_env_file(env)
+
+    import os
+    assert os.environ["SG_T_PLAIN"] == "abc"
+    assert os.environ["SG_T_EXPORTED"] == "1"
+    assert os.environ["SG_T_QUOTED"] == "has # hash"
+    assert os.environ["SG_T_SINGLE"] == "x y"
+    assert os.environ["SG_T_EQUALS"] == "a=b"
+    assert os.environ["SG_T_SHELL"] == "from-shell"  # the shell wins
+    assert "SG_T_SHELL" not in added
+    for name in names:  # monkeypatch only restores what it touched
+        monkeypatch.delenv(name, raising=False)
+
+
+def test_env_file_missing_or_turned_off(tmp_path, monkeypatch):
+    from schemagraph.config import load_env_file
+
+    assert load_env_file(tmp_path / "absent.env") == []
+    monkeypatch.setenv("SCHEMAGRAPH_ENV_FILE", "")
+    assert load_env_file() == []

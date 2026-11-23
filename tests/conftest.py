@@ -19,6 +19,9 @@ from psycopg.conninfo import conninfo_to_dict, make_conninfo
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
+# Never read the developer's .env during tests: its passwords and keys would change what tests see.
+os.environ["SCHEMAGRAPH_ENV_FILE"] = ""
+
 
 def pytest_collection_modifyitems(config, items):
     no_dsn = pytest.mark.skip(reason="SG_TEST_PG_DSN not set")

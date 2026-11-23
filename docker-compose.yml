@@ -42,6 +42,9 @@ services:
       VOYAGE_API_KEY:
     volumes:
       - querycache:/app/data/cache      # the query-embedding cache (config.yml: embedding.query_cache)
+      # The live config.yml, so a config change needs `docker compose restart api`, not a rebuild.
+      # (The copy baked into the image is only the fallback.)
+      - ./config.yml:/app/config.yml:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/api/health', timeout=5)"]
       interval: 15s

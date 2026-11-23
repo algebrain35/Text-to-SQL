@@ -4,11 +4,12 @@ FROM python:3.12-slim
 ENV PYTHONUNBUFFERED=1 PIP_NO_CACHE_DIR=1 PIP_DISABLE_PIP_VERSION_CHECK=1
 WORKDIR /app
 
-# Dependencies first, so editing code does not reinstall them. The package source has to be present for
-# pip to resolve it, so install editable and let the real source be copied over afterwards.
+# Dependencies first, so editing code does not reinstall them: this layer depends on pyproject.toml alone.
+# pip needs a package to install, so an empty stand-in is installed (editable, which points at /app) and
+# the real source is copied over it afterwards. Only a change to pyproject.toml reruns the install.
 COPY pyproject.toml ./
+RUN mkdir schemagraph && touch schemagraph/__init__.py && pip install -e ".[api]"
 COPY schemagraph ./schemagraph
-RUN pip install -e ".[api]"
 
 COPY config.yml ./config.yml
 COPY docker/api-entrypoint.sh /usr/local/bin/api-entrypoint
