@@ -239,6 +239,11 @@ class PipelineConfig(BaseModel):
     # (looking `expand_hops` links away), best-shared first, before join planning. 0 turns it off.
     expand_seeds: int = Field(default=0, ge=0, le=20)
     expand_hops: int = Field(default=1, ge=1, le=3)
+    # Graph mode: which retrieved tables the join planner connects. "all" connects every one it can reach;
+    # "prize" only those worth their joins, each worth `prize_scale` times its score relative to the best
+    # table (3.0 pays for about two joins). See graph/planner.py.
+    planner_selection: Literal["all", "prize"] = "all"
+    prize_scale: float = Field(default=3.0, gt=0, le=100)
 
 
 class AppConfig(BaseModel):

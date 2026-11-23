@@ -71,6 +71,8 @@ weights, 7 for the two Postgres roles) refer to it.
 - **Chat model:** `llm` uses an OpenAI-compatible `/chat/completions` endpoint. Set the model and `api_key_env` in
   `config.yml`; the key itself belongs only in the environment. Local compatible servers can set `api_key_env: null`.
 - **Pipeline defaults:** `pipeline` supports `top_k`, `max_attempts`, `row_limit`, `examples_k`, `fewshot_path`, and (off by default) `expand_seeds` / `expand_hops`.
+  `planner_selection: prize` (default `all`) makes the join planner connect only the retrieved tables worth their joins;
+  `prize_scale` (default 3.0) is about how much join cost the best-matching table is worth. `run_eval` takes `--selection` and `--prize-scale` to compare settings.
   Few-shot files must contain development examples only.
 
 Example additions to `config.yml`:

@@ -114,6 +114,14 @@ def expand_options(pipeline_config: Any) -> dict[str, int] | None:
     return {"max_added": pipeline_config.expand_seeds, "hops": pipeline_config.expand_hops}
 
 
+def planner_defaults(pipeline_config: Any) -> dict[str, Any]:
+    """The planner's seed-selection settings from a pipeline config ({} when it uses the defaults)."""
+    selection = getattr(pipeline_config, "planner_selection", "all")
+    if pipeline_config is None or selection == "all":
+        return {}
+    return {"selection": selection, "prize_scale": getattr(pipeline_config, "prize_scale", 3.0)}
+
+
 def build_context(
     db_id: str,
     question: str,
@@ -150,7 +158,12 @@ def build_context(
                 seeds = retrieve.expand_seeds(seeds, edges, **expand)
             join_plan = planner.plan_joins(db_id, seeds, **(planner_options or {}))
             elapsed["planning"] = round((perf_counter() - started) * 1000)
-            selected = join_plan.tables if join_plan.status != "none" else [s.uid for s in seeds]
+            if join_plan.status == "none":
+                selected = [s.uid for s in seeds]
+            else:
+                # Seeds no relationship reaches stay in the prompt: the question may still need them (in a
+                # subquery, or joined on columns inference missed). Dropping them silently lost real tables.
+                selected = [*join_plan.tables, *(u for u in join_plan.unreachable_seeds if u not in join_plan.tables)]
             details = queries.get_tables(db_id, selected)
         else:
             details = queries.get_tables(db_id, [s.uid for s in seeds])
@@ -158,6 +171,13 @@ def build_context(
     notes = []
     if mode == "graph" and join_plan is not None and join_plan.status == "none":
         notes.append("No join plan connected the retrieved tables; context contains retrieved tables only.")
+    elif mode == "graph" and join_plan is not None and join_plan.unreachable_seeds:
+        names = ", ".join(display_name(u) for u in join_plan.unreachable_seeds)
+        notes.append(
+            f"No known relationship connects {names} to the other tables. Use "
+            f"{'it' if len(join_plan.unreachable_seeds) == 1 else 'them'} only if the question needs "
+            "it, and join only on columns that clearly correspond."
+        )
 
     context = SchemaContext(
         db_id=db_id,

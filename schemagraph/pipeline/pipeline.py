@@ -19,7 +19,7 @@ from schemagraph.models import (
     LatencyMs,
     Metrics,
 )
-from schemagraph.pipeline.context import build_context, expand_options
+from schemagraph.pipeline.context import build_context, expand_options, planner_defaults
 from schemagraph.pipeline.examples import retrieve_examples
 from schemagraph.pipeline.explain import build_explanation, explain_context
 from schemagraph.pipeline.generate import generate_sql
@@ -76,7 +76,7 @@ def answer_question(
         request.question,
         request.mode,
         top_k,
-        planner_options=planner_options,
+        planner_options={**planner_defaults(pipeline_config), **(planner_options or {})} or None,
         timings=latency,
         **({"expand": use_expand} if (use_expand := expand if expand is not None else expand_options(pipeline_config)) else {}),
     )

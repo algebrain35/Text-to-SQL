@@ -40,7 +40,7 @@ from schemagraph.models import (
     TableWithRelationships,
 )
 from schemagraph.pipeline import llm
-from schemagraph.pipeline.context import build_context, expand_options
+from schemagraph.pipeline.context import build_context, expand_options, planner_defaults
 from schemagraph.pipeline.pipeline import answer_question
 
 log = logging.getLogger(__name__)
@@ -210,7 +210,8 @@ def plan(request: AskRequest) -> PlanResponse:
         if top_k < 1:
             raise ValueError("top_k must be at least 1")
         context, seeds = build_context(
-            request.db_id, request.question, request.mode, top_k, expand=expand_options(pipeline_config)
+            request.db_id, request.question, request.mode, top_k, expand=expand_options(pipeline_config),
+            planner_options=planner_defaults(pipeline_config) or None,
         )
         return PlanResponse(seed_tables=seeds, join_plan=context.join_plan)
 

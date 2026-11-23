@@ -112,3 +112,68 @@ def test_render_ddl_leaves_inferred_relationships_out_when_they_are_turned_off()
     assert "Inferred" not in ddl and "FOREIGN KEY" not in ddl
     # declared keys are unaffected
     assert "FOREIGN KEY" in render_ddl(_parent_and_child("declared"), include_inferred=False)
+
+
+# --- build_context ------------------------------------------------------------------------------
+
+from schemagraph.models import SeedTable  # noqa: E402
+from schemagraph.pipeline import context as context_mod  # noqa: E402
+
+
+def _fake_backends(monkeypatch, plan_status, *, unreachable=(), details=None):
+    asked = {}
+    seeds = [SeedTable(uid=f"demo:public.{n}", score=s, matched_on="table")
+             for n, s in (("child", 0.9), ("parent", 0.8), ("island", 0.7))]
+    monkeypatch.setattr(context_mod.retrieve, "retrieve_seed_tables", lambda db, q, k: seeds)
+
+    def fake_plan(db, seeds, **opts):
+        asked["planner_options"] = opts
+        return JoinPlan(db_id=db, status=plan_status, algorithm="shortest_path", seed_tables=seeds,
+                        tables=["demo:public.child", "demo:public.parent"], unreachable_seeds=list(unreachable))
+
+    def fake_get_tables(db, uids):
+        asked["uids"] = list(uids)
+        return details or []
+
+    monkeypatch.setattr(context_mod.planner, "plan_joins", fake_plan)
+    monkeypatch.setattr(context_mod.queries, "get_tables", fake_get_tables)
+    return asked
+
+
+def test_build_context_keeps_unreachable_seeds_with_a_note(monkeypatch):
+    asked = _fake_backends(monkeypatch, "partial", unreachable=["demo:public.island"])
+
+    context, _ = context_mod.build_context("demo", "q", "graph", 5)
+
+    assert asked["uids"] == ["demo:public.child", "demo:public.parent", "demo:public.island"]
+    assert len(context.notes) == 1
+    assert "public.island" in context.notes[0] and "No known relationship" in context.notes[0]
+
+
+def test_build_context_adds_no_note_when_every_seed_is_connected(monkeypatch):
+    asked = _fake_backends(monkeypatch, "full")
+
+    context, _ = context_mod.build_context("demo", "q", "graph", 5)
+
+    assert asked["uids"] == ["demo:public.child", "demo:public.parent"]
+    assert context.notes == []
+
+
+def test_build_context_passes_include_inferred_to_the_ddl(monkeypatch):
+    _fake_backends(monkeypatch, "full", details=_parent_and_child("inferred"))
+
+    with_inferred, _ = context_mod.build_context("demo", "q", "graph", 5)
+    without, _ = context_mod.build_context("demo", "q", "graph", 5, planner_options={"include_inferred": False})
+
+    assert "Inferred relationship" in with_inferred.ddl
+    assert "Inferred relationship" not in without.ddl
+
+
+def test_planner_defaults_follow_the_pipeline_config():
+    from types import SimpleNamespace
+
+    assert context_mod.planner_defaults(None) == {}
+    assert context_mod.planner_defaults(SimpleNamespace(planner_selection="all", prize_scale=3.0)) == {}
+    assert context_mod.planner_defaults(SimpleNamespace(planner_selection="prize", prize_scale=4.5)) == {
+        "selection": "prize", "prize_scale": 4.5,
+    }

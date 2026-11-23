@@ -284,3 +284,15 @@ def test_a_statement_timeout_is_still_fed_back_to_the_model(monkeypatch, ask_req
     response = pipeline.answer_question(ask_request, explain=False)
     assert response.status == "success"
     assert "statement timeout" in response.attempts[0].error
+
+
+def test_planner_selection_comes_from_the_config_and_the_call_can_override_it(monkeypatch, ask_request):
+    config = SimpleNamespace(pipeline=SimpleNamespace(top_k=5, max_attempts=2, row_limit=10, examples_k=0,
+                                                      planner_selection="prize", prize_scale=4.0))
+    seen = _stub_pipeline(monkeypatch, ask_request, config)
+
+    pipeline.answer_question(ask_request, explain=False)
+    assert seen[-1]["planner_options"] == {"selection": "prize", "prize_scale": 4.0}
+
+    pipeline.answer_question(ask_request, explain=False, planner_options={"prize_scale": 2.0, "weighted": False})
+    assert seen[-1]["planner_options"] == {"selection": "prize", "prize_scale": 2.0, "weighted": False}

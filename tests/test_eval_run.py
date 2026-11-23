@@ -539,3 +539,58 @@ def test_cli_does_not_embed_for_full_mode_and_survives_other_embedding_errors(tm
 
     code, ran = cli(tmp_path, monkeypatch, ["retrieval"], broken)
     assert (code, ran) == (0, [1]) and "one at a time" in capsys.readouterr().err
+
+
+def test_context_tables_count_unreachable_seeds_the_prompt_kept():
+    island = f"{DB}:production.location"
+    response = graph_response(plan_status="partial").model_copy(update={"explanation": Explanation(
+        summary="",
+        tables=[ExplainTable(uid=u, display_name=u.split(":")[1], role="seed", reason="r")
+                for u in (HEADER, CUSTOMER, PERSON, island)],
+    )})
+    assert ev.context_tables(response) == [
+        "person.person", "production.location", "sales.customer", "sales.salesorderheader",
+    ]
+    # without an explanation, the plan's tables are the fallback
+    assert ev.context_tables(graph_response()) == ["person.person", "sales.customer", "sales.salesorderheader"]
+
+
+def test_cli_passes_the_seed_selection_to_the_planner(tmp_path, monkeypatch, capsys):
+    from types import SimpleNamespace
+
+    qfile = write_questions(tmp_path / "q.jsonl", [question()])
+    seen = {}
+
+    def fake_run_eval(questions, modes, out, run_id, options=None, **kw):
+        seen["options"] = options
+        return SimpleNamespace(run_id=run_id, written=0, already_done=0, skipped_bad_gold=[], errors=[], stopped=None)
+
+    monkeypatch.setattr(ev, "run_eval", fake_run_eval)
+    monkeypatch.setattr(ev, "warm_query_cache", lambda *a, **k: 0)
+    monkeypatch.setattr(ev, "load_results", lambda *a, **k: [])
+    out = str(tmp_path / "r.jsonl")
+
+    assert ev.main(["--questions", str(qfile), "--out", out, "--modes", "graph",
+                    "--selection", "prize", "--prize-scale", "4"]) == 0
+    assert seen["options"] == {"selection": "prize", "prize_scale": 4.0}
+
+    with pytest.raises(SystemExit):
+        ev.main(["--questions", str(qfile), "--out", out, "--prize-scale", "0"])
+
+
+def test_rows_and_summaries_carry_schema_precision(tmp_path):
+    # the gold query uses header, customer and person; this context adds a fourth table
+    extra = f"{DB}:production.location"
+    _, out = run(tmp_path, lambda req, **k: graph_response(tables=(HEADER, CUSTOMER, PERSON, extra)))
+    row = read(out)[0]
+    assert row["schema_precision"] == pytest.approx(3 / 4)
+
+    results = ev.load_results(out)
+    assert ev.aggregate_runs(results)[0]["schema_precision"] == pytest.approx(3 / 4)
+    assert "prec" in ev.format_runs(ev.aggregate_runs(results))
+    assert "75%" in ev.format_summary(ev.aggregate(results))
+
+    # rows written before the metric existed have none, and summaries show "-"
+    old = [r.model_copy(update={"schema_precision": None}) for r in results]
+    assert ev.aggregate_runs(old)[0]["schema_precision"] is None
+    assert " - " in ev.format_runs(ev.aggregate_runs(old)).splitlines()[1] + " "
