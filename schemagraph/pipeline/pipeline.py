@@ -14,6 +14,7 @@ from schemagraph.config import get_config
 from schemagraph.models import (
     AskRequest,
     AskResponse,
+    MAX_ROW_LIMIT,
     Attempt,
     LatencyMs,
     Metrics,
@@ -28,7 +29,6 @@ from schemagraph.sql_validation import check_select
 
 log = logging.getLogger(__name__)
 
-_MAX_ROW_LIMIT = 100_000
 SUMMARY_UNAVAILABLE = "The one-sentence summary could not be written because the language model did not respond."
 
 
@@ -67,8 +67,8 @@ def answer_question(
         raise ValueError("top_k must be at least 1")
     if max_attempts < 1:
         raise ValueError("max_attempts must be at least 1")
-    if not 1 <= row_limit <= _MAX_ROW_LIMIT:
-        raise ValueError(f"row_limit must be between 1 and {_MAX_ROW_LIMIT}")
+    if not 1 <= row_limit <= MAX_ROW_LIMIT:
+        raise ValueError(f"row_limit must be between 1 and {MAX_ROW_LIMIT}")
 
     latency = {"retrieval": 0, "planning": 0}
     context, seeds = build_context(
