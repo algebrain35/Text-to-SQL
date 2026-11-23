@@ -122,6 +122,18 @@ def planner_defaults(pipeline_config: Any) -> dict[str, Any]:
     return {"selection": selection, "prize_scale": getattr(pipeline_config, "prize_scale", 3.0)}
 
 
+def prompt_tables(join_plan: JoinPlan, seeds: list[SeedTable]) -> list[str]:
+    """Table uids graph mode puts in the prompt for a join plan. `scripts/retrieval_eval.py` scores the same list.
+
+    With no plan, every retrieved seed. Otherwise the plan's tables, plus seeds no relationship reaches: the
+    question may still need them (in a subquery, or joined on columns inference missed). Seeds the planner
+    dropped for cost stay out.
+    """
+    if join_plan.status == "none":
+        return [s.uid for s in seeds]
+    return [*join_plan.tables, *(u for u in join_plan.unreachable_seeds if u not in join_plan.tables)]
+
+
 def build_context(
     db_id: str,
     question: str,
@@ -158,13 +170,7 @@ def build_context(
                 seeds = retrieve.expand_seeds(seeds, edges, **expand)
             join_plan = planner.plan_joins(db_id, seeds, **(planner_options or {}))
             elapsed["planning"] = round((perf_counter() - started) * 1000)
-            if join_plan.status == "none":
-                selected = [s.uid for s in seeds]
-            else:
-                # Seeds no relationship reaches stay in the prompt: the question may still need them (in a
-                # subquery, or joined on columns inference missed). Dropping them silently lost real tables.
-                selected = [*join_plan.tables, *(u for u in join_plan.unreachable_seeds if u not in join_plan.tables)]
-            details = queries.get_tables(db_id, selected)
+            details = queries.get_tables(db_id, prompt_tables(join_plan, seeds))
         else:
             details = queries.get_tables(db_id, [s.uid for s in seeds])
 
