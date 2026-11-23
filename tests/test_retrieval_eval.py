@@ -221,3 +221,77 @@ def test_cli_embeds_all_questions_in_advance_when_the_embedder_can(tmp_path, mon
     assert re_.main(["--questions-file", str(path), "--no-graph"]) == 0
     assert seen == [["question q1", "question q2"]]
     assert "embedded 2 new questions in advance" in capsys.readouterr().out
+
+
+def test_prize_scales_plan_every_strategy_again_at_each_scale():
+    calls = []
+
+    def plan(db_id, seeds, prize_scale=None):
+        calls.append(prize_scale)
+        kept = [s.uid for s in seeds]
+        return kept if prize_scale is None else kept[:2]     # prize selection keeps fewer tables
+
+    results, _ = run(plan, edges=EDGES)
+    plain = results[0].graph
+    assert not any("prize" in label for label in plain)
+
+    results = re_.evaluate("db", [Q("a", "SELECT * FROM sales.order o JOIN sales.customer c ON 1=1", "q")],
+                           search=lambda db, text, k: SEEDS[:k], plan=plan, edges=EDGES,
+                           top_ks=(3,), expansions=[(0, 1)], prize_scales=(2.0, 3.5))
+    graph = results[0].graph
+    assert list(graph) == ["top_k=3", "top_k=3 prize=2", "top_k=3 prize=3.5"]
+    assert graph["top_k=3"][1] == 3 and graph["top_k=3 prize=2"][1] == 2
+    assert calls[-3:] == [None, 2.0, 3.5]
+
+
+def test_parse_expansion():
+    assert re_.parse_expansion("0") == (0, 1)
+    assert re_.parse_expansion("4") == (4, 1)
+    assert re_.parse_expansion("4:2") == (4, 2)
+    for bad in ("x", "-1", "2:0"):
+        try:
+            re_.parse_expansion(bad)
+        except ValueError:
+            continue
+        raise AssertionError(f"{bad!r} was accepted")
+
+
+def test_strategies_follow_the_requested_expansions():
+    assert re_.strategies((5,), [(0, 1), (2, 1)]) == [(5, 0, 1), (5, 2, 1)]
+
+
+def test_prompt_tables_match_what_graph_mode_puts_in_the_prompt():
+    from schemagraph.models import JoinPlan
+    from schemagraph.pipeline.context import prompt_tables
+
+    seeds = [seed("a", 0.9), seed("b", 0.8), seed("x", 0.7), seed("far", 0.6)]
+    none = JoinPlan(db_id="db", status="none", algorithm="none", seed_tables=seeds)
+    assert prompt_tables(none, seeds) == ["db:a", "db:b", "db:x", "db:far"]
+    partial = JoinPlan(db_id="db", status="partial", algorithm="shortest_path", seed_tables=seeds,
+                       tables=["db:a", "db:b"], unreachable_seeds=["db:x"], dropped_seeds=["db:far"])
+    assert prompt_tables(partial, seeds) == ["db:a", "db:b", "db:x"]       # unreachable kept, dropped left out
+
+
+def test_cli_compares_prize_scales(tmp_path, monkeypatch, capsys):
+    fake_services(monkeypatch, [])
+    path = tmp_path / "q.jsonl"
+    path.write_text(question_line("q1", "alpha", "SELECT * FROM public.a"))
+    assert re_.main(["--questions-file", str(path), "--top-k", "3", "--expand", "0",
+                     "--prize-scale", "2", "4"]) == 0
+    text = capsys.readouterr().out
+    assert "top_k=3 prize=2" in text and "top_k=3 prize=4" in text and "(1-hop)" not in text
+
+    import pytest
+    with pytest.raises(SystemExit):
+        re_.main(["--questions-file", str(path), "--prize-scale", "0"])
+    with pytest.raises(SystemExit):
+        re_.main(["--questions-file", str(path), "--expand", "2:0"])
+
+
+def test_report_warns_about_databases_retrieval_finds_nothing_in():
+    gold = "SELECT * FROM sales.order"
+    found = re_.evaluate("alpha", [Q("a", gold)], search=lambda db, text, k: SEEDS[:k])
+    empty = re_.evaluate("beta", [Q("b", gold)], search=lambda db, text, k: [])
+    text = re_.format_report(found + empty)
+    assert "WARNING retrieval found no tables at all in: beta." in text
+    assert "WARNING" not in re_.format_report(found)

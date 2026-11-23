@@ -4,6 +4,7 @@
     python scripts/retrieval_eval.py --db adventureworks --questions-file ... --split all --out runs/gemini.json --label gemini-1536
     python scripts/retrieval_eval.py --compare runs/openai.json runs/gemini.json
     python scripts/retrieval_eval.py --questions-file schemagraph/eval/questions/bird_subset.jsonl --top-k 2 3 5
+    python scripts/retrieval_eval.py --db adventureworks --questions-file ... --top-k 5 --expand 0 --prize-scale 2 3 4 6
 
 No LLM and no Postgres are involved, so a run is cheap and repeatable: it embeds each question once and
 reads Neo4j. For every question with gold SQL it asks three things.
@@ -21,6 +22,9 @@ reads Neo4j. For every question with gold SQL it asks three things.
    planner's tables, as the model would see them) and the average number of tables in the context. A good
    strategy keeps recall high without growing the context. (A cut-off on the score gap was tried and dropped:
    cosine scores are too bunched for it to separate relevant from noise.)
+   With --prize-scale S [S ...], every strategy is also planned with prize-based seed selection
+   (`planner_selection: prize`) at each scale, labelled "prize=S", so scales can be compared with no model calls.
+   Pick --top-k and --expand to keep the table short.
 
 Without --db, every database named in the question files is scored (BIRD has eleven, each with only 3 to 13 tables),
 with a per-database table when there is more than one. A top_k at or above a database's table count shows it whole, so
@@ -57,7 +61,9 @@ MAX_MISSES_SHOWN = 15
 MAX_ERROR_GROUPS = 5
 
 SearchFn = Callable[[str, str, int], list[SeedTable]]   # (db_id, question text, k) -> seeds, best first
-PlanFn = Callable[[str, list[SeedTable]], list[str]]    # (db_id, seeds) -> table uids the context would hold
+# (db_id, seeds) -> table uids the context would hold. When prize scales are requested it is also called as
+# (db_id, seeds, prize_scale) for prize-based seed selection at that scale.
+PlanFn = Callable[..., list[str]]
 Edges = list[Any]                                       # queries.ReferenceEdge-like: from_table, to_table, confidence
 
 
@@ -85,13 +91,28 @@ class QuestionResult:
 # ---------------------------------------------------------------------------
 
 
-def strategy_label(top_k: int, added: int = 0, hops: int = 1) -> str:
-    return f"top_k={top_k}" + (f" +{added} ({hops}-hop)" if added else "")
+def strategy_label(top_k: int, added: int = 0, hops: int = 1, prize_scale: float | None = None) -> str:
+    return (f"top_k={top_k}" + (f" +{added} ({hops}-hop)" if added else "")
+            + (f" prize={prize_scale:g}" if prize_scale is not None else ""))
 
 
-def strategies(top_ks: Sequence[int] = TOP_KS) -> list[tuple[int, int, int]]:
+def strategies(
+    top_ks: Sequence[int] = TOP_KS, expansions: Sequence[tuple[int, int]] = EXPANSIONS
+) -> list[tuple[int, int, int]]:
     """(top_k, tables to add, hops) for every strategy, in report order."""
-    return [(k, n, h) for k in top_ks for n, h in EXPANSIONS]
+    return [(k, n, h) for k in top_ks for n, h in expansions]
+
+
+def parse_expansion(spec: str) -> tuple[int, int]:
+    """'0' -> no expansion; '4' -> up to 4 tables one link away; '4:2' -> two links away."""
+    added, _, hops = spec.partition(":")
+    try:
+        result = (int(added), int(hops) if hops else 1)
+    except ValueError:
+        raise ValueError(f"bad expansion {spec!r}: use N or N:H") from None
+    if result[0] < 0 or result[1] < 1:
+        raise ValueError(f"bad expansion {spec!r}: N must be at least 0 and H at least 1")
+    return result
 
 
 def seeds_for(seeds: list[SeedTable], edges: Edges, top_k: int, added: int, hops: int) -> list[SeedTable]:
@@ -150,8 +171,13 @@ def evaluate(
     k_max: int = max(KS),
     use_evidence: bool = True,
     top_ks: Sequence[int] = TOP_KS,
+    expansions: Sequence[tuple[int, int]] = EXPANSIONS,
+    prize_scales: Sequence[float] = (),
 ) -> list[QuestionResult]:
-    """Retrieve once per question (k_max seeds), then score every cut-off and strategy from that one list."""
+    """Retrieve once per question (k_max seeds), then score every cut-off and strategy from that one list.
+
+    Each strategy is planned as the pipeline's default does (`selection="all"`), then once per prize scale.
+    """
     results: list[QuestionResult] = []
     for q in questions:
         result = QuestionResult(qid=q.id, question=q.question, gold=sorted(tables_in_sql(q.gold_sql)), db_id=db_id)
@@ -159,14 +185,17 @@ def evaluate(
             seeds = search(db_id, question_text(q, use_evidence), k_max)
             result.seeds = [(display_name(s.uid), s.score, s.matched_on) for s in seeds]
             if plan is not None:
-                cache: dict[frozenset[str], set[str]] = {}
-                for top_k, added, hops in strategies(top_ks):
+                cache: dict[tuple[frozenset[str], float | None], set[str]] = {}
+                for top_k, added, hops in strategies(top_ks, expansions):
                     kept = seeds_for(seeds, edges or [], top_k, added, hops)
-                    key = frozenset(s.uid for s in kept)
-                    if key not in cache:
-                        cache[key] = {display_name(t) for t in plan(db_id, kept)} if kept else set()
-                    context = cache[key]
-                    result.graph[strategy_label(top_k, added, hops)] = (schema_recall(set(result.gold), context), len(context))
+                    for scale in (None, *prize_scales):
+                        key = (frozenset(s.uid for s in kept), scale)
+                        if key not in cache:
+                            planned = plan(db_id, kept) if scale is None else plan(db_id, kept, scale)
+                            cache[key] = {display_name(t) for t in planned} if kept else set()
+                        context = cache[key]
+                        result.graph[strategy_label(top_k, added, hops, scale)] = (
+                            schema_recall(set(result.gold), context), len(context))
         except Exception as exc:  # noqa: BLE001 - one question failing must not stop the run
             result.error = f"{type(exc).__name__}: {exc}"
         results.append(result)
@@ -194,6 +223,12 @@ def format_report(results: list[QuestionResult], label: str = "") -> str:
         lines.append(f"  ERROR {message} ({len(ids)}: {', '.join(ids[:5])}{', ...' if len(ids) > 5 else ''})")
     if not s["questions"]:
         return "\n".join(lines + ["nothing to score"])
+    unsearchable = sorted({r.db_id for r in results if r.error is None and r.gold} - {
+        r.db_id for r in results if r.error is None and r.gold and r.seeds})
+    if unsearchable:
+        lines.append(f"  WARNING retrieval found no tables at all in: {', '.join(unsearchable)}. Retrieval skips tables "
+                     "without a vector, so these are probably not embedded under the configured embedding.name; "
+                     "run scripts/build_graph.py --db <db> --skip-extraction to embed them.")
 
     lines += ["", "Gold tables found among the k best-scoring tables (percent)",
               "  k            " + "".join(f"{k:>7}" for k in KS),
@@ -227,10 +262,11 @@ def format_report(results: list[QuestionResult], label: str = "") -> str:
         lines.append(f"  ... and {len(misses) - MAX_MISSES_SHOWN} more")
 
     if s["strategies"]:
+        width = max(20, *(len(name) + 2 for name in s["strategies"]))
         lines += ["", "Seed strategies, after join planning (what the model would be given)",
-                  f"  {'strategy':<20}{'graph recall':>13}{'all gold':>10}{'tables in context':>19}"]
+                  f"  {'strategy':<{width}}{'graph recall':>13}{'all gold':>10}{'tables in context':>19}"]
         for name, v in s["strategies"].items():
-            lines.append(f"  {name:<20}{_pct(v['graph_recall']):>13}{_pct(v['all_gold']):>10}{v['context_tables']:>19.1f}")
+            lines.append(f"  {name:<{width}}{_pct(v['graph_recall']):>13}{_pct(v['all_gold']):>10}{v['context_tables']:>19.1f}")
         best = max(s["strategies"].items(), key=lambda kv: (kv[1]["all_gold"] or 0, -(kv[1]["context_tables"] or 0)))
         lines.append(f"  most questions fully covered: {best[0]} ({_pct(best[1]['all_gold']).strip()}% with "
                      f"{best[1]['context_tables']:.1f} tables on average)")
@@ -278,6 +314,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--questions-file", type=Path, action="append", default=[], help="JSONL questions with gold SQL (repeatable)")
     parser.add_argument("--split", default="all", choices=["dev", "test", "all"], help="questions to score (default all: nothing is trained here)")
     parser.add_argument("--no-graph", action="store_true", help="skip the join-planning (seed strategies) part; recall@k only")
+    parser.add_argument("--expand", nargs="+", metavar="N[:H]",
+                        help="seed expansions to try: N tables H links away, 0 for none (default: 0 2 4 4:2)")
+    parser.add_argument("--prize-scale", type=float, nargs="+", metavar="S", default=[],
+                        help="also plan every strategy with prize-based seed selection at each of these scales")
     parser.add_argument("--no-evidence", action="store_true", help="do not append BIRD hints to the question")
     parser.add_argument("--label", default="", help="name for this run in the report and in --compare")
     parser.add_argument("--out", type=Path, help="write the results as JSON")
@@ -292,6 +332,12 @@ def main(argv: list[str] | None = None) -> int:
         parser.error("at least one --questions-file is required (or use --compare)")
     if args.top_k and min(args.top_k) < 1:
         parser.error("--top-k values must be at least 1")
+    if any(scale <= 0 for scale in args.prize_scale):
+        parser.error("--prize-scale values must be positive")
+    try:
+        expansions = [parse_expansion(spec) for spec in args.expand] if args.expand else list(EXPANSIONS)
+    except ValueError as exc:
+        parser.error(str(exc))
 
     from schemagraph.eval import run_eval
     from schemagraph.graph import driver
@@ -320,16 +366,22 @@ def main(argv: list[str] | None = None) -> int:
             return retrieve.retrieve_seed_tables(db_id, text, k, embedder=embedder)
 
         from schemagraph.graph import queries
+        from schemagraph.pipeline.context import prompt_tables
 
-        def plan(db_id: str, seeds: list[SeedTable]) -> list[str]:
-            joined = planner.plan_joins(db_id, seeds)
-            return joined.tables if joined.status != "none" else [s.uid for s in seeds]
+        edges_by_db: dict[str, list[Any]] = {}
+
+        def plan(db_id: str, seeds: list[SeedTable], prize_scale: float | None = None) -> list[str]:
+            options = {} if prize_scale is None else {"selection": "prize", "prize_scale": prize_scale}
+            joined = planner.plan_from_edges(db_id, seeds, edges_by_db[db_id], **options)
+            return prompt_tables(joined, seeds)
 
         results: list[QuestionResult] = []
         for name, questions in by_db.items():
             edges = [] if args.no_graph else queries.get_reference_edges(name)
+            edges_by_db[name] = edges
             results += evaluate(name, questions, search=search, plan=None if args.no_graph else plan, edges=edges,
-                                use_evidence=not args.no_evidence, top_ks=args.top_k or TOP_KS)
+                                use_evidence=not args.no_evidence, top_ks=args.top_k or TOP_KS,
+                                expansions=expansions, prize_scales=args.prize_scale)
     except Exception as exc:  # noqa: BLE001 - Neo4j, config or the question files unusable
         print(f"cannot start: {type(exc).__name__}: {exc}")
         return 2

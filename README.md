@@ -389,7 +389,13 @@ python scripts/retrieval_eval.py --compare runs/a.json runs/b.json
 ```
 
 It reports recall@k, how well scores separate relevant tables from the rest, and what the planner would give the model
-for each seed strategy. Use it to choose `top_k` and to compare embedding models.
+for each seed strategy. Use it to choose `top_k` and to compare embedding models. `--expand` picks the seed expansions
+to try (`0` for none, `N` or `N:H`), and `--prize-scale S [S ...]` also plans every strategy with prize-based selection
+at each scale, so scales can be compared in seconds before spending model calls on the best ones:
+
+```bash
+python scripts/retrieval_eval.py --db adventureworks --questions-file $Q --top-k 5 --expand 0 --prize-scale 2 3 4 6 8
+```
 
 **Relationship inference**: `python -m schemagraph.eval.infer_recovery --db <db> --fraction 1.0 --seeds 1` hides the
 declared foreign keys and measures how many inference recovers.

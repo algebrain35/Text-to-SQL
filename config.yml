@@ -111,10 +111,14 @@ llm:
 
 # Defaults for answer_question; a request's `options` override them.
 pipeline:
-  top_k: 5                         # tables retrieval returns
+  top_k: 8                         # tables retrieval returns (the prize planner then keeps those worth their joins)
   max_attempts: 3                  # SQL generation tries, feeding each error back to the model
   row_limit: 100                   # rows returned to the caller
   examples_k: 3                    # few-shot examples (dev split only); none if the file is missing
   fewshot_path: schemagraph/eval/questions/fewshot_examples.jsonl
   # expand_seeds: 2                # graph mode: add up to this many tables the retrieved tables have foreign keys to
   # expand_hops: 1                 # ...looking this many links away (0 tables = off, the default)
+  planner_selection: prize         # graph mode: connect only the retrieved tables worth their joins ("all": every one)
+  prize_scale: 4                   # join cost the best-matching table is worth. With top_k 8, scale 4 kept recall at
+                                   # 94.5% (AdventureWorks) and 99.2% (BIRD) with 7.8 and 5.8 tables per prompt, against
+                                   # 90.5% / 6.1 and 93.5% / 4.7 for top_k 5 without it (scripts/retrieval_eval.py)
