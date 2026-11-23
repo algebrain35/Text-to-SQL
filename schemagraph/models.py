@@ -337,6 +337,7 @@ class EvalResult(Contract):
     gold_tables: list[str]
     context_tables: list[str]
     schema_recall: float
+    schema_precision: float | None = None  # None for an empty context, and in rows written before it existed
     bridge_tables_needed: list[str]
     bridge_tables_recovered: list[str]
     plan_status: PlanStatus | None = None

@@ -1,4 +1,4 @@
-from schemagraph.eval.schema_metrics import bridge_tables_needed, schema_recall, tables_in_sql
+from schemagraph.eval.schema_metrics import bridge_tables_needed, schema_precision, schema_recall, tables_in_sql
 
 
 def test_tables_in_sql_qualified_and_unqualified():
@@ -26,3 +26,11 @@ def test_bridge_tables_needed():
     seeds = {"sales.salesorderheader", "person.person", "other.table"}
     assert bridge_tables_needed(gold, seeds) == {"sales.customer"}
     assert bridge_tables_needed(gold, gold) == set()
+
+
+def test_schema_precision():
+    gold = {"sales.salesorderheader", "sales.customer"}
+    assert schema_precision(gold, gold) == 1.0
+    assert schema_precision(gold, gold | {"x.a", "x.b"}) == 0.5
+    assert schema_precision(gold, {"x.a"}) == 0.0
+    assert schema_precision(gold, set()) is None

@@ -32,7 +32,7 @@ from typing import Any, get_args
 from pydantic import ValidationError
 
 from schemagraph.eval.compare import results_match
-from schemagraph.eval.schema_metrics import bridge_tables_needed, schema_recall, tables_in_sql
+from schemagraph.eval.schema_metrics import bridge_tables_needed, schema_precision, schema_recall, tables_in_sql
 from schemagraph.graph.vector import RateLimited
 from schemagraph.models import (
     AskOptions,
@@ -193,6 +193,7 @@ def score(
         gold_tables=sorted(gold_tables),
         context_tables=sorted(context),
         schema_recall=schema_recall(gold_tables, context),
+        schema_precision=schema_precision(gold_tables, context),
         bridge_tables_needed=sorted(needed),
         bridge_tables_recovered=sorted(needed & context),
         plan_status=response.join_plan.status if response.join_plan is not None else None,
@@ -369,6 +370,7 @@ def aggregate(results: list[EvalResult]) -> list[dict[str, Any]]:
                 "n": len(rs),
                 "accuracy": mean([r.correct for r in rs]),
                 "schema_recall": mean([r.schema_recall for r in rs]),
+                "schema_precision": mean_known([r.schema_precision for r in rs]),
                 "bridge_needed": needed,
                 "bridge_recovery": recovered / needed if needed else None,
                 "attempts": mean([r.attempt_count for r in rs]),
@@ -387,13 +389,14 @@ def summarize(results_path: Path, run_id: str | None = None):
 
 
 def format_summary(rows: list[dict[str, Any]]) -> str:
-    header = f"{'mode':<10}{'tier':<6}{'n':>5}{'accuracy':>10}{'recall':>8}{'bridges':>9}{'recovered':>11}{'tries':>7}{'tokens':>9}{'ms':>8}"
+    header = (f"{'mode':<10}{'tier':<6}{'n':>5}{'accuracy':>10}{'recall':>8}{'prec':>7}{'bridges':>9}{'recovered':>11}"
+              f"{'tries':>7}{'tokens':>9}{'ms':>8}")
     lines = [header]
     for r in rows:
         recovery = "-" if r["bridge_recovery"] is None else f"{r['bridge_recovery']:.0%}"
         lines.append(
             f"{r['mode']:<10}{r['tier']:<6}{r['n']:>5}{r['accuracy']:>10.0%}{r['schema_recall']:>8.0%}"
-            f"{r['bridge_needed']:>9}{recovery:>11}{r['attempts']:>7.1f}{r['input_tokens']:>9.0f}{r['latency_ms']:>8.0f}"
+            f"{_pct(r.get('schema_precision')):>7}{r['bridge_needed']:>9}{recovery:>11}{r['attempts']:>7.1f}{r['input_tokens']:>9.0f}{r['latency_ms']:>8.0f}"
         )
     return "\n".join(lines)
 
@@ -452,6 +455,16 @@ def run_sweep(
     return reports
 
 
+def mean_known(values: list[float | None]) -> float | None:
+    """Mean of the values that are not None (rows written before a metric existed have None), or None."""
+    known = [v for v in values if v is not None]
+    return sum(known) / len(known) if known else None
+
+
+def _pct(value: float | None) -> str:
+    return "-" if value is None else f"{value:.0%}"
+
+
 def aggregate_runs(results: list[EvalResult]) -> list[dict[str, Any]]:
     """One row per run id and mode: accuracy, recall and how big the context was. Pure."""
     groups: dict[tuple[str, str], list[EvalResult]] = defaultdict(list)
@@ -464,6 +477,7 @@ def aggregate_runs(results: list[EvalResult]) -> list[dict[str, Any]]:
             "run_id": run, "mode": mode, "n": n,
             "accuracy": sum(r.correct for r in rs) / n,
             "schema_recall": sum(r.schema_recall for r in rs) / n,
+            "schema_precision": mean_known([r.schema_precision for r in rs]),
             "context_tables": sum(len(r.context_tables) for r in rs) / n,
             "attempts": sum(r.attempt_count for r in rs) / n,
             "input_tokens": sum(r.input_tokens for r in rs) / n,
@@ -474,11 +488,11 @@ def aggregate_runs(results: list[EvalResult]) -> list[dict[str, Any]]:
 
 def format_runs(rows: list[dict[str, Any]]) -> str:
     width = max([8, *(len(r["run_id"]) + 2 for r in rows)])
-    lines = [f"{'run':<{width}}{'mode':<10}{'n':>5}{'accuracy':>10}{'recall':>8}{'tables':>8}{'tries':>7}{'tokens':>9}{'ms':>8}"]
+    lines = [f"{'run':<{width}}{'mode':<10}{'n':>5}{'accuracy':>10}{'recall':>8}{'prec':>7}{'tables':>8}{'tries':>7}{'tokens':>9}{'ms':>8}"]
     for r in rows:
         lines.append(
             f"{r['run_id']:<{width}}{r['mode']:<10}{r['n']:>5}{r['accuracy']:>10.1%}{r['schema_recall']:>8.0%}"
-            f"{r['context_tables']:>8.1f}{r['attempts']:>7.2f}{r['input_tokens']:>9.0f}{r['latency_ms']:>8.0f}"
+            f"{_pct(r.get('schema_precision')):>7}{r['context_tables']:>8.1f}{r['attempts']:>7.2f}{r['input_tokens']:>9.0f}{r['latency_ms']:>8.0f}"
         )
     return "\n".join(lines)
 

@@ -576,3 +576,21 @@ def test_cli_passes_the_seed_selection_to_the_planner(tmp_path, monkeypatch, cap
 
     with pytest.raises(SystemExit):
         ev.main(["--questions", str(qfile), "--out", out, "--prize-scale", "0"])
+
+
+def test_rows_and_summaries_carry_schema_precision(tmp_path):
+    # the gold query uses header, customer and person; this context adds a fourth table
+    extra = f"{DB}:production.location"
+    _, out = run(tmp_path, lambda req, **k: graph_response(tables=(HEADER, CUSTOMER, PERSON, extra)))
+    row = read(out)[0]
+    assert row["schema_precision"] == pytest.approx(3 / 4)
+
+    results = ev.load_results(out)
+    assert ev.aggregate_runs(results)[0]["schema_precision"] == pytest.approx(3 / 4)
+    assert "prec" in ev.format_runs(ev.aggregate_runs(results))
+    assert "75%" in ev.format_summary(ev.aggregate(results))
+
+    # rows written before the metric existed have none, and summaries show "-"
+    old = [r.model_copy(update={"schema_precision": None}) for r in results]
+    assert ev.aggregate_runs(old)[0]["schema_precision"] is None
+    assert " - " in ev.format_runs(ev.aggregate_runs(old)).splitlines()[1] + " "
