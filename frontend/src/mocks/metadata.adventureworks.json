@@ -1,0 +1,1830 @@
+{
+  "db_id": "adventureworks",
+  "extracted_at": "2026-10-26T21:25:10.956070Z",
+  "schemas": [
+    {
+      "name": "person"
+    },
+    {
+      "name": "production"
+    },
+    {
+      "name": "sales"
+    }
+  ],
+  "tables": [
+    {
+      "uid": "adventureworks:person.person",
+      "schema": "person",
+      "name": "person",
+      "description": "Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts.",
+      "description_source": "catalog",
+      "row_count": 19972,
+      "primary_key": [
+        "businessentityid"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product",
+      "schema": "production",
+      "name": "product",
+      "description": "Products sold or used in the manfacturing of sold products.",
+      "description_source": "catalog",
+      "row_count": 504,
+      "primary_key": [
+        "productid"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.productsubcategory",
+      "schema": "production",
+      "name": "productsubcategory",
+      "description": "Product subcategories. See ProductCategory table.",
+      "description_source": "catalog",
+      "row_count": 37,
+      "primary_key": [
+        "productsubcategoryid"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive",
+      "schema": "production",
+      "name": "transactionhistoryarchive",
+      "description": "Transactions for previous years.",
+      "description_source": "catalog",
+      "row_count": 89253,
+      "primary_key": [
+        "transactionid"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer",
+      "schema": "sales",
+      "name": "customer",
+      "description": "Current customer information. Also see the Person and Store tables.",
+      "description_source": "catalog",
+      "row_count": 19820,
+      "primary_key": [
+        "customerid"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail",
+      "schema": "sales",
+      "name": "salesorderdetail",
+      "description": "Individual products associated with a specific sales order. See SalesOrderHeader.",
+      "description_source": "catalog",
+      "row_count": 121317,
+      "primary_key": [
+        "salesorderid",
+        "salesorderdetailid"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader",
+      "schema": "sales",
+      "name": "salesorderheader",
+      "description": "General sales order information.",
+      "description_source": "catalog",
+      "row_count": 31465,
+      "primary_key": [
+        "salesorderid"
+      ]
+    }
+  ],
+  "columns": [
+    {
+      "uid": "adventureworks:person.person.businessentityid",
+      "table_uid": "adventureworks:person.person",
+      "name": "businessentityid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": "Primary key for Person records.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.persontype",
+      "table_uid": "adventureworks:person.person",
+      "name": "persontype",
+      "data_type": "character(2)",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Primary type of person: SC = Store Contact, IN = Individual (retail) customer, SP = Sales person, EM = Employee (non-sales), VC = Vendor contact, GC = General contact",
+      "description_source": "catalog",
+      "sample_values": [
+        "EM",
+        "SP",
+        "SC",
+        "VC",
+        "IN"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.namestyle",
+      "table_uid": "adventureworks:person.person",
+      "name": "namestyle",
+      "data_type": "\"NameStyle\"",
+      "ordinal_position": 3,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "0 = The data in FirstName and LastName are stored in western style (first name, last name) order.  1 = Eastern style (last name, first name) order.",
+      "description_source": "catalog",
+      "sample_values": [
+        "false"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.title",
+      "table_uid": "adventureworks:person.person",
+      "name": "title",
+      "data_type": "character varying(8)",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "A courtesy title. For example, Mr. or Ms.",
+      "description_source": "catalog",
+      "sample_values": [
+        "Ms.",
+        "Mr.",
+        "Sr.",
+        "Sra.",
+        "Ms"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.firstname",
+      "table_uid": "adventureworks:person.person",
+      "name": "firstname",
+      "data_type": "\"Name\"",
+      "ordinal_position": 5,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "First name of the person.",
+      "description_source": "catalog",
+      "sample_values": [
+        "Ken",
+        "Terri",
+        "Roberto",
+        "Rob",
+        "Gail"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.middlename",
+      "table_uid": "adventureworks:person.person",
+      "name": "middlename",
+      "data_type": "\"Name\"",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Middle name or middle initial of the person.",
+      "description_source": "catalog",
+      "sample_values": [
+        "J",
+        "Lee",
+        "A",
+        "H",
+        "L"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.lastname",
+      "table_uid": "adventureworks:person.person",
+      "name": "lastname",
+      "data_type": "\"Name\"",
+      "ordinal_position": 7,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Last name of the person.",
+      "description_source": "catalog",
+      "sample_values": [
+        "Sánchez",
+        "Duffy",
+        "Tamburello",
+        "Walters",
+        "Erickson"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.suffix",
+      "table_uid": "adventureworks:person.person",
+      "name": "suffix",
+      "data_type": "character varying(10)",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Surname suffix. For example, Sr. or Jr.",
+      "description_source": "catalog",
+      "sample_values": [
+        "III",
+        "Jr.",
+        "II",
+        "IV",
+        "Sr."
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.emailpromotion",
+      "table_uid": "adventureworks:person.person",
+      "name": "emailpromotion",
+      "data_type": "integer",
+      "ordinal_position": 9,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "0 = Contact does not wish to receive e-mail promotions, 1 = Contact does wish to receive e-mail promotions from AdventureWorks, 2 = Contact does wish to receive e-mail promotions from AdventureWorks and selected partners.",
+      "description_source": "catalog",
+      "sample_values": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.additionalcontactinfo",
+      "table_uid": "adventureworks:person.person",
+      "name": "additionalcontactinfo",
+      "data_type": "xml",
+      "ordinal_position": 10,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Additional contact information about the person stored in xml format.",
+      "description_source": "catalog",
+      "sample_values": []
+    },
+    {
+      "uid": "adventureworks:person.person.demographics",
+      "table_uid": "adventureworks:person.person",
+      "name": "demographics",
+      "data_type": "xml",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Personal information such as hobbies, and income collected from online shoppers. Used for sales analysis.",
+      "description_source": "catalog",
+      "sample_values": []
+    },
+    {
+      "uid": "adventureworks:person.person.rowguid",
+      "table_uid": "adventureworks:person.person",
+      "name": "rowguid",
+      "data_type": "uuid",
+      "ordinal_position": 12,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "92c4279f-1207-48a3-8448-4636514eb7e2",
+        "d8763459-8aa8-47cc-aff7-c9079af79033",
+        "e1a2555e-0828-434b-a33b-6f38136a37de",
+        "f2d7ce06-38b3-4357-805b-f4b6b71c01ff",
+        "f3a3f6b4-ae3b-430c-a754-9f2231ba6fef"
+      ]
+    },
+    {
+      "uid": "adventureworks:person.person.modifieddate",
+      "table_uid": "adventureworks:person.person",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 13,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2020-01-07 00:00:00",
+        "2019-01-23 00:00:00",
+        "2018-11-03 00:00:00",
+        "2018-11-27 00:00:00",
+        "2018-12-29 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.productid",
+      "table_uid": "adventureworks:production.product",
+      "name": "productid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": "Primary key for Product records.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "316"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.name",
+      "table_uid": "adventureworks:production.product",
+      "name": "name",
+      "data_type": "\"Name\"",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Name of the product.",
+      "description_source": "catalog",
+      "sample_values": [
+        "Adjustable Race",
+        "Bearing Ball",
+        "BB Ball Bearing",
+        "Headset Ball Bearings",
+        "Blade"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.productnumber",
+      "table_uid": "adventureworks:production.product",
+      "name": "productnumber",
+      "data_type": "character varying(25)",
+      "ordinal_position": 3,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Unique product identification number.",
+      "description_source": "catalog",
+      "sample_values": [
+        "AR-5381",
+        "BA-8327",
+        "BE-2349",
+        "BE-2908",
+        "BL-2036"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.makeflag",
+      "table_uid": "adventureworks:production.product",
+      "name": "makeflag",
+      "data_type": "\"Flag\"",
+      "ordinal_position": 4,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "0 = Product is purchased, 1 = Product is manufactured in-house.",
+      "description_source": "catalog",
+      "sample_values": [
+        "false",
+        "true"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.finishedgoodsflag",
+      "table_uid": "adventureworks:production.product",
+      "name": "finishedgoodsflag",
+      "data_type": "\"Flag\"",
+      "ordinal_position": 5,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "0 = Product is not a salable item. 1 = Product is salable.",
+      "description_source": "catalog",
+      "sample_values": [
+        "false",
+        "true"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.color",
+      "table_uid": "adventureworks:production.product",
+      "name": "color",
+      "data_type": "character varying(15)",
+      "ordinal_position": 6,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product color.",
+      "description_source": "catalog",
+      "sample_values": [
+        "Black",
+        "Silver",
+        "Red",
+        "White",
+        "Blue"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.safetystocklevel",
+      "table_uid": "adventureworks:production.product",
+      "name": "safetystocklevel",
+      "data_type": "smallint",
+      "ordinal_position": 7,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Minimum inventory quantity.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1000",
+        "800",
+        "500",
+        "60",
+        "4"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.reorderpoint",
+      "table_uid": "adventureworks:production.product",
+      "name": "reorderpoint",
+      "data_type": "smallint",
+      "ordinal_position": 8,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Inventory level that triggers a purchase order or work order.",
+      "description_source": "catalog",
+      "sample_values": [
+        "750",
+        "600",
+        "375",
+        "45",
+        "3"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.standardcost",
+      "table_uid": "adventureworks:production.product",
+      "name": "standardcost",
+      "data_type": "numeric",
+      "ordinal_position": 9,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Standard cost of the product.",
+      "description_source": "catalog",
+      "sample_values": [
+        "0.0000",
+        "98.7700",
+        "108.9900",
+        "145.8700",
+        "1059.3100"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.listprice",
+      "table_uid": "adventureworks:production.product",
+      "name": "listprice",
+      "data_type": "numeric",
+      "ordinal_position": 10,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Selling price.",
+      "description_source": "catalog",
+      "sample_values": [
+        "0.0000",
+        "133.3400",
+        "147.1400",
+        "196.9200",
+        "1431.5000"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.size",
+      "table_uid": "adventureworks:production.product",
+      "name": "size",
+      "data_type": "character varying(5)",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product size.",
+      "description_source": "catalog",
+      "sample_values": [
+        "58",
+        "M",
+        "L",
+        "S",
+        "XL"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.sizeunitmeasurecode",
+      "table_uid": "adventureworks:production.product",
+      "name": "sizeunitmeasurecode",
+      "data_type": "character(3)",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Unit of measure for Size column.",
+      "description_source": "catalog",
+      "sample_values": [
+        "CM"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.weightunitmeasurecode",
+      "table_uid": "adventureworks:production.product",
+      "name": "weightunitmeasurecode",
+      "data_type": "character(3)",
+      "ordinal_position": 13,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Unit of measure for Weight column.",
+      "description_source": "catalog",
+      "sample_values": [
+        "G",
+        "LB"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.weight",
+      "table_uid": "adventureworks:production.product",
+      "name": "weight",
+      "data_type": "numeric(8,2)",
+      "ordinal_position": 14,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product weight.",
+      "description_source": "catalog",
+      "sample_values": [
+        "435.00",
+        "450.00",
+        "400.00",
+        "445.00",
+        "460.00"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.daystomanufacture",
+      "table_uid": "adventureworks:production.product",
+      "name": "daystomanufacture",
+      "data_type": "integer",
+      "ordinal_position": 15,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Number of days required to manufacture the product.",
+      "description_source": "catalog",
+      "sample_values": [
+        "0",
+        "1",
+        "2",
+        "4"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.productline",
+      "table_uid": "adventureworks:production.product",
+      "name": "productline",
+      "data_type": "character(2)",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "R = Road, M = Mountain, T = Touring, S = Standard",
+      "description_source": "catalog",
+      "sample_values": [
+        "R",
+        "S",
+        "M",
+        "T"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.class",
+      "table_uid": "adventureworks:production.product",
+      "name": "class",
+      "data_type": "character(2)",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "H = High, M = Medium, L = Low",
+      "description_source": "catalog",
+      "sample_values": [
+        "L",
+        "M",
+        "H"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.style",
+      "table_uid": "adventureworks:production.product",
+      "name": "style",
+      "data_type": "character(2)",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "W = Womens, M = Mens, U = Universal",
+      "description_source": "catalog",
+      "sample_values": [
+        "U",
+        "W",
+        "M"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.productsubcategoryid",
+      "table_uid": "adventureworks:production.product",
+      "name": "productsubcategoryid",
+      "data_type": "integer",
+      "ordinal_position": 19,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product is a member of this product subcategory. Foreign key to ProductSubCategory.ProductSubCategoryID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "14",
+        "31",
+        "23",
+        "19",
+        "21"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.productmodelid",
+      "table_uid": "adventureworks:production.product",
+      "name": "productmodelid",
+      "data_type": "integer",
+      "ordinal_position": 20,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product is a member of this product model. Foreign key to ProductModel.ProductModelID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "6",
+        "33",
+        "18",
+        "2",
+        "11"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.sellstartdate",
+      "table_uid": "adventureworks:production.product",
+      "name": "sellstartdate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 21,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Date the product was available for sale.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2019-04-30 00:00:00",
+        "2022-05-30 00:00:00",
+        "2023-05-30 00:00:00",
+        "2024-05-29 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.sellenddate",
+      "table_uid": "adventureworks:production.product",
+      "name": "sellenddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Date the product was no longer available for sale.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2023-05-29 00:00:00",
+        "2024-05-28 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.discontinueddate",
+      "table_uid": "adventureworks:production.product",
+      "name": "discontinueddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Date the product was discontinued.",
+      "description_source": "catalog",
+      "sample_values": []
+    },
+    {
+      "uid": "adventureworks:production.product.rowguid",
+      "table_uid": "adventureworks:production.product",
+      "name": "rowguid",
+      "data_type": "uuid",
+      "ordinal_position": 24,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "694215b7-08f7-4c0d-acb1-d734ba44c0c8",
+        "58ae3c20-4f3a-4749-a7d4-d568806cc537",
+        "9c21aed2-5bfa-4f18-bcb8-f11638dc2e4e",
+        "ecfed6cb-51ff-49b5-b06c-7d8ac834db8b",
+        "e73e9750-603b-4131-89f5-3dd15ed5ff80"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.product.modifieddate",
+      "table_uid": "adventureworks:production.product",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 25,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2025-02-07 10:01:36.827",
+        "2025-02-07 10:03:55.51"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.productsubcategory.productsubcategoryid",
+      "table_uid": "adventureworks:production.productsubcategory",
+      "name": "productsubcategoryid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": "Primary key for ProductSubcategory records.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.productsubcategory.productcategoryid",
+      "table_uid": "adventureworks:production.productsubcategory",
+      "name": "productcategoryid",
+      "data_type": "integer",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product category identification number. Foreign key to ProductCategory.ProductCategoryID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.productsubcategory.name",
+      "table_uid": "adventureworks:production.productsubcategory",
+      "name": "name",
+      "data_type": "\"Name\"",
+      "ordinal_position": 3,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Subcategory description.",
+      "description_source": "catalog",
+      "sample_values": [
+        "Mountain Bikes",
+        "Road Bikes",
+        "Touring Bikes",
+        "Handlebars",
+        "Bottom Brackets"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.productsubcategory.rowguid",
+      "table_uid": "adventureworks:production.productsubcategory",
+      "name": "rowguid",
+      "data_type": "uuid",
+      "ordinal_position": 4,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2d364ade-264a-433c-b092-4fcbf3804e01",
+        "000310c0-bcc8-42c4-b0c3-45ae611af06b",
+        "02c5061d-ecdc-4274-b5f1-e91d76bc3f37",
+        "3ef2c725-7135-4c85-9ae6-ae9a3bdd9283",
+        "a9e54089-8a1e-4cf5-8646-e3801f685934"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.productsubcategory.modifieddate",
+      "table_uid": "adventureworks:production.productsubcategory",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 5,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2019-04-30 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.transactionid",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "transactionid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": "Primary key for TransactionHistoryArchive records.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.productid",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "productid",
+      "data_type": "integer",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product identification number. Foreign key to Product.ProductID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "359",
+        "360",
+        "530",
+        "4"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.referenceorderid",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "referenceorderid",
+      "data_type": "integer",
+      "ordinal_position": 3,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Purchase order, sales order, or work order identification number.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.referenceorderlineid",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "referenceorderlineid",
+      "data_type": "integer",
+      "ordinal_position": 4,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Line number associated with the purchase order, sales order, or work order.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.transactiondate",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "transactiondate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 5,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Date and time of the transaction.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2022-04-15 00:00:00",
+        "2022-04-29 00:00:00",
+        "2022-05-30 00:00:00",
+        "2022-05-31 00:00:00",
+        "2022-06-01 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.transactiontype",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "transactiontype",
+      "data_type": "character(1)",
+      "ordinal_position": 6,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "W = Work Order, S = Sales Order, P = Purchase Order",
+      "description_source": "catalog",
+      "sample_values": [
+        "P",
+        "S",
+        "W"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.quantity",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "quantity",
+      "data_type": "integer",
+      "ordinal_position": 7,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product quantity.",
+      "description_source": "catalog",
+      "sample_values": [
+        "4",
+        "3",
+        "550",
+        "6",
+        "2"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.actualcost",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "actualcost",
+      "data_type": "numeric",
+      "ordinal_position": 8,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product cost.",
+      "description_source": "catalog",
+      "sample_values": [
+        "50.2600",
+        "45.1200",
+        "45.5805",
+        "16.0860",
+        "57.0255"
+      ]
+    },
+    {
+      "uid": "adventureworks:production.transactionhistoryarchive.modifieddate",
+      "table_uid": "adventureworks:production.transactionhistoryarchive",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 9,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2022-04-15 00:00:00",
+        "2022-04-29 00:00:00",
+        "2022-05-30 00:00:00",
+        "2022-05-31 00:00:00",
+        "2022-06-01 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer.customerid",
+      "table_uid": "adventureworks:sales.customer",
+      "name": "customerid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": "Primary key.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer.personid",
+      "table_uid": "adventureworks:sales.customer",
+      "name": "personid",
+      "data_type": "integer",
+      "ordinal_position": 2,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Foreign key to Person.BusinessEntityID",
+      "description_source": "catalog",
+      "sample_values": [
+        "13531",
+        "5454",
+        "11269",
+        "11358",
+        "11901"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer.storeid",
+      "table_uid": "adventureworks:sales.customer",
+      "name": "storeid",
+      "data_type": "integer",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Foreign key to Store.BusinessEntityID",
+      "description_source": "catalog",
+      "sample_values": [
+        "934",
+        "1028",
+        "642",
+        "932",
+        "1026"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer.territoryid",
+      "table_uid": "adventureworks:sales.customer",
+      "name": "territoryid",
+      "data_type": "integer",
+      "ordinal_position": 4,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "ID of the territory in which the customer is located. Foreign key to SalesTerritory.SalesTerritoryID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "4",
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer.rowguid",
+      "table_uid": "adventureworks:sales.customer",
+      "name": "rowguid",
+      "data_type": "uuid",
+      "ordinal_position": 5,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "3f5ae95e-b87d-4aed-95b4-c3797afcb74f",
+        "e552f657-a9af-4a7d-a645-c429d6e02491",
+        "130774b1-db21-4ef3-98c8-c104bcd6ed6d",
+        "ff862851-1daa-4044-be7c-3e85583c054d",
+        "83905bdc-6f5e-4f71-b162-c98da069f38a"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.customer.modifieddate",
+      "table_uid": "adventureworks:sales.customer",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 6,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2025-09-11 11:15:07.263"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.salesorderid",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "salesorderid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": false,
+      "description": "Primary key. Foreign key to SalesOrderHeader.SalesOrderID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "43659",
+        "43660",
+        "43661",
+        "43662",
+        "43663"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.salesorderdetailid",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "salesorderdetailid",
+      "data_type": "integer",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": false,
+      "description": "Primary key. One incremental unique number per product sold.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.carriertrackingnumber",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "carriertrackingnumber",
+      "data_type": "character varying(25)",
+      "ordinal_position": 3,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Shipment tracking number supplied by the shipper.",
+      "description_source": "catalog",
+      "sample_values": [
+        "4911-403C-98",
+        "6431-4D57-83",
+        "4E0A-4F89-AE",
+        "2E53-4802-85",
+        "1E90-4FBF-B6"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.orderqty",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "orderqty",
+      "data_type": "smallint",
+      "ordinal_position": 4,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Quantity ordered per product.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "3",
+        "2",
+        "6",
+        "4"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.productid",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "productid",
+      "data_type": "integer",
+      "ordinal_position": 5,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Product sold to customer. Foreign key to Product.ProductID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "776",
+        "777",
+        "778",
+        "771",
+        "772"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.specialofferid",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "specialofferid",
+      "data_type": "integer",
+      "ordinal_position": 6,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Promotional code. Foreign key to SpecialOffer.SpecialOfferID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1",
+        "2",
+        "3"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.unitprice",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "unitprice",
+      "data_type": "numeric",
+      "ordinal_position": 7,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Selling price of a single product.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2024.9940",
+        "2039.9940",
+        "28.8404",
+        "5.7000",
+        "5.1865"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.unitpricediscount",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "unitpricediscount",
+      "data_type": "numeric",
+      "ordinal_position": 8,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Discount amount.",
+      "description_source": "catalog",
+      "sample_values": [
+        "0.0000",
+        "0.0200",
+        "0.0500"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.rowguid",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "rowguid",
+      "data_type": "uuid",
+      "ordinal_position": 9,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "b207c96d-d9e6-402b-8470-2cc176c42283",
+        "7abb600d-1e77-41be-9fe5-b9142cfc08fa",
+        "475cf8c6-49f6-486e-b0ad-afc6a50cdd2f",
+        "04c4de91-5815-45d6-8670-f462719fbce3",
+        "5a74c7d2-e641-438e-a7ac-37bf23280301"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderdetail.modifieddate",
+      "table_uid": "adventureworks:sales.salesorderdetail",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 10,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2022-05-30 00:00:00",
+        "2022-05-31 00:00:00",
+        "2022-06-01 00:00:00",
+        "2022-06-02 00:00:00",
+        "2022-06-03 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.salesorderid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "salesorderid",
+      "data_type": "integer",
+      "ordinal_position": 1,
+      "is_nullable": false,
+      "is_primary_key": true,
+      "is_unique": true,
+      "description": "Primary key.",
+      "description_source": "catalog",
+      "sample_values": [
+        "43659",
+        "43660",
+        "43661",
+        "43662",
+        "43663"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.revisionnumber",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "revisionnumber",
+      "data_type": "smallint",
+      "ordinal_position": 2,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Incremental number to track changes to the sales order over time.",
+      "description_source": "catalog",
+      "sample_values": [
+        "10"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.orderdate",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "orderdate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 3,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Dates the sales order was created.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2022-05-30 00:00:00",
+        "2022-05-31 00:00:00",
+        "2022-06-01 00:00:00",
+        "2022-06-02 00:00:00",
+        "2022-06-03 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.duedate",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "duedate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 4,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Date the order is due to the customer.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2022-06-11 00:00:00",
+        "2022-06-12 00:00:00",
+        "2022-06-13 00:00:00",
+        "2022-06-14 00:00:00",
+        "2022-06-15 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.shipdate",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "shipdate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 5,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Date the order was shipped to the customer.",
+      "description_source": "catalog",
+      "sample_values": [
+        "2022-06-06 00:00:00",
+        "2022-06-07 00:00:00",
+        "2022-06-08 00:00:00",
+        "2022-06-09 00:00:00",
+        "2022-06-10 00:00:00"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.status",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "status",
+      "data_type": "smallint",
+      "ordinal_position": 6,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Order current status. 1 = In process; 2 = Approved; 3 = Backordered; 4 = Rejected; 5 = Shipped; 6 = Cancelled",
+      "description_source": "catalog",
+      "sample_values": [
+        "5"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.onlineorderflag",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "onlineorderflag",
+      "data_type": "\"Flag\"",
+      "ordinal_position": 7,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "0 = Order placed by sales person. 1 = Order placed online by customer.",
+      "description_source": "catalog",
+      "sample_values": [
+        "false",
+        "true"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.purchaseordernumber",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "purchaseordernumber",
+      "data_type": "\"OrderNumber\"",
+      "ordinal_position": 8,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Customer purchase order number reference.",
+      "description_source": "catalog",
+      "sample_values": [
+        "PO522145787",
+        "PO18850127500",
+        "PO18473189620",
+        "PO18444174044",
+        "PO18009186470"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.accountnumber",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "accountnumber",
+      "data_type": "\"AccountNumber\"",
+      "ordinal_position": 9,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Financial accounting number reference.",
+      "description_source": "catalog",
+      "sample_values": [
+        "10-4020-000676",
+        "10-4020-000117",
+        "10-4020-000442",
+        "10-4020-000227",
+        "10-4020-000510"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.customerid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "customerid",
+      "data_type": "integer",
+      "ordinal_position": 10,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Customer identification number. Foreign key to Customer.BusinessEntityID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "29825",
+        "29672",
+        "29734",
+        "29994",
+        "29565"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.salespersonid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "salespersonid",
+      "data_type": "integer",
+      "ordinal_position": 11,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Sales person who created the sales order. Foreign key to SalesPerson.BusinessEntityID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "279",
+        "282",
+        "276",
+        "280",
+        "283"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.territoryid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "territoryid",
+      "data_type": "integer",
+      "ordinal_position": 12,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Territory in which the sale was made. Foreign key to SalesTerritory.SalesTerritoryID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "5",
+        "6",
+        "4",
+        "1",
+        "3"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.billtoaddressid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "billtoaddressid",
+      "data_type": "integer",
+      "ordinal_position": 13,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Customer billing address. Foreign key to Address.AddressID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "985",
+        "921",
+        "517",
+        "482",
+        "1073"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.shiptoaddressid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "shiptoaddressid",
+      "data_type": "integer",
+      "ordinal_position": 14,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Customer shipping address. Foreign key to Address.AddressID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "985",
+        "921",
+        "517",
+        "482",
+        "1073"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.shipmethodid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "shipmethodid",
+      "data_type": "integer",
+      "ordinal_position": 15,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Shipping method. Foreign key to ShipMethod.ShipMethodID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "5",
+        "1"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.creditcardid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "creditcardid",
+      "data_type": "integer",
+      "ordinal_position": 16,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Credit card identification number. Foreign key to CreditCard.CreditCardID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "16281",
+        "5618",
+        "1346",
+        "10456",
+        "4322"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.creditcardapprovalcode",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "creditcardapprovalcode",
+      "data_type": "character varying(15)",
+      "ordinal_position": 17,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Approval code provided by the credit card company.",
+      "description_source": "catalog",
+      "sample_values": [
+        "105041Vi84182",
+        "115213Vi29411",
+        "85274Vi6854",
+        "125295Vi53935",
+        "45303Vi22691"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.currencyrateid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "currencyrateid",
+      "data_type": "integer",
+      "ordinal_position": 18,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Currency exchange rate used. Foreign key to CurrencyRate.CurrencyRateID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "4",
+        "8",
+        "2",
+        "15",
+        "35"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.subtotal",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "subtotal",
+      "data_type": "numeric",
+      "ordinal_position": 19,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Sales subtotal. Computed as SUM(SalesOrderDetail.LineTotal)for the appropriate SalesOrderID.",
+      "description_source": "catalog",
+      "sample_values": [
+        "20565.6206",
+        "1294.2529",
+        "32726.4786",
+        "28832.5289",
+        "419.4589"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.taxamt",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "taxamt",
+      "data_type": "numeric",
+      "ordinal_position": 20,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Tax amount.",
+      "description_source": "catalog",
+      "sample_values": [
+        "1971.5149",
+        "124.2483",
+        "3153.7696",
+        "2775.1646",
+        "40.2681"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.freight",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "freight",
+      "data_type": "numeric",
+      "ordinal_position": 21,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Shipping cost.",
+      "description_source": "catalog",
+      "sample_values": [
+        "616.0984",
+        "38.8276",
+        "985.5530",
+        "867.2389",
+        "12.5838"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.totaldue",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "totaldue",
+      "data_type": "numeric",
+      "ordinal_position": 22,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Total due from customer. Computed as Subtotal + TaxAmt + Freight.",
+      "description_source": "catalog",
+      "sample_values": [
+        "23153.2339",
+        "1457.3288",
+        "36865.8012",
+        "32474.9324",
+        "472.3108"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.comment",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "comment",
+      "data_type": "character varying(128)",
+      "ordinal_position": 23,
+      "is_nullable": true,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": "Sales representative comments.",
+      "description_source": "catalog",
+      "sample_values": []
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.rowguid",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "rowguid",
+      "data_type": "uuid",
+      "ordinal_position": 24,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "79b65321-39ca-4115-9cba-8fe0903e12e6",
+        "738dc42d-d03b-48a1-9822-f95a67ea7389",
+        "d91b9131-18a4-4a11-bc3a-90b6f53e9d74",
+        "4a1ecfc0-cc3a-4740-b028-1c50bb48711c",
+        "9b1e7a40-6ae0-4ad3-811c-a64951857c4b"
+      ]
+    },
+    {
+      "uid": "adventureworks:sales.salesorderheader.modifieddate",
+      "table_uid": "adventureworks:sales.salesorderheader",
+      "name": "modifieddate",
+      "data_type": "timestamp without time zone",
+      "ordinal_position": 25,
+      "is_nullable": false,
+      "is_primary_key": false,
+      "is_unique": false,
+      "description": null,
+      "description_source": null,
+      "sample_values": [
+        "2022-06-06 00:00:00",
+        "2022-06-07 00:00:00",
+        "2022-06-08 00:00:00",
+        "2022-06-09 00:00:00",
+        "2022-06-10 00:00:00"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_column": "adventureworks:production.product.productsubcategoryid",
+      "to_column": "adventureworks:production.productsubcategory.productsubcategoryid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "FK_Product_ProductSubcategory_ProductSubcategoryID",
+      "evidence": null
+    },
+    {
+      "from_column": "adventureworks:production.transactionhistoryarchive.productid",
+      "to_column": "adventureworks:production.product.productid",
+      "source": "inferred",
+      "confidence": 0.95,
+      "cardinality": "N:1",
+      "constraint_name": null,
+      "evidence": {
+        "name_match": "exact",
+        "type_compatible": true,
+        "value_overlap": 1.0
+      }
+    },
+    {
+      "from_column": "adventureworks:sales.customer.personid",
+      "to_column": "adventureworks:person.person.businessentityid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "FK_Customer_Person_PersonID",
+      "evidence": null
+    },
+    {
+      "from_column": "adventureworks:sales.salesorderdetail.salesorderid",
+      "to_column": "adventureworks:sales.salesorderheader.salesorderid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "FK_SalesOrderDetail_SalesOrderHeader_SalesOrderID",
+      "evidence": null
+    },
+    {
+      "from_column": "adventureworks:sales.salesorderheader.customerid",
+      "to_column": "adventureworks:sales.customer.customerid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "constraint_name": "FK_SalesOrderHeader_Customer_CustomerID",
+      "evidence": null
+    }
+  ]
+}

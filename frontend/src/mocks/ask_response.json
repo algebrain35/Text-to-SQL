@@ -1,0 +1,137 @@
+{
+  "request_id": "6f1c2a0e-9b7d-4c1e-8a34-2d5e9f0b7c11",
+  "question": "What is the total order value for each customer's name?",
+  "db_id": "adventureworks",
+  "mode": "graph",
+  "status": "success",
+  "sql": "SELECT p.firstname, p.lastname, SUM(soh.totaldue) AS total_order_value FROM sales.salesorderheader soh JOIN sales.customer c ON soh.customerid = c.customerid JOIN person.person p ON c.personid = p.businessentityid GROUP BY p.firstname, p.lastname;",
+  "result": {
+    "columns": [
+      "firstname",
+      "lastname",
+      "total_order_value"
+    ],
+    "rows": [
+      [
+        "Jon",
+        "Yang",
+        "8248.99"
+      ],
+      [
+        "Eugene",
+        "Huang",
+        "6383.66"
+      ]
+    ],
+    "row_count": 2,
+    "truncated": false
+  },
+  "explanation": {
+    "summary": "This adds up the total value of all orders for each customer and shows it next to the customer's name.",
+    "tables": [
+      {
+        "uid": "adventureworks:sales.salesorderheader",
+        "display_name": "sales.salesorderheader",
+        "role": "seed",
+        "reason": "Contains order totals (totaldue)."
+      },
+      {
+        "uid": "adventureworks:sales.customer",
+        "display_name": "sales.customer",
+        "role": "bridge",
+        "reason": "Needed to connect orders to people."
+      },
+      {
+        "uid": "adventureworks:person.person",
+        "display_name": "person.person",
+        "role": "seed",
+        "reason": "Contains first and last names."
+      }
+    ],
+    "join_path": [
+      {
+        "from": "sales.salesorderheader.customerid",
+        "to": "sales.customer.customerid",
+        "source": "declared",
+        "text": "Each order belongs to one customer."
+      },
+      {
+        "from": "sales.customer.personid",
+        "to": "person.person.businessentityid",
+        "source": "declared",
+        "text": "Each customer is linked to one person record."
+      }
+    ],
+    "interpretation": null,
+    "warnings": []
+  },
+  "join_plan": {
+    "db_id": "adventureworks",
+    "status": "full",
+    "algorithm": "shortest_path",
+    "seed_tables": [
+      {
+        "uid": "adventureworks:sales.salesorderheader",
+        "score": 0.84,
+        "matched_on": "column:totaldue"
+      },
+      {
+        "uid": "adventureworks:person.person",
+        "score": 0.79,
+        "matched_on": "column:firstname"
+      }
+    ],
+    "bridge_tables": [
+      "adventureworks:sales.customer"
+    ],
+    "tables": [
+      "adventureworks:person.person",
+      "adventureworks:sales.customer",
+      "adventureworks:sales.salesorderheader"
+    ],
+    "joins": [
+      {
+        "from_column": "adventureworks:sales.salesorderheader.customerid",
+        "to_column": "adventureworks:sales.customer.customerid",
+        "source": "declared",
+        "confidence": 1.0,
+        "cardinality": "N:1",
+        "traversal": "many_to_one",
+        "weight": 1.0
+      },
+      {
+        "from_column": "adventureworks:sales.customer.personid",
+        "to_column": "adventureworks:person.person.businessentityid",
+        "source": "declared",
+        "confidence": 1.0,
+        "cardinality": "N:1",
+        "traversal": "many_to_one",
+        "weight": 1.0
+      }
+    ],
+    "total_cost": 2.0,
+    "unreachable_seeds": [],
+    "dropped_seeds": [],
+    "alternatives": []
+  },
+  "attempts": [
+    {
+      "sql": "SELECT p.firstname, p.lastname, SUM(soh.totaldue) AS total_order_value FROM sales.salesorderheader soh JOIN sales.customer c ON soh.customerid = c.customerid JOIN person.person p ON c.personid = p.businessentityid GROUP BY p.firstname, p.lastname;",
+      "error": null
+    }
+  ],
+  "metrics": {
+    "input_tokens": 1834,
+    "output_tokens": 212,
+    "attempt_count": 1,
+    "latency_ms": {
+      "retrieval": 120,
+      "planning": 45,
+      "generation": 2310,
+      "validation": 18,
+      "execution": 32,
+      "explanation": 1400,
+      "total": 3925
+    }
+  }
+}

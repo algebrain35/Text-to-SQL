@@ -22,6 +22,46 @@ services:
     volumes:
       - neo4jdata:/data
 
+  # The API: http://localhost:8000 (docs at /docs). Reads config.yml, with the database addresses pointed at
+  # the services above (docker/api-entrypoint.sh). Provider keys are passed through only when you set them
+  # in .env, so an unset key still shows as "not_configured" in /api/health.
+  api:
+    build: .
+    depends_on:
+      - db
+      - neo4j
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      PG_ADMIN_PASSWORD: ${PG_ADMIN_PASSWORD:?set PG_ADMIN_PASSWORD in .env}
+      PG_READONLY_PASSWORD: ${PG_READONLY_PASSWORD:?set PG_READONLY_PASSWORD in .env}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD:?set NEO4J_PASSWORD in .env}
+      GEMINI_API_KEY:
+      ANTHROPIC_API_KEY:
+      OPENAI_API_KEY:
+      VOYAGE_API_KEY:
+    volumes:
+      - querycache:/app/data/cache      # the query-embedding cache (config.yml: embedding.query_cache)
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/api/health', timeout=5)"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+
+  # The web app: http://localhost:5173 (the port the API's CORS list allows). The API address is compiled
+  # in, and it is the one your browser uses, so it is localhost, not the service name.
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+    depends_on:
+      - api
+    ports:
+      - "127.0.0.1:5173:80"
+
 volumes:
   pgdata:
   neo4jdata:
+  querycache:

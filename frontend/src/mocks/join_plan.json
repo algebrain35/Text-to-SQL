@@ -1,0 +1,49 @@
+{
+  "db_id": "adventureworks",
+  "status": "full",
+  "algorithm": "shortest_path",
+  "seed_tables": [
+    {
+      "uid": "adventureworks:sales.salesorderheader",
+      "score": 0.84,
+      "matched_on": "column:totaldue"
+    },
+    {
+      "uid": "adventureworks:person.person",
+      "score": 0.79,
+      "matched_on": "column:firstname"
+    }
+  ],
+  "bridge_tables": [
+    "adventureworks:sales.customer"
+  ],
+  "tables": [
+    "adventureworks:person.person",
+    "adventureworks:sales.customer",
+    "adventureworks:sales.salesorderheader"
+  ],
+  "joins": [
+    {
+      "from_column": "adventureworks:sales.salesorderheader.customerid",
+      "to_column": "adventureworks:sales.customer.customerid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "traversal": "many_to_one",
+      "weight": 1.0
+    },
+    {
+      "from_column": "adventureworks:sales.customer.personid",
+      "to_column": "adventureworks:person.person.businessentityid",
+      "source": "declared",
+      "confidence": 1.0,
+      "cardinality": "N:1",
+      "traversal": "many_to_one",
+      "weight": 1.0
+    }
+  ],
+  "total_cost": 2.0,
+  "unreachable_seeds": [],
+  "dropped_seeds": [],
+  "alternatives": []
+}
