@@ -539,3 +539,17 @@ def test_cli_does_not_embed_for_full_mode_and_survives_other_embedding_errors(tm
 
     code, ran = cli(tmp_path, monkeypatch, ["retrieval"], broken)
     assert (code, ran) == (0, [1]) and "one at a time" in capsys.readouterr().err
+
+
+def test_context_tables_count_unreachable_seeds_the_prompt_kept():
+    island = f"{DB}:production.location"
+    response = graph_response(plan_status="partial").model_copy(update={"explanation": Explanation(
+        summary="",
+        tables=[ExplainTable(uid=u, display_name=u.split(":")[1], role="seed", reason="r")
+                for u in (HEADER, CUSTOMER, PERSON, island)],
+    )})
+    assert ev.context_tables(response) == [
+        "person.person", "production.location", "sales.customer", "sales.salesorderheader",
+    ]
+    # without an explanation, the plan's tables are the fallback
+    assert ev.context_tables(graph_response()) == ["person.person", "sales.customer", "sales.salesorderheader"]

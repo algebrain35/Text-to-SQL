@@ -134,11 +134,15 @@ def check_gold(questions: list[Question], run_query: QueryFn | None = None) -> G
 
 
 def context_tables(response: AskResponse) -> list[str]:
-    """Display names of the tables the model was given. The join plan wins; otherwise the explanation's list."""
+    """Display names of the tables the model was given.
+
+    The explanation lists exactly the prompt's tables, including seeds the join plan could not connect, so it
+    wins. The join plan's tables are the fallback for responses without an explanation.
+    """
+    if response.explanation is not None and response.explanation.tables:
+        return sorted(display_name(t.uid) for t in response.explanation.tables)
     if response.join_plan is not None and response.join_plan.tables:
         return sorted(display_name(uid) for uid in response.join_plan.tables)
-    if response.explanation is not None:
-        return sorted(display_name(t.uid) for t in response.explanation.tables)
     return []
 
 

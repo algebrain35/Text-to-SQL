@@ -213,9 +213,16 @@ def test_seed_with_no_relationships_at_all():
     assert p.status == "partial" and p.unreachable_seeds == [t("lonely")]
 
 
-def test_main_component_is_the_one_with_more_seeds():
+def test_main_component_is_the_one_whose_seeds_score_highest_in_total():
+    # two strong matches (1.97) beat three weak ones (1.2), although the weak group has more seeds
     edges = [E("a", "b"), E("b", "c"), E("x", "y")]
     p = plan([seed("x", 0.99), seed("y", 0.98), seed("a", 0.5), seed("b", 0.4), seed("c", 0.3)], edges)
+    assert set(p.tables) == {t("x"), t("y")} and set(p.unreachable_seeds) == {t("a"), t("b"), t("c")}
+
+
+def test_more_seeds_break_a_tie_in_total_score():
+    edges = [E("a", "b"), E("b", "c"), E("x", "y")]
+    p = plan([seed("x", 0.6), seed("y", 0.6), seed("a", 0.4), seed("b", 0.4), seed("c", 0.4)], edges)
     assert set(p.tables) == {t("a"), t("b"), t("c")} and set(p.unreachable_seeds) == {t("x"), t("y")}
 
 

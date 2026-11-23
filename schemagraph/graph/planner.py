@@ -9,8 +9,9 @@ How it works
 1. Every relationship becomes two arcs between TABLES: following the foreign key
    (many-to-one, cheap) and walking it backwards (one-to-many, dearer because it
    can multiply rows). Costs come from the weights stored on each edge.
-2. Seeds are grouped by connected component; the component holding the most
-   seeds is planned, and seeds outside it are reported as unreachable.
+2. Seeds are grouped by connected component; the component whose seeds have
+   the highest total score is planned, and seeds outside it are reported as
+   unreachable.
 3. A Steiner tree is found. Because arc costs depend on direction, the tree is
    rooted at one of the seeds and each arc is costed as walked away from the
    root; every seed is tried as the root and the cheapest wins.
@@ -421,10 +422,11 @@ def plan_from_edges(
     nodes = {n for s, d in arcs.items() for n in (s, *d)} | set(by_uid)
     score = {s.uid: s.score for s in seeds}
 
-    # the component holding the most seeds is planned; the others cannot be joined to it
+    # the component whose seeds score highest in total is planned; the others cannot be joined to it.
+    # (By total score, not seed count: two strong matches beat three weak ones.)
     comps = [(c, [u for u in by_uid if u in c]) for c in _components(nodes, arcs)]
     comps = [(c, members) for c, members in comps if members]
-    comps.sort(key=lambda cm: (-len(cm[1]), -round(sum(score[u] for u in cm[1]), 6), min(cm[1])))
+    comps.sort(key=lambda cm: (-round(sum(score[u] for u in cm[1]), 6), -len(cm[1]), min(cm[1])))
     component, members = comps[0]
     ranked = lambda uids: sorted(uids, key=lambda u: (-score[u], u))  # noqa: E731
     unreachable = ranked(u for u in by_uid if u not in component)
