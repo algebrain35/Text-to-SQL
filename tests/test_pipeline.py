@@ -248,3 +248,39 @@ def test_a_failed_summary_keeps_the_successful_answer(monkeypatch, ask_request, 
     assert response.explanation is not None
     assert response.explanation.summary == ""
     assert pipeline.SUMMARY_UNAVAILABLE in response.explanation.warnings
+
+
+def test_a_database_outage_is_raised_not_retried_with_the_model(monkeypatch, ask_request, fake_config):
+    _stub_pipeline(monkeypatch, ask_request, fake_config)
+    generations = []
+
+    def generate(*args):
+        generations.append(args)
+        return GenerationResult(sql="SELECT 1", raw_output="")
+
+    def outage(*args):
+        raise psycopg.errors.AdminShutdown("terminating connection due to administrator command")
+
+    monkeypatch.setattr(pipeline, "generate_sql", generate)
+    monkeypatch.setattr(pipeline.db, "run_readonly_query", outage)
+
+    with pytest.raises(psycopg.errors.AdminShutdown):
+        pipeline.answer_question(ask_request, explain=False)
+    assert len(generations) == 1
+
+
+def test_a_statement_timeout_is_still_fed_back_to_the_model(monkeypatch, ask_request, fake_config):
+    _stub_pipeline(monkeypatch, ask_request, fake_config)
+    calls = iter([psycopg.errors.QueryCanceled("canceling statement due to statement timeout"), None])
+
+    def execute(*args):
+        exc = next(calls)
+        if exc:
+            raise exc
+        return QueryResult(columns=["x"], rows=[["1"]], row_count=1)
+
+    monkeypatch.setattr(pipeline.db, "run_readonly_query", execute)
+
+    response = pipeline.answer_question(ask_request, explain=False)
+    assert response.status == "success"
+    assert "statement timeout" in response.attempts[0].error

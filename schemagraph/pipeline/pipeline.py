@@ -129,6 +129,8 @@ def answer_question(
             try:
                 result = db.run_readonly_query(request.db_id, sql, row_limit)
             except psycopg.Error as exc:
+                if db.is_service_failure(exc):
+                    raise  # PostgreSQL itself failed: the API answers 503 rather than asking the model again
                 execution_ms += _elapsed_ms(execution_started)
                 status = "execution_error"
                 attempts.append(Attempt(sql=sql, error=str(exc).strip()))

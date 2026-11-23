@@ -19,6 +19,7 @@ __all__ = [
     "run_readonly_query",
     "explain",
     "run_admin_query",
+    "is_service_failure",
 ]
 
 
@@ -35,6 +36,11 @@ def run_readonly_query(db_id: str, sql: str, row_limit: int) -> QueryResult:
 def explain(db_id: str, sql: str) -> ExplainResult:
     """Validate and ask PostgreSQL to plan one read-only SELECT."""
     return _postgres.explain(db_id, sql)
+
+
+def is_service_failure(exc: BaseException) -> bool:
+    """True when a psycopg error means PostgreSQL could not be used, not that the SQL was wrong."""
+    return _postgres.is_service_failure(exc)
 
 
 def run_admin_query(

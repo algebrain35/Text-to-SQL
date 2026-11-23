@@ -4,6 +4,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from types import SimpleNamespace
 
+import psycopg
 import pytest
 from psycopg.conninfo import conninfo_to_dict
 
@@ -47,6 +48,7 @@ def test_database_package_exposes_only_the_stable_public_api():
         "run_readonly_query",
         "explain",
         "run_admin_query",
+        "is_service_failure",
     ]
     assert all(callable(getattr(db_api, name)) for name in db_api.__all__)
 
@@ -254,3 +256,18 @@ def test_explain_rejects_unsafe_sql_before_connecting(monkeypatch):
 
     assert result.ok is False
     assert result.error == "Only a single read-only SELECT statement is allowed."
+
+
+@pytest.mark.parametrize("exc, expected", [
+    (psycopg.OperationalError("connection refused"), True),       # no answer from the server: no SQLSTATE
+    (psycopg.errors.ConnectionFailure("lost"), True),              # 08006
+    (psycopg.errors.AdminShutdown("shutting down"), True),         # 57P01
+    (psycopg.errors.TooManyConnections("full"), True),             # 53300
+    (psycopg.errors.QueryCanceled("statement timeout"), False),    # 57014: the query ran too long
+    (psycopg.errors.UndefinedColumn("no such column"), False),
+    (psycopg.errors.SyntaxError("bad sql"), False),
+    (psycopg.DataError("could not decode"), False),                # client-side, but not a connection problem
+    (ValueError("not psycopg"), False),
+])
+def test_is_service_failure_separates_outages_from_query_errors(exc, expected):
+    assert postgres.is_service_failure(exc) is expected
