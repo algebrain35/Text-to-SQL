@@ -7,6 +7,6 @@ afterEach(() => {
   try {
     window.localStorage.clear();
   } catch {
-    /* storage unavailable: nothing to clear */
+    //If localStorage is unavailable, skip clearing it
   }
 });

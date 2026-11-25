@@ -1,12 +1,12 @@
+//Formats SQL queries for display with out changing the orignal SQL
+
+//Identifies SQL clauses that should start on a new line
 const BREAK_BEFORE =
   /^(?:(?:(?:LEFT|RIGHT|FULL|INNER|CROSS)(?:\s+OUTER)?\s+)?JOIN|FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|LIMIT|OFFSET|UNION(?:\s+ALL)?|INTERSECT|EXCEPT)\b/i;
+
+//Identifies JOIN cluases that require indetation
 const JOIN_START = /^(?:(?:LEFT|RIGHT|FULL|INNER|CROSS)(?:\s+OUTER)?\s+)?JOIN\b/i;
 
-/**
- * Lay out SQL for reading: a new line before each top-level clause, joins indented. Text inside quotes and
- * inside parentheses (subqueries, EXTRACT(year FROM d), window clauses) is left exactly as written. Display
- * only; the original string is what runs and what is copied.
- */
 export function formatSql(sql: string): string {
   const text = sql.trim().replace(/;\s*$/, "");
   let out = "";
@@ -14,11 +14,13 @@ export function formatSql(sql: string): string {
   let i = 0;
   while (i < text.length) {
     const ch = text[i] as string;
+
+    //Preserves quoted text and accounts for escaped quotes
     if (ch === "'" || ch === '"') {
       let j = i + 1;
       while (j < text.length) {
         if (text[j] === ch) {
-          if (text[j + 1] === ch) j += 2; // doubled quote is an escaped quote
+          if (text[j + 1] === ch) j += 2;
           else break;
         } else j += 1;
       }
@@ -26,9 +28,14 @@ export function formatSql(sql: string): string {
       i = j + 1;
       continue;
     }
+
+    //Tracks the depth of nested parentheses
     if (ch === "(") depth += 1;
     if (ch === ")") depth = Math.max(0, depth - 1);
+
     const atWordStart = i === 0 || !/[\w$]/.test(text[i - 1] as string);
+
+    //Formats SQL cluases outside parentheses and indents JOIN clauses
     if (depth === 0 && atWordStart && /[A-Za-z]/.test(ch)) {
       const rest = text.slice(i);
       const match = BREAK_BEFORE.exec(rest);

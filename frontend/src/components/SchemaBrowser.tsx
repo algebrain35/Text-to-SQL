@@ -1,3 +1,8 @@
+/*
+Lets the browse database tables, view their columns and constriants
+and display declared and inferred relationships between tables 
+*/
+
 import { useEffect, useState } from "react";
 import { getTable, listTables, type RelationshipMeta, type TableSummary, type TableWithRelationships } from "../api/client";
 import { displayName } from "../lib/names";
@@ -23,6 +28,71 @@ function Relationship({ rel }: { rel: RelationshipMeta }) {
 }
 
 function TableDetail({ detail }: { detail: TableWithRelationships }) {
+  //Creates a row for each column in the table
+  const columnRows = detail.columns.map((c) => {
+    const notes: string[] = [];
+
+    //Adds notes about the column's constraints
+    if (c.is_primary_key) {
+      notes.push("primary key");
+    }
+
+    if (c.is_unique && !c.is_primary_key) {
+      notes.push("unique");
+    }
+
+    if (c.is_nullable) {
+      notes.push("nullable");
+    }
+
+    const columnNotes = notes.join(", ");
+
+    //Returns a row containing the column information
+    return (
+      <tr key={c.uid}>
+        <td className="ident">{c.name}</td>
+        <td>{c.data_type}</td>
+        <td>{columnNotes}</td>
+      </tr>
+    );
+  });
+
+  //Gets the outgoing and incoming relationsships
+  const references = detail.references ?? [];
+  const referencedBy = detail.referenced_by ?? [];
+
+  //Initializes empty relationship displays
+  let referencesDisplay = <></>;
+  let referencedByDisplay = <></>;
+
+  //Displays relationships pointing to other tables
+  if (references.length > 0) {
+    const relationshipList = references.map((r, i) => (
+      <Relationship key={i} rel={r} />
+    ));
+
+    referencesDisplay = (
+      <>
+        <h4>Points to</h4>
+        <ul className="plain">{relationshipList}</ul>
+      </>
+    );
+  }
+
+  //Displays relationships pointing to the selected table
+  if (referencedBy.length > 0) {
+    const relationshipList = referencedBy.map((r, i) => (
+      <Relationship key={i} rel={r} />
+    ));
+
+    referencedByDisplay = (
+      <>
+        <h4>Pointed to by</h4>
+        <ul className="plain">{relationshipList}</ul>
+      </>
+    );
+  }
+
   return (
     <div className="table-detail">
       <h4 className="ident">{displayName(detail.table.uid)}</h4>
@@ -37,33 +107,17 @@ function TableDetail({ detail }: { detail: TableWithRelationships }) {
             </tr>
           </thead>
           <tbody>
-            {detail.columns.map((c) => (
-              <tr key={c.uid}>
-                <td className="ident">{c.name}</td>
-                <td>{c.data_type}</td>
-                <td>{[c.is_primary_key && "primary key", c.is_unique && !c.is_primary_key && "unique", c.is_nullable && "nullable"].filter(Boolean).join(", ")}</td>
-              </tr>
-            ))}
+            {columnRows}
           </tbody>
         </table>
       </div>
-      {(detail.references ?? []).length > 0 && (
-        <>
-          <h4>Points to</h4>
-          <ul className="plain">{(detail.references ?? []).map((r, i) => <Relationship key={i} rel={r} />)}</ul>
-        </>
-      )}
-      {(detail.referenced_by ?? []).length > 0 && (
-        <>
-          <h4>Pointed to by</h4>
-          <ul className="plain">{(detail.referenced_by ?? []).map((r, i) => <Relationship key={i} rel={r} />)}</ul>
-        </>
-      )}
+      {referencesDisplay}
+      {referencedByDisplay}
     </div>
   );
 }
 
-/** Browse the tables of a database and how they link (the onboarding view; loads when opened). */
+//Allows the user to browse database tables and their relationships when opened
 export function SchemaBrowser({ dbId }: { dbId: string }) {
   const [open, setOpen] = useState(false);
   const [tables, setTables] = useState<TableSummary[] | null>(null);

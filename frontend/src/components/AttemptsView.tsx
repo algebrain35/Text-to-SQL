@@ -3,7 +3,7 @@ import type { components } from "../api/types";
 
 type Attempt = components["schemas"]["Attempt"];
 
-/** Every SQL the model wrote, in order, with the database's complaint if it failed. Collapsed by default (SPEC 5.22). */
+//Displays SQL attempts in order, including database errors, collapsed by default
 export function AttemptsView({ attempts }: { attempts: Attempt[] }) {
   if (attempts.length === 0) return null;
   const failed = attempts.filter((a) => a.error).length;

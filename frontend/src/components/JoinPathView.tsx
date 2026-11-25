@@ -3,7 +3,7 @@ import { displayName } from "../lib/names";
 import { buildTrail, type Leg } from "../lib/trail";
 import { Marker } from "./Marker";
 
-/** Confidence of the planner's join for a displayed one, when the plan is available. Joins are matched by their column names. */
+//Confidence of the planner's join for a displayed one, when the plan is available. Joins are matched by their column names
 function confidenceOf(plan: JoinPlan | null | undefined, join: ExplainJoin): number | undefined {
   return plan?.joins?.find((j) => displayName(j.from_column) === join.from && displayName(j.to_column) === join.to)
     ?.confidence;
@@ -58,10 +58,10 @@ function Chain({ stops, legs, plan }: { stops: ExplainTable[]; legs: Leg[]; plan
   );
 }
 
-/**
- * How the tables connect, drawn as a line: a filled stop for each table that matched the question, a ring for each
- * table passed through to connect them. A solid line is a declared join; a dashed amber line is an inferred one.
- */
+/*
+  How the tables connect, drawn as a line: a filled stop for each table that matched the question, a ring for each
+  table passed through to connect them. A solid line is a declared join; a dashed amber line is an inferred one.
+*/
 export function JoinPathView({
   tables,
   joins,
