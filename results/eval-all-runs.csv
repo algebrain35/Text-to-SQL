@@ -1,0 +1,20 @@
+dataset,date,setting,llm_model,llm_model_recorded,source_file,run_id,mode,questions,correct,accuracy_pct,schema_recall_pct,schema_precision_pct,tables_per_prompt,plans_full,plans_partial,wrong_answer,invalid_sql,unsafe_sql,attempts,input_tokens,latency_ms,accuracy_on_24_bird_questions_pct
+adventureworks,2026-11-08,full schema,claude-sonnet-5-5,anthropic,results/modes-test.jsonl,modes-test,full,50,49,98.0,100.0,3.5,68.0,,,1,0,0,1.06,18309,4784,
+adventureworks,2026-11-08,"retrieval only, top_k 8",claude-sonnet-5-5,anthropic,results/modes-test.jsonl,modes-test,retrieval,50,48,96.0,93.8,27.5,8.0,,,2,0,0,1.0,2577,3124,
+adventureworks,2026-11-08,"top_k 5, all seeds",claude-sonnet-5-5,anthropic,results/sweep-test.jsonl,sweep-test-k5,graph,50,48,96.0,93.2,36.3,6.2,50,,2,0,0,1.0,2473,3295,
+adventureworks,2026-11-08,"top_k 8, all seeds",claude-sonnet-5-5,anthropic,results/sweep-test.jsonl,sweep-test-k8,graph,50,49,98.0,97.0,23.8,9.8,46,4,1,0,0,1.02,3653,3173,
+adventureworks,2026-11-08,"top_k 12, all seeds",claude-sonnet-5-5,anthropic,results/sweep-test.jsonl,sweep-test-k12,graph,50,50,100.0,99.3,17.5,13.8,41,9,0,0,0,1.02,4913,3421,
+adventureworks,2026-11-08,"top_k 8, all seeds, +4 expanded tables, 2 hops",claude-sonnet-5-5,anthropic,results/sweep-test.jsonl,sweep-test-k8+4h2,graph,50,50,100.0,100.0,18.2,13.2,50,,0,0,0,1.0,4663,3171,
+adventureworks,2026-11-23,"top_k 5, all seeds",claude-sonnet-5-5,unspecified,results/prize.jsonl,base,graph,50,48,96.0,90.5,35.3,6.1,49,1,2,0,0,1.02,2514,2983,
+adventureworks,2026-11-23,"top_k 5, prize 3",claude-sonnet-5-5,unspecified,results/prize.jsonl,prize3,graph,50,46,92.0,85.5,44.6,4.5,25,25,4,0,0,1.04,1995,3109,
+adventureworks,2026-11-25,"top_k 8, all seeds",gpt-4o-mini,gpt-4o-mini,results/compare.jsonl,aw-k8-all,graph,50,36,72.0,94.5,24.4,9.3,47,3,13,1,0,1.1,2033,2474,
+adventureworks,2026-11-25,"top_k 8, prize 4",gpt-4o-mini,gpt-4o-mini,results/compare.jsonl,aw-k8-prize4,graph,50,36,72.0,94.5,29.4,7.8,3,47,14,0,0,1.08,1717,2607,
+bird,2026-11-08,full schema,claude-sonnet-5-5,anthropic,results/bird-modes.jsonl,bird-modes,full,50,37,74.0,100.0,40.0,6.9,,,13,0,0,1.14,2531,4967,70.8
+bird,2026-11-23,"top_k 5, all seeds",claude-sonnet-5-5,unspecified,results/bird-prize.jsonl,base,graph,50,39,78.0,93.5,47.4,4.7,48,2,11,0,0,1.12,2294,5736,79.2
+bird,2026-11-23,"top_k 8, prize 3",claude-sonnet-5-5,unspecified,results/bird-prize.jsonl,k8-prize3,graph,50,40,80.0,99.2,43.2,5.8,30,20,10,0,0,1.16,2588,5623,83.3
+bird,2026-11-23,"top_k 8, prize 4 (stopped at 24 questions)",claude-sonnet-5-5,unspecified,results/bird-prize.jsonl,k8-prize4,graph,24,21,87.5,100.0,39.3,5.8,18,6,3,0,0,1.21,3204,6584,87.5
+bird,2026-11-25,"top_k 8, all seeds",gpt-4o-mini,gpt-4o-mini,results/compare.jsonl,bird-k8-all,graph,50,7,14.0,99.6,42.0,6.2,45,5,37,3,3,1.56,2425,4857,12.5
+bird,2026-11-25,"top_k 8, prize 4",gpt-4o-mini,gpt-4o-mini,results/compare.jsonl,bird-k8-prize4,graph,50,7,14.0,99.2,43.2,5.8,30,20,39,3,1,1.58,2389,4433,12.5
+bird,2026-11-25,"top_k 8, prize 4, no inferred relationships",gpt-4o-mini,gpt-4o-mini,results/compare.jsonl,bird-k8-prize4-noinf,graph,50,7,14.0,99.2,43.2,5.8,17,33,41,2,0,1.44,2165,4964,12.5
+adventureworks,2026-11-23,"top_k 8, prize 4 (offline retrieval_eval, no model)",,,,,graph,50,,,94.5,,7.8,,,,,,,,,
+bird,2026-11-23,"top_k 8, prize 4 (offline retrieval_eval, no model)",,,,,graph,50,,,99.2,,5.8,,,,,,,,,

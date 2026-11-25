@@ -1,0 +1,6 @@
+dataset,date,setting,llm_model,source_file,run_id,mode,questions,correct,accuracy_pct,schema_recall_pct,schema_precision_pct,tables_per_prompt,plans_full,plans_partial,wrong_answer,invalid_sql,unsafe_sql,attempts,input_tokens,latency_ms
+adventureworks,2026-11-25,"top_k 8, prize 4",gpt-4o-mini,results/compare.jsonl,aw-k8-prize4,graph,50,36,72.0,94.5,29.4,7.8,3,47,14,0,0,1.08,1717,2607
+adventureworks,2026-11-25,"top_k 8, all seeds",gpt-4o-mini,results/compare.jsonl,aw-k8-all,graph,50,36,72.0,94.5,24.4,9.3,47,3,13,1,0,1.1,2033,2474
+bird,2026-11-25,"top_k 8, prize 4",gpt-4o-mini,results/compare.jsonl,bird-k8-prize4,graph,50,7,14.0,99.2,43.2,5.8,30,20,39,3,1,1.58,2389,4433
+bird,2026-11-25,"top_k 8, all seeds",gpt-4o-mini,results/compare.jsonl,bird-k8-all,graph,50,7,14.0,99.6,42.0,6.2,45,5,37,3,3,1.56,2425,4857
+bird,2026-11-25,"top_k 8, prize 4, no inferred relationships",gpt-4o-mini,results/compare.jsonl,bird-k8-prize4-noinf,graph,50,7,14.0,99.2,43.2,5.8,17,33,41,2,0,1.44,2165,4964

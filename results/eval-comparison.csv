@@ -1,0 +1,15 @@
+dataset,date,setting,source_file,run_id,mode,questions,accuracy_pct,schema_recall_pct,schema_precision_pct,tables_per_prompt,attempts,input_tokens,latency_ms,accuracy_on_24_bird_questions_pct
+adventureworks,2026-11-08,full schema,results/modes-test.jsonl,modes-test,full,50,98.0,100.0,3.5,68.0,1.06,18309,4784,
+adventureworks,2026-11-08,"retrieval only, top_k 8",results/modes-test.jsonl,modes-test,retrieval,50,96.0,93.8,27.5,8.0,1.0,2577,3124,
+adventureworks,2026-11-08,graph top_k 5,results/sweep-test.jsonl,sweep-test-k5,graph,50,96.0,93.2,36.3,6.2,1.0,2473,3295,
+adventureworks,2026-11-08,graph top_k 8,results/sweep-test.jsonl,sweep-test-k8,graph,50,98.0,97.0,23.8,9.8,1.02,3653,3173,
+adventureworks,2026-11-08,graph top_k 12,results/sweep-test.jsonl,sweep-test-k12,graph,50,100.0,99.3,17.5,13.8,1.02,4913,3421,
+adventureworks,2026-11-08,"graph top_k 8 + 4 expanded, 2 hops",results/sweep-test.jsonl,sweep-test-k8+4h2,graph,50,100.0,100.0,18.2,13.2,1.0,4663,3171,
+adventureworks,2026-11-23,graph top_k 5 (base),results/prize.jsonl,base,graph,50,96.0,90.5,35.3,6.1,1.02,2514,2983,
+adventureworks,2026-11-23,"graph top_k 5, prize 3",results/prize.jsonl,prize3,graph,50,92.0,85.5,44.6,4.5,1.04,1995,3109,
+bird,2026-11-08,full schema,results/bird-modes.jsonl,bird-modes,full,50,74.0,100.0,40.0,6.9,1.14,2531,4967,70.8
+bird,2026-11-23,graph top_k 5 (base),results/bird-prize.jsonl,base,graph,50,78.0,93.5,47.4,4.7,1.12,2294,5736,79.2
+bird,2026-11-23,"graph top_k 8, prize 3",results/bird-prize.jsonl,k8-prize3,graph,50,80.0,99.2,43.2,5.8,1.16,2588,5623,83.3
+bird,2026-11-23,"graph top_k 8, prize 4",results/bird-prize.jsonl,k8-prize4,graph,24,87.5,100.0,39.3,5.8,1.21,3204,6584,87.5
+adventureworks,2026-11-23,"top_k 8, prize 4 (new default, offline retrieval_eval)",,,graph,50,,94.5,,7.8,,,,
+bird,2026-11-23,"top_k 8, prize 4 (new default, offline retrieval_eval)",,,graph,50,,99.2,,5.8,,,,

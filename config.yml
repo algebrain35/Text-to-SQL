@@ -76,22 +76,22 @@ embedding:                          # no leading spaces: a sibling of neo4j, not
 #   max_wait_s: 30                   # longest single wait; a service asking for more fails at once with its message
 #
 # OpenAI:
-# llm:
-#   provider: openai_compatible
-#   base_url: https://api.openai.com/v1
-#   model: gpt-4o-mini
-#   # For reasoning models (o-series, gpt-5): they reject max_tokens and temperature (HTTP 400), so
-#   #   temperature: null                          leave temperature out of the request
-#   #   max_tokens_param: max_completion_tokens    send the limit under the name they accept
-#   api_key_env: OPENAI_API_KEY
-#
-# Anthropic (Claude), through its OpenAI-compatible endpoint, which this client speaks. Set ANTHROPIC_API_KEY:
 llm:
   provider: openai_compatible
-  base_url: https://api.anthropic.com/v1/
-  model: claude-sonnet-5-5         # or claude-haiku-5-5 (cheaper, faster) / claude-opus-5-5 (strongest)
-  api_key_env: ANTHROPIC_API_KEY
-  temperature: null                # Claude 4.7 and later reject any temperature below 1, so leave it out.
+  base_url: https://api.openai.com/v1
+  model: gpt-4o-mini
+  # For reasoning models (o-series, gpt-5): they reject max_tokens and temperature (HTTP 400), so
+  #   temperature: null                          leave temperature out of the request
+  #   max_tokens_param: max_completion_tokens    send the limit under the name they accept
+  api_key_env: OPENAI_API_KEY
+#
+# Anthropic (Claude), through its OpenAI-compatible endpoint, which this client speaks. Set ANTHROPIC_API_KEY:
+# llm:
+#   provider: openai_compatible
+#   base_url: https://api.anthropic.com/v1/
+#   model: claude-sonnet-5-5         # or claude-haiku-5-5 (cheaper, faster) / claude-opus-5-5 (strongest)
+#   api_key_env: ANTHROPIC_API_KEY
+#   temperature: null                # Claude 4.7 and later reject any temperature below 1, so leave it out.
 #                                    # SPEC 2.4 says temperature 0; on these models that is not possible, so
 #                                    # runs are not exactly repeatable. Compare variants over the whole question set.
 #   max_tokens: 4096                 # thinking is on by default on Claude 5 models and may use part of this budget
