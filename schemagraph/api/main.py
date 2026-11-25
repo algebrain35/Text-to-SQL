@@ -88,7 +88,180 @@ def ask_question(request: AskRequest):
 
     return answer_question(request)
 
-    # For the final team backend, Mohammed should also add:
-    # - errors for unavailable PostgreSQL / Neo4j / LLM (HTTP 503),
-    # - the GET /api/health and GET /api/databases routes from SPEC.md,
-    # - any other planned routes and security/access controls.
+
+import logging
+import neo4j.exceptions
+import psycopg
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel
+from schemagraph import db
+from schemagraph.config import DB_ID_RE, get_config
+from schemagraph.graph import driver, queries
+from schemagraph.graph.vector import EmbeddingError, RateLimited
+from schemagraph.models import JoinPlan, SeedTable, TableSummary, TableWithRelationships
+from schemagraph.pipeline import llm
+from schemagraph.pipeline.context import build_context
+
+# Real error messages go here
+log = logging.getLogger(__name__)
+
+# Limits on the options a user can send, so one request can't run up the LLM bill
+MAX_TOP_K = 50
+MAX_ATTEMPTS = 5          # each attempt is a paid LLM call
+MAX_ROW_LIMIT = 100_000
+
+class DatabaseInfo(BaseModel):
+    db_id: str
+    table_count: int
+    schema_count: int
+class Health(BaseModel):
+    postgres: str   # "ok" or "error"
+    neo4j: str      # "ok" or "error"
+    llm: str        # "ok", "error" or "not_configured"
+class PlanResponse(BaseModel):
+    seed_tables: list[SeedTable]
+    join_plan: JoinPlan | None = None   # None outside graph mode
+
+# FastAPI runs one of these when any route raises that kind of error,
+# so /api/ask gets them too. Any other error is a bug and stays a 500.
+
+def service_down(message, error, retry_after=None):
+    # 503 means a service we depend on is down.
+    # The real error can contain URLs, passwords or keys, so it only goes to the log.
+    log.error("%s (%s: %s)", message, type(error).__name__, error)
+    headers = None
+    if retry_after:
+        headers = {"Retry-After": str(max(1, round(retry_after)))}
+    return JSONResponse(status_code=503, content={"detail": message}, headers=headers)
+@app.exception_handler(llm.LLMError)
+def llm_down(request, error):
+    return service_down("Error", error)
+@app.exception_handler(RateLimited)
+def embedding_rate_limited(request, error):
+    return service_down("Error", error, error.retry_after)
+@app.exception_handler(EmbeddingError)
+def embedding_down(request, error):
+    return service_down("Error", error)
+@app.exception_handler(psycopg.Error)
+def postgres_down(request, error):
+    return service_down("Error", error)
+@app.exception_handler(neo4j.exceptions.DriverError)
+@app.exception_handler(neo4j.exceptions.Neo4jError)
+def neo4j_down(request, error):
+    return service_down("Error", error)
+@app.exception_handler(queries.TableNotFound)
+def table_not_found(request, error):
+    return JSONResponse(status_code=404, content={"detail": str(error)})
+@app.exception_handler(ValueError)
+def bad_value(request, error):
+    # The pipeline raises ValueError for bad options
+    return JSONResponse(status_code=400, content={"detail": str(error)})
+@app.exception_handler(RequestValidationError)
+def bad_request_body(request, error):
+    # FastAPI normally answers bad JSON with 422. The specifications asks for 400.
+    first = error.errors()[0]
+    where = ".".join(str(part) for part in first["loc"] if part != "body")
+    return JSONResponse(status_code=400, content={"detail": f"{where}: {first['msg']}"})
+
+# the new routes check their input before anything runs
+
+def check_db_id(db_id):
+    # Only allow databases the read-only login can actually use.
+    if not DB_ID_RE.fullmatch(db_id) or db_id not in db.list_databases():
+        raise HTTPException(status_code=400, detail=f"Unknown db_id {db_id!r}.")
+def check_limit(name, value, biggest):
+    # None means it uses the default from config.yml
+    if value is not None and (value < 1 or value > biggest):
+        raise HTTPException(status_code=400, detail=f"options.{name} must be between 1 and {biggest}.")
+def check_question(request):
+    if not request.question.strip():
+        raise HTTPException(status_code=400, detail="Please enter a question.")
+    if request.options is not None:
+        check_limit("top_k", request.options.top_k, MAX_TOP_K)
+        check_limit("max_attempts", request.options.max_attempts, MAX_ATTEMPTS)
+        check_limit("row_limit", request.options.row_limit, MAX_ROW_LIMIT)
+
+
+# get /api/health checks PostgreSQL, Neo4j and the LLM.
+# Normal checks don't message the LLM, so calling this often costs nothing.
+@app.get("/api/health", response_model=Health)
+def health(deep: bool = False):
+    status = {"postgres": "ok", "neo4j": "ok", "llm": "ok"}
+    try:
+        db.list_databases()
+    except Exception as error:
+        log.warning("health: PostgreSQL failed: %s", error)
+        status["postgres"] = "error"
+    try:
+        driver.check_connection()
+    except Exception as error:
+        log.warning("health: Neo4j failed: %s", error)
+        status["neo4j"] = "error"
+    try:
+        llm_config = get_config().llm
+        if llm_config is None:
+            status["llm"] = "not_configured"
+        elif not has_api_key(llm_config):
+            status["llm"] = "not_configured"   # the key's environment variable is not set
+        elif deep:
+            llm.complete(llm_config, [{"role": "user", "content": "Reply with the single word OK."}])
+    except Exception as error:
+        log.warning("health: LLM failed: %s", error)
+        status["llm"] = "error"
+    return status
+
+def has_api_key(llm_config):
+    try:
+        llm_config.api_key   # raises RuntimeError if the environment variable is not set
+        return True
+    except RuntimeError:
+        return False
+
+# get /api/databases fills the database dropdown in React.
+# A database shows up only if it is in PostgreSQL AND has a graph built in Neo4j.
+@app.get("/api/databases", response_model=list[DatabaseInfo])
+def databases():
+    if DEMO_MODE:
+        # reads from the team's sample file
+        sample_file = (
+                Path(__file__).resolve().parents[2]
+                / "contracts" / "examples" / "metadata.adventureworks.sample.json"
+        )
+        with sample_file.open(encoding="utf-8") as file:
+            sample = json.load(file)
+        return [{"db_id": sample["db_id"], "table_count": len(sample["tables"]),
+                 "schema_count": len(sample["schemas"])}]
+    found = []
+    for db_id in db.list_databases():
+        tables = queries.list_tables(db_id)
+        if not tables:
+            continue   # no graph built for this database yet
+        schemas = set()
+        for table in tables:
+            schemas.add(table.display_name.split(".")[0])   # "sales.customer" -> "sales"
+    found.append({"db_id": db_id, "table_count": len(tables), "schema_count": len(schemas)})
+    return found
+
+
+# post /api/plan finds the tables and join path for a question without the LLM. Does not have a demo mode as it uses Neo4j.
+@app.post("/api/plan", response_model=PlanResponse)
+def plan(request: AskRequest):
+    check_question(request)
+    check_db_id(request.db_id)
+    top_k = get_config().pipeline.top_k
+    if request.options is not None and request.options.top_k is not None:
+        top_k = request.options.top_k
+    context, seed_tables = build_context(request.db_id, request.question, request.mode, top_k)
+    return PlanResponse(seed_tables=seed_tables, join_plan=context.join_plan)
+
+
+@app.get("/api/schema/{db_id}/tables", response_model=list[TableSummary])
+def schema_tables(db_id: str):
+    check_db_id(db_id)
+    return queries.list_tables(db_id)
+@app.get("/api/schema/{db_id}/tables/{table_uid}", response_model=TableWithRelationships)
+def schema_table(db_id: str, table_uid: str):
+    check_db_id(db_id)
+    return queries.get_table_detail(db_id, table_uid)
+

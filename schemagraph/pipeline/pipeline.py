@@ -1,12 +1,9 @@
 """Single entry point for answering natural-language database questions."""
 
 from __future__ import annotations
-
 import time
 import uuid
-
 import psycopg
-
 from schemagraph import db
 from schemagraph.config import get_config
 from schemagraph.models import (
@@ -22,7 +19,6 @@ from schemagraph.pipeline.explain import build_explanation, explain_context
 from schemagraph.pipeline.generate import generate_sql
 from schemagraph.pipeline.validate import validate
 from schemagraph.sql_validation import check_select
-
 _MAX_ROW_LIMIT = 100_000
 
 

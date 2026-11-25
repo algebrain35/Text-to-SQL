@@ -1,10 +1,7 @@
 """Schema context construction for full, retrieval, and graph modes."""
-
 from __future__ import annotations
-
 from time import perf_counter
 from typing import Any
-
 from schemagraph.graph import planner, queries, retrieve
 from schemagraph.models import (
     JoinPlan,
@@ -14,7 +11,6 @@ from schemagraph.models import (
     TableDetail,
     display_name,
 )
-
 
 def _quote_identifier(name: str) -> str:
     return '"' + name.replace('"', '""') + '"'
