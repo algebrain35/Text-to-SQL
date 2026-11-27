@@ -86,7 +86,7 @@ export function JoinPlanSummary({ plan, seeds }: { plan: JoinPlan | null | undef
   );
 }
 
-/** Developer view: what the pipeline did to produce this answer. */
+//Developer view
 export function DeveloperPanel({ response }: { response: AskResponse }) {
   const m = response.metrics;
   return (

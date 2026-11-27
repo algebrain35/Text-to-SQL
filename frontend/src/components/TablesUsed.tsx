@@ -1,7 +1,7 @@
 import type { ExplainTable } from "../api/client";
 import { Marker, ROLE_LABEL } from "./Marker";
 
-/** The tables the answer was built from. Matched tables and connecting tables look different (SPEC 5.22). */
+//Displays the tables used to generate the answer, distinguishing matched and connecting tables
 export function TablesUsed({ tables }: { tables: ExplainTable[] }) {
   if (tables.length === 0) return null;
   return (

@@ -1,7 +1,9 @@
-/**
- * Answers for VITE_USE_MOCKS=true, built from copies of contracts/examples (a test keeps the copies in sync).
- * Questions starting with "mock:" show a failure: invalid_sql, no_schema, bad (HTTP 400) or unavailable (HTTP 503).
- */
+/*Uses mock responses from contacts or examples when VITE_USE_MOCKS is true
+A test keeys the copied examples up to date
+Questions starting with "mock:" simulate errors:
+invalid_sql, no_schema, bad (HTTP 400) or unavailable (HTTP 503)
+*/
+
 import { displayName } from "../lib/names";
 import type { components } from "./types";
 import askSample from "../mocks/ask_response.json";
@@ -24,7 +26,7 @@ const META = metadataSample as unknown as {
 
 let latencyMs = 450;
 
-/** Tests set this to 0 so the mock answers at once. */
+// Set the mock response delay. Tests set it to 0 for an immediate response
 export function setMockLatency(ms: number): void {
   latencyMs = ms;
 }

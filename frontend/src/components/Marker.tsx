@@ -6,7 +6,7 @@ export const ROLE_LABEL: Record<ExplainTable["role"], string> = {
   context: "Included as context",
 };
 
-/** A table's role as a shape, so it reads without colour: filled dot = matched, ring = connects, square ring = context. */
+//Displays table roles using shapes: filled dot for matched, ring for connecting, and square ring for context
 export function Marker({ role }: { role: ExplainTable["role"] }) {
   return <span className={`marker ${role}`} aria-hidden="true" />;
 }

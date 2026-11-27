@@ -1,6 +1,6 @@
 import { ApiError, NetworkError, type AskResponse } from "../api/client";
 
-/** What a non-success `status` means, in the words a user needs (SPEC 3.5). */
+//Explains what each unsucessful response status means to the user
 export function statusMessage(response: AskResponse): { title: string; body: string } | null {
   const tries = response.metrics?.attempt_count ?? response.attempts?.length ?? 0;
   switch (response.status) {
@@ -40,7 +40,7 @@ export function StatusNotice({ response }: { response: AskResponse }) {
   );
 }
 
-/** The request itself failed: bad input (400), a missing table (404), a service down (503), or no API at all. */
+//Handles reuqest errors: bad input (400), missing table (404), service down (503) or no API connection
 export function errorMessage(error: unknown): { title: string; body: string } {
   if (error instanceof NetworkError) {
     return {

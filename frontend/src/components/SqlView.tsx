@@ -10,7 +10,8 @@ export function SqlView({ sql }: { sql: string }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      setCopied(false); // clipboard blocked: the text can still be selected by hand
+      //If copying to clipboard fails, users can still manually select the SQL
+      setCopied(false);
     }
   }
 

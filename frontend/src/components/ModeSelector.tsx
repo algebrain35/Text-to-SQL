@@ -8,7 +8,7 @@ const LABELS: Record<Mode, { name: string; detail: string }> = {
 
 type Props = { value: Mode; onChange: (mode: Mode) => void; disabled?: boolean };
 
-/** Developer view only (SPEC 5.22): how much of the schema the model is shown. */
+// Developer view only
 export function ModeSelector({ value, onChange, disabled }: Props) {
   return (
     <fieldset className="modes" disabled={disabled}>

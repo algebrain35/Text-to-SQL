@@ -7,14 +7,45 @@ type Props = {
   disabled?: boolean;
 };
 
-/** The question box and its button. The parent form handles submitting; Ctrl or Cmd+Enter submits from the box. */
+//Handles the question input, Ask button and Ctrl/Cmd + Enter Shortcut
 export function QuestionInput({ value, onChange, busy, disabled }: Props) {
   const empty = value.trim() === "";
 
+  //Determine the button text based on whether a request is running
+  let buttonText = "Ask";
+
+  if (busy) {
+    buttonText = "Asking";
+  }
+
+  //Determine whether the Ask button should be disabled
+  let buttonDisabled = false;
+
+  if (empty) {
+    buttonDisabled = true;
+  }
+  else if (busy) {
+    buttonDisabled = true;
+  }
+  else if (disabled) {
+    buttonDisabled = true;
+  }
+
   function submitOnShortcut(event: KeyboardEvent<HTMLTextAreaElement>) {
-    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+    //Check if Enter was pressed
+    const isEnter = event.key === "Enter";
+
+    //Check if Ctrl or Cmd was pressed
+    const shortcutKey = event.ctrlKey || event.metaKey;
+
+    //Only activate the shortcut when both conditions are met
+    if (isEnter && shortcutKey) {
       event.preventDefault();
-      if (!empty && !busy && !disabled) event.currentTarget.form?.requestSubmit();
+
+      //Submit the question only if the Ask button is enabled
+      if (!buttonDisabled) {
+        event.currentTarget.form?.requestSubmit();
+      }
     }
   }
 
@@ -31,8 +62,8 @@ export function QuestionInput({ value, onChange, busy, disabled }: Props) {
         aria-describedby="question-hint"
       />
       <div className="question-actions">
-        <button type="submit" className="primary" disabled={empty || busy || disabled}>
-          {busy ? "Asking" : "Ask"}
+        <button type="submit" className="primary" disabled={buttonDisabled}>
+          {buttonText}
         </button>
         <span id="question-hint" className="hint">
           Ctrl or Cmd + Enter also asks.

@@ -18,7 +18,7 @@ function download(result: QueryResult) {
   URL.revokeObjectURL(url);
 }
 
-/** A column is numeric when every value in it is a number (or null), so its header can line up with its values. */
+//Checks if all values in a column are numeric or null for proper alignment
 export function numericColumns(result: QueryResult): boolean[] {
   return result.columns.map((_, c) => {
     const values = result.rows.map((row) => row[c]).filter((v) => v !== null && v !== undefined);

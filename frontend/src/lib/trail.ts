@@ -1,15 +1,15 @@
+//Organizes the SQL join relationships for display as a chain or a list
 import type { ExplainJoin, ExplainTable } from "../api/client";
 
 export type Leg = ExplainJoin & { fromTable: ExplainTable; toTable: ExplainTable };
 
 export type Trail =
-  /** The joins form one line of tables: stops[i] and stops[i + 1] are joined by legs[i]. */
+  //Displays joins as a continuous chain of tables
   | { kind: "chain"; stops: ExplainTable[]; legs: Leg[] }
-  /** The joins branch, repeat or name a table we cannot place: show them one by one. */
+  //Displays joins individually when a continous chain cannot be formed
   | { kind: "list"; joins: ExplainJoin[] };
 
-/** The table a column belongs to. `column` is a display name (`schema.table.column`); the owner is the longest
- *  known table name it starts with, so names containing dots are never cut apart. */
+//Find the table a column belongs to using the longest matching table name
 export function tableOfColumn(column: string, tables: ExplainTable[]): ExplainTable | undefined {
   let best: ExplainTable | undefined;
   for (const t of tables) {
@@ -20,10 +20,11 @@ export function tableOfColumn(column: string, tables: ExplainTable[]): ExplainTa
   return best;
 }
 
-/** Arrange an explanation's join path for drawing, or null when there are no joins. */
+//Organizes the joins into a chain or list and returns null if no joins exist
 export function buildTrail(tables: ExplainTable[], joins: ExplainJoin[]): Trail | null {
   if (joins.length === 0) return null;
 
+  //Identifies the tables connected by each join
   const legs: Leg[] = [];
   for (const join of joins) {
     const fromTable = tableOfColumn(join.from, tables);
@@ -32,6 +33,7 @@ export function buildTrail(tables: ExplainTable[], joins: ExplainJoin[]): Trail 
     legs.push({ ...join, fromTable, toTable });
   }
 
+  //Creates a map of neighbouring tables
   const neighbours = new Map<string, string[]>();
   for (const leg of legs) {
     for (const [a, b] of [
@@ -41,12 +43,14 @@ export function buildTrail(tables: ExplainTable[], joins: ExplainJoin[]): Trail 
       neighbours.set(a, [...(neighbours.get(a) ?? []), b]);
     }
   }
+
+  //Checks whether the joins can form a single chain without brances or duplicate connections
   const isLine =
     legs.length === neighbours.size - 1 &&
     [...neighbours.values()].every((n) => n.length <= 2 && new Set(n).size === n.length);
   if (!isLine) return { kind: "list", joins };
 
-  // Start from the line's end that the explanation lists first, then walk to the other end.
+  //Finds the starting table using the oringinal table order
   const order = new Map(tables.map((t, i) => [t.uid, i]));
   const ends = [...neighbours].filter(([, n]) => n.length === 1).map(([uid]) => uid);
   ends.sort((a, b) => (order.get(a) ?? 0) - (order.get(b) ?? 0));
@@ -60,7 +64,9 @@ export function buildTrail(tables: ExplainTable[], joins: ExplainJoin[]): Trail 
   const ordered: Leg[] = [];
   let current = ends[0] as string;
   let previous: string | null = null;
-  for (;;) {
+
+  //Traverses through the connected tables and orders their joins
+  for (; ;) {
     stops.push(byUid.get(current) as ExplainTable);
     const next = (neighbours.get(current) as string[]).find((n) => n !== previous);
     if (next === undefined) break;
@@ -74,7 +80,8 @@ export function buildTrail(tables: ExplainTable[], joins: ExplainJoin[]): Trail 
     previous = current;
     current = next;
   }
-  // A line that does not reach every joined table means the joins were not one connected line.
+
+  //Uses a list if the chain does not reach every joined table
   if (stops.length !== neighbours.size) return { kind: "list", joins };
   return { kind: "chain", stops, legs: ordered };
 }
